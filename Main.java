@@ -13,7 +13,7 @@ import java.awt.event.*;
 
 public class Main extends JFrame {
 	
-	public Main() {
+	private Main() {
 		// call contents of window into the main framework/window
 		this.add(new Window());
 		this.setTitle("Minesweeper Game");
@@ -33,5 +33,11 @@ public class Main extends JFrame {
 	
 	public static void main(String[] args) {
 		new Main();
+	}
+	
+	// before the game starts, perhaps ask for difficulty (easy, medium, hard)
+	// ask the user what size board they want to play on
+	public static void start_settings() {
+		
 	}
 }

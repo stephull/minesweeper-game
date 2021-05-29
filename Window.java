@@ -15,7 +15,7 @@ import java.awt.event.*;
 
 public class Window extends JPanel implements ActionListener {
 	Window() {
-		
+		JPanel panel = new JPanel();
 	}
 
 	// action performed in the event of any input (e.g. button)

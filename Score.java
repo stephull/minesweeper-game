@@ -6,5 +6,22 @@
  */
 
 public class Score {
-
+	
+	static final int MAX_FLAGS = 99;
+	static final int MAX_TIME = 1000;
+	
+	// functionalities for the timer
+	public static void game_timer() {
+		
+	}
+	
+	// functionalities for number of flags used
+	public static void flags() {
+		
+	}
+	
+	// functionalities for the reset/restart button (smiley face)
+	public static void score_face() {
+		
+	}
 }
