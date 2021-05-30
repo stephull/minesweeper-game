@@ -14,10 +14,29 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Window extends JPanel implements ActionListener {
-	Window() {
-		JPanel panel = new JPanel();
+	
+	// minimum window dimensions
+	static final int MIN_SCREEN = 360;
+	
+	// JAVAX SWING components and other essential imported functions
+	JPanel panel;
+	JButton button;
+	Random random;
+	
+	// boolean variable that defines if there is a current running game
+	boolean active;
+	
+	public Window() {
+		panel = new JPanel();
+		this.setPreferredSize(new Dimension(MIN_SCREEN, MIN_SCREEN));
+		this.setBackground(Color.GRAY);
 	}
 
+	// once a player starts the game by clicking on a boardpiece
+	public void currentlyPlaying() {
+		active = true;
+	}
+	
 	// action performed in the event of any input (e.g. button)
 	@Override
 	public void actionPerformed(ActionEvent e) {

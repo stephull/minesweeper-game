@@ -4,28 +4,24 @@
  * Examples: smiley face, flag, numbers (hints), bomb, etc. 
  */
 
-public class Images {
-	public static void make_flags() {
-		
+import java.util.*;
+import java.io.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Images extends Window {
+
+	public void painComponent(Graphics g) {
+		super.paintComponent(g);
+		draw(g);
 	}
 	
-	public static void make_mines() {
-		
+	public void draw(Graphics g) {
+		if (active) {
+			;
+		}
 	}
 	
-	public static void make_face() {
-		
-	}
-	
-	public static void make_numbers() {
-		
-	}
-	
-	public static void make_bombs() {
-		
-	}
-	
-	public static void make_score_nums() {
-		
-	}
 }

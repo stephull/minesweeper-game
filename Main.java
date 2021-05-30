@@ -17,12 +17,18 @@ public class Main extends JFrame {
 		// call contents of window into the main framework/window
 		this.add(new Window());
 		this.setTitle("Minesweeper Game");
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		
+		// test text
+		// JLabel label = new JLabel("Hello world!!!");
+		// label.setFont(label.getFont().deriveFont(24.0f));
+		// this.add(label);
 		
 		// exit the application by closing with the 'X' button or System.exit
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// unable to resize window
-		this.setResizable(false);
+		this.setResizable(true);
 		
 		// sizes the contents appropriate to the size of the window
 		this.pack();
@@ -33,11 +39,5 @@ public class Main extends JFrame {
 	
 	public static void main(String[] args) {
 		new Main();
-	}
-	
-	// before the game starts, perhaps ask for difficulty (easy, medium, hard)
-	// ask the user what size board they want to play on
-	public static void start_settings() {
-		
 	}
 }
