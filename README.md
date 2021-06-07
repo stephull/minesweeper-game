@@ -1,5 +1,6 @@
 # minesweeper-game: A Java Minesweeper Project
 Minesweeper game using Java and JavaX SWING, also to incorporate tools like MySQL, socket programming, Adobe Illustrator, etc.
+Edited and tested using Visual Studio Code. 
 Created in May 2021, personal project.
 
 # Project Synposis:
@@ -25,7 +26,7 @@ Created in May 2021, personal project.
 types of programming to engage multiple users in multiplayer mode games. The final product will, hopefully, tabulate all scores using a database, and incorporate socket programming to encourage clients, or players in this case, to play minigames together. 
 
 # Timeline of Project:
-* More information on RUNS.md
+* More information on updates and notes in RUNS.md
 
 # Source Code, Tutorials, Documentation Used, and Credits:
 * Inspired by a similar small project I made back in early January for a Java Snake game, using JavaX SWING. Link: https://www.youtube.com/watch?v=bI6e6qjJ8JQ (sadly, it was never truly finished). 
