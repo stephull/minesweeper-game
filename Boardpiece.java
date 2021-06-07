@@ -14,5 +14,11 @@ import java.awt.event.*;
 public class Boardpiece extends Board {
 	Boardpiece() {
 		
+		ImageIcon empty_tile_img = new ImageIcon("EmptyTile-01.png");
+		Image emptyTile = empty_tile_img.getImage();
+
+		ImageIcon full_tile_img = new ImageIcon("Tile01-png");
+		Image tile = full_tile_img.getImage();
+
 	}
 }

@@ -21,23 +21,43 @@ public class Board extends Window {
 	 *  EXPERT: 30x30, 216 mines (0.24)
 	 *  & CRAZY: 60x60, 999 mines (<= 0.2775)
 	 */ 
+	 	/*
+			1. if user picks easy, get sizes index 0 0
+			2. medium, index 1 1
+			3. hard, 1 2
+			4. expert, 2 2
+			5. & crazy, 3 3
+		*/
 	
 	// different dimensions for window, assumes hardest setting of game
-	static final int[] widths = {9, 16, 30, 30, 60};
-	static final int[] heights = {9, 16, 16, 30, 60};
+	static final int[] sizes = {9, 16, 30, 60};
 	
 	// number of mines based on difficulty, also counts for number of flags used
 	static final int[] bombs = {10, 40, 99, 216, 999};
 	
-	static final int mult = 10;
-	
-	// assign index value based on user's choice of difficulty:
-	int userLevel;
-	
 	Board() {
-		userLevel = 1;
+		int userLevel = 1;
+		int mines = bombs[0];
 		random = new Random();
+
+		int[][] tiles = pickDiff(mines, userLevel);
 	}
 	
-	
+	public int[][] pickDiff(int mines, int ul) {
+		int h, w;
+		switch (ul) {
+			default:
+			case 1:
+			case 2:
+				h = w = sizes[(ul-1)];
+			case 3:
+				h = sizes[1];
+				w = sizes[2];
+			case 4:
+			case 5:
+				h = w = sizes[(ul-2)];
+		}
+		mines = bombs[(ul-1)];
+		return new int[h][w];
+	}
 }

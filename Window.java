@@ -29,7 +29,25 @@ public class Window extends JPanel implements ActionListener {
 	public Window() {
 		panel = new JPanel();
 		this.setPreferredSize(new Dimension(MIN_SCREEN, MIN_SCREEN));
-		this.setBackground(Color.GRAY);
+		this.setBackground(Color.LIGHT_GRAY);
+
+		
+		// TESTING FOR WINDOW
+		JButton reset = new JButton("TEST");
+		this.add(reset);
+
+		// adding all images into ImageIcon, will work on this later...
+		ImageIcon smile_face_img = new ImageIcon("SmileFace.png");
+		Image smileFace = smile_face_img.getImage();
+
+		ImageIcon shock_face_img = new ImageIcon("ShockFace.png");
+		Image shockFace = shock_face_img.getImage();
+
+		ImageIcon dead_face_img = new ImageIcon("DeathFace.png");
+		Image deadFace = dead_face_img.getImage();
+
+		ImageIcon victory_face_img = new ImageIcon("GoalFace.png");
+		Image victoryFace = victory_face_img.getImage();
 	}
 
 	// once a player starts the game by clicking on a boardpiece

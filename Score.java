@@ -20,6 +20,10 @@ public class Score extends Window {
 	static final int MAX_TIME = 1000;
 	int running_time = 0;
 	
+	Score() {
+
+	}
+
 	// functionalities for the timer
 	public void game_timer() {
 		timer = new Timer();
