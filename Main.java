@@ -28,11 +28,14 @@ public class Main {
         frame.add(panel);
 
         // ::: DEFAULT SETTINGS FOR FIRST GAME :::
-        boolean single = true;      
+        boolean isMulti = false;      
             // set to single player for default settings, when opening the game
         int mode = 0;       
             // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
         int type = 0;
+        if (isMulti) {
+            type = 1;
+        }
             // for multiplayer, 0 for one vs. one, 1 for one vs. bomb
 
         // menu bar for top of program
@@ -54,10 +57,26 @@ public class Main {
         // ... multiplayer drop down menu
         JMenu multimode = new JMenu("Multiplayer");
         menubar.add(multimode);
-        JMenuItem onevsall = new JMenuItem("One vs. All");
-        JMenuItem onevsbomb = new JMenuItem("One vs. Bomb");
+        JMenu onevsall = new JMenu("One vs. All");
+        JMenu onevsbomb = new JMenu("One vs. Bomb");
         multimode.add(onevsall);
         multimode.add(onevsbomb);
+        JMenuItem easyvsall = new JMenuItem("Easy");
+        JMenuItem mediumvsall = new JMenuItem("Medium");
+        JMenuItem hardvsall = new JMenuItem("Hard");
+        JMenuItem crazyvsall = new JMenuItem("Crazy");
+        onevsall.add(easyvsall);
+        onevsall.add(mediumvsall);
+        onevsall.add(hardvsall);
+        onevsall.add(crazyvsall);
+        JMenuItem easybomb = new JMenuItem("Easy");
+        JMenuItem mediumbomb = new JMenuItem("Medium");
+        JMenuItem hardbomb = new JMenuItem("Hard");
+        JMenuItem crazybomb = new JMenuItem("Crazy");
+        onevsbomb.add(easybomb);
+        onevsbomb.add(mediumbomb);
+        onevsbomb.add(hardbomb);
+        onevsbomb.add(crazybomb);
 
         // ... options menu
         JMenu optionsmenu = new JMenu("Options");
@@ -73,18 +92,11 @@ public class Main {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        panel.add(menubar);
-
-        // test button :-)
-        JButton button = new JButton();
-        button.setText("Test Button");
-        button.setPreferredSize(new Dimension(40, 40));
-        panel.add(button);  
+        panel.add(menubar); 
         
-        if (single) {
-            new Gameplay(panel, mode);
-        } else {
-            new Gameplay(panel, mode, type);
-        }
+        /*
+            redirect to gameplay
+        */
+        new Gameplay(panel, mode, isMulti, type);
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.event.*;
 
 public class Gameplay extends Main {
     
+    // ::: DIFFICULTIES :::
     // easy difficulty -- STANDARD (mode 0)
     public static final int EASY_WIDTH = 9;
     public static final int EASY_HEIGHT = 9;
@@ -28,34 +29,43 @@ public class Gameplay extends Main {
     public static final int ABS_WIDTH = 60;
     public static final int ABS_HEIGHT = 60;
 
-    // single player settings
-    public Gameplay(JPanel panel, int mode) {
+    // main gameplay function
+    public Gameplay(JPanel panel, int mode, boolean multiplayer, int type) {
+
+        // test button
         JButton testinside = new JButton();
         testinside.setVisible(true);
-        testinside.setText("HELLO AGAIN! (1)");
+        testinside.setText("HELLO AGAIN!");
         testinside.setPreferredSize(new Dimension(40, 40));
         panel.add(testinside);
 
+        // panel for smiley face and timers, and generates board
+        // based on the respective settings
+        new Control(panel, mode);
+
+        // button panel for all buttons
+        JPanel boardPanel = new JPanel();
+        boardPanel.setBackground(Color.BLUE);
+        int gameWidth, gameHeight;
+        gameWidth = gameHeight = 9; //default
         switch(mode) {
-            case 0: // easy
+            case 1:
+                gameWidth = gameHeight = 16;
                 break;
-            case 1: // med
+            case 2:
+                gameWidth = 30;
+                gameHeight = 16;
                 break;
-            case 2: // hard
+            case 3:
+                gameWidth = gameHeight = 30;
                 break;
-            case 3: // crazy
+            case 4:
                 break;
-            case 4: // user decides
+            default:
+                gameWidth = gameHeight = 9;
                 break;
         }
-    }
-
-    // multiplayer settings 
-    public Gameplay(JPanel panel, int mode, int type) {
-        JButton testinside = new JButton();
-        testinside.setVisible(true);
-        testinside.setText("HELLO AGAIN! (2)");
-        testinside.setPreferredSize(new Dimension(40, 40));
-        panel.add(testinside);
+        boardPanel.setLayout(new GridLayout(gameWidth, gameHeight));
+        panel.add(boardPanel);
     }
 }
