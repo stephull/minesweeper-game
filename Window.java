@@ -1,6 +1,13 @@
+/*
+    Window.java
+    Define and initialize frame and panel properties for main Minesweeper window. 
+    Includes menu bar for single player, multiplayer modes, help, and options. 
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.BorderLayout;
 
 public class Window extends JFrame implements ActionListener {
     // constant values for dimensional purposes
@@ -17,7 +24,7 @@ public class Window extends JFrame implements ActionListener {
     private JMenu optionsmenu, helpmenu;
     private JMenuItem helphowto, helpcontrols, helpabout;
 
-    private JLabel readStatus;
+    public JLabel readStatus;
 
     public Window(JFrame frame, JPanel panel) {
         // frame properties
@@ -36,22 +43,13 @@ public class Window extends JFrame implements ActionListener {
 
         // menu + status bar 
         createMenu(panel);
-        readStatus = new JLabel("MINESWEEPER BEEP BOOP", SwingConstants.BOTTOM);
+        readStatus = new JLabel("MINESWEEPER BEEP BOOP");
         readStatus.setSize(350, 100);
+        panel.add(readStatus, BorderLayout.SOUTH);
         enableMenuActions();
 
-        // ::: DEFAULT SETTINGS FOR FIRST GAME :::
-        boolean isMulti = false;      
-            // set to single player for default settings, when opening the game
-        int mode = 0;       
-            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
-        int type = 0;
-        if (isMulti) {
-            type = 1;
-        }
-            // type is 0 if single player; otherwise, pick 1 or 2
-
-        new Control(panel, mode, isMulti, type);
+        // redirect to the controls
+        new Control(panel);
     }
 
     /*
@@ -112,13 +110,14 @@ public class Window extends JFrame implements ActionListener {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        panel.add(menubar);
+        panel.add(menubar, BorderLayout.NORTH);
     }
 
     public void enableMenuActions() {
         /*
             less than optimal solution to adding actionListener's
             for all menu items
+            MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
         */
         easysingle.addActionListener(this);
         mediumsingle.addActionListener(this);
@@ -137,10 +136,25 @@ public class Window extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
 
         readStatus.setText(e.toString());
 
-        // TODO Auto-generated method stub
+        // for multiplayer options, apply socket programming
+        if (e.getSource() == easyvsall || 
+            e.getSource() == mediumvsall ||
+            e.getSource() == hardvsall || 
+            e.getSource() == crazyvsall ||
+            e.getSource() == easybomb ||
+            e.getSource() == mediumbomb ||
+            e.getSource() == hardbomb ||
+            e.getSource() == crazybomb) {
+                readStatus.setText(":: REQUESTING SERVER CONNECTION ::" + e.toString());
+                //new SocketMain();
+                    // NOTE: gets stuck if left like this...
+            }
+
+        // for help menu
         if (e.getSource() == helphowto) {
             new MenuHelp(0);
         } else if (e.getSource() == helpcontrols) {
