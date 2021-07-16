@@ -1,10 +1,14 @@
+/*
+    Control.java
+
+*/
+
 import java.util.*;
 import java.util.Timer; // explicit import
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
-public class Control extends Main {
+public class Control {
 
         // ::: DIFFICULTIES :::
     // easy difficulty -- STANDARD (mode 0)
@@ -28,13 +32,27 @@ public class Control extends Main {
     public static final int ABS_WIDTH = 60;
     public static final int ABS_HEIGHT = 60;
 
+    int gameWidth, gameHeight;
+
     boolean active; // the game is running on a timer?
     Timer timer;    // for timer
     TimerTask ttask;
     int mines;      // number of mines
     int smile;      // for smiley face button
 
-    public Control(JPanel mainpanel, int mode, boolean isMulti, int type) {
+    public Control(JPanel panel) {
+
+        // ::: DEFAULT SETTINGS FOR FIRST GAME :::
+        boolean isMulti = false;      
+            // set to single player for default settings, when opening the game
+        int mode = 0;       
+            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
+        int type = 0;
+        if (isMulti) {
+            type = 1;
+        }
+            // type is 0 if single player; otherwise, pick 1 or 2
+
         JPanel controlpanel = new JPanel();
         controlpanel.setBackground(Color.RED);
                 // test case
@@ -43,54 +61,55 @@ public class Control extends Main {
         timer = new Timer("Timer");
 
         switch(mode) {
+            case 0:
+                mines = 10;
+                gameWidth = gameHeight = 9;
+                break;
             case 1:
                 mines = 40;
+                gameWidth = gameHeight = 16;
                 break;
             case 2:
                 mines = 99;
+                gameWidth = 30;
+                gameHeight = 16;
                 break;
             case 3:
                 mines = 255;
+                gameWidth = gameHeight = 30;
                 break;
             case 4:
                 Random rand = new Random();
                 mines = rand.nextInt(600) + 255;
                     // fix later
                 break;
-            default:
-                mines = 10;
-                break;
         }
-        mainpanel.add(controlpanel);
 
-        createBoard(mainpanel);
+        // configure timer
+
+        // configure mine counter
+
+        // configure smiley face
+
+        panel.add(controlpanel);
+        createBoard(panel);
+
+        // start gameplay
+        new Gameplay(panel);
+            // QUESTION: is it ok to just pass controlpanel and boardpanel???
     }
 
-    public void createBoard(JPanel mainpanel) {
+    public void createBoard(JPanel panel) {
         JPanel board = new JPanel();
         board.setBackground(Color.GREEN);
 
-        for (int i = 0; i < 8; i++) {
+        // create buttons for board
 
-        }
-
-        mainpanel.add(board);
+        panel.add(board);
     }
 
-    public void startGame() {
-        // start the game WHEN user clicks on first tile on board...
-        active = true;
-        while (active) {
-
-        }
-    }
-
-    public void clearMines() {
-        // if one clicks on a clear tile, clear out respective spaces
-    }
-
-    public void sendNums() {
-        // how many mines are nearby? 1 to 7
+    public void restartGame() {
+        // when user clicks on smiley face
     }
 
     public void requestMorePlayers() {

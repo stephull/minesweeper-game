@@ -1,14 +1,18 @@
-import java.io.*;
-import java.util.*;
+/*
+    Gameplay.java
+
+*/
+
+//import java.io.*;
+//import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 public class Gameplay extends Main {
 
     // main gameplay function
-    Gameplay(JPanel panel, int mode, boolean multiplayer, int type) {
+    public Gameplay(JPanel panel) {
 
         // test button
         JButton testinside = new JButton();
@@ -24,35 +28,15 @@ public class Gameplay extends Main {
         });
         panel.add(testinside);
 
-        // button panel for all buttons
-        JPanel boardPanel = new JPanel();
-        boardPanel.setBackground(Color.BLUE);
-                // test case
-
-        int gameWidth, gameHeight;
-        gameWidth = gameHeight = 9; //default
-        switch(mode) {
-            case 1:
-                gameWidth = gameHeight = 16;
-                break;
-            case 2:
-                gameWidth = 30;
-                gameHeight = 16;
-                break;
-            case 3:
-                gameWidth = gameHeight = 30;
-                break;
-            case 4:
-                break;
-            default:
-                gameWidth = gameHeight = 9;
-                break;
-        }
-
-        // create 2D array with width and height as assigned above
 
 
-        boardPanel.setLayout(new GridLayout(gameWidth, gameHeight));
-        panel.add(boardPanel);
+    }
+
+    public void clearMines() {
+        // if one clicks on a clear tile, clear out respective spaces
+    }
+
+    public void sendNums() {
+        // how many mines are nearby? 1 to 7
     }
 }
