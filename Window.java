@@ -26,6 +26,10 @@ public class Window extends JFrame implements ActionListener {
 
     public JLabel readStatus;
 
+    public Window() {
+        // default constructor
+    }
+
     public Window(JFrame frame, JPanel panel) {
         // frame properties
         frame.setTitle("Minesweeper Project -- TEST");
@@ -34,6 +38,10 @@ public class Window extends JFrame implements ActionListener {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(MAX_WIDTH, MAX_HEIGHT);
+        
+        // image for window
+        Image icon = Toolkit.getDefaultToolkit().getImage("Images/Flag.png");
+        frame.setIconImage(icon);
 
         // panel
         panel = new JPanel(new GridLayout(8, 4, 4, 4));
@@ -137,7 +145,6 @@ public class Window extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-
         readStatus.setText(e.toString());
 
         // for multiplayer options, apply socket programming
@@ -150,7 +157,7 @@ public class Window extends JFrame implements ActionListener {
             e.getSource() == hardbomb ||
             e.getSource() == crazybomb) {
                 readStatus.setText(":: REQUESTING SERVER CONNECTION ::" + e.toString());
-                //new SocketMain();
+                // new SocketMain();
                     // NOTE: gets stuck if left like this...
             }
 

@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.awt.*;
 import javax.swing.*;
 
-public class Control {
+public class Control extends Main {
 
         // ::: DIFFICULTIES :::
     // easy difficulty -- STANDARD (mode 0)
@@ -39,6 +39,10 @@ public class Control {
     TimerTask ttask;
     int mines;      // number of mines
     int smile;      // for smiley face button
+
+    public Control() {
+        // default constructor
+    }
 
     public Control(JPanel panel) {
 

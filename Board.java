@@ -8,25 +8,29 @@ import javax.swing.ImageIcon;
 import javax.swing.*;
 //import java.awt.*;
 
-public class Board {
+public class Board extends Control {
 
     private JButton[][] buttons;
-    private ImageIcon[][] buttonimgs;
+    private ImageIcon img;
+
+    public Board() {
+        // default constructor
+    }
 
     public Board(JPanel base, int height, int width) {
         buttons = new JButton[width][height];
-        buttonimgs = new ImageIcon[width][height];
 
-        setButtons(buttons, buttonimgs);
+        // prepare image for button
+        img = new ImageIcon("Images/Tile-01.png");
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                setButton(buttons[i][j]);
+            }
+        }
     }
 
-    public void setButtons(JButton[][] buttons, ImageIcon[][] imgs) {
-
-        // add images for each button
-        setImages(imgs);
-    }
-
-    public void setImages(ImageIcon[][] imgs) {
-
+    public void setButton(JButton button) {
+        
     }
 }
