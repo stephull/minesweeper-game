@@ -10,6 +10,7 @@ public class Main {
     // main method
     private static JFrame frame;
     private static JPanel panel; 
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {

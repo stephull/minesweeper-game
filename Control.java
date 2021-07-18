@@ -4,7 +4,7 @@
 */
 
 import java.util.*;
-import java.util.Timer; // explicit import
+import java.util.Timer;
 import java.awt.*;
 import javax.swing.*;
 
@@ -85,12 +85,11 @@ public class Control {
                 break;
         }
 
-        // configure timer
+        /*
+            ::: switch over from control to main board game panel(s)...
+        */
 
-        // configure mine counter
-
-        // configure smiley face
-
+        // create new board for game
         panel.add(controlpanel);
         createBoard(panel);
 
@@ -100,12 +99,24 @@ public class Control {
     }
 
     public void createBoard(JPanel panel) {
-        JPanel board = new JPanel();
-        board.setBackground(Color.GREEN);
+        JPanel boardwork = new JPanel();
+        boardwork.setBackground(Color.GREEN);
 
         // create buttons for board
+        new Board(boardwork, gameHeight, gameWidth);
+        panel.add(boardwork);
+    }
 
-        panel.add(board);
+    public void createTimer() {
+        // create timer
+    }
+
+    public void createCounter() {
+        // create counter for number of flags
+    }
+
+    public void configureSmiley() {
+        // ??? create or settings for smiley thing
     }
 
     public void restartGame() {
