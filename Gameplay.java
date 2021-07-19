@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Gameplay extends Main {
+public class Gameplay extends Window {
 
     public Gameplay() {
         // default constructor
@@ -17,29 +17,13 @@ public class Gameplay extends Main {
 
     // main gameplay function
     public Gameplay(JPanel panel) {
-        test(panel);
+        
 
         // while the game is running...
         /*while (true) {
 
         }*/
     }       
-
-    public void test(JPanel panel) {
-                // test button
-                JButton testinside = new JButton();
-                testinside.setVisible(true);
-                testinside.setText("HELLO AGAIN!");
-                testinside.setPreferredSize(new Dimension(40, 40));
-        
-                // test action listener on button too
-                testinside.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        testinside.setText("IT'S ME");
-                    }
-                });
-                panel.add(testinside, BorderLayout.PAGE_START);
-    }
 
     // NOTE: all methods here are to be executed in real time while gameplay is initiated
     

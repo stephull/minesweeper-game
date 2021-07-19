@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.awt.*;
 import javax.swing.*;
 
-public class Control extends Main {
+public class Control extends Window {
 
         // ::: DIFFICULTIES :::
     // easy difficulty -- STANDARD (mode 0)
@@ -47,23 +47,16 @@ public class Control extends Main {
     public Control(JPanel panel) {
 
         // ::: DEFAULT SETTINGS FOR FIRST GAME :::
-        boolean isMulti = false;      
-            // set to single player for default settings, when opening the game
-        int mode = 0;       
-            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
-        int type = 0;
-        if (isMulti) {
-            type = 1;
-        }
-            // type is 0 if single player; otherwise, pick 1 or 2
+        boolean isMulti = false;      // set to single player for default settings, when opening the game
+        int mode = 0;            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
+        int type = (isMulti) ? 1 : 0 ;  // type is 0 if single player; otherwise, pick 1 or 2
 
+        // components for the control panel in game window
         JPanel controlpanel = new JPanel();
-        controlpanel.setBackground(Color.RED);
-                // test case
-
         active = false;
         timer = new Timer("Timer");
 
+        // adjust based on user's difficulty
         switch(mode) {
             case 0:
                 mines = 10;
@@ -106,7 +99,9 @@ public class Control extends Main {
         // create board of buttons for the game
         JPanel base = new JPanel();
         new Board(base, gameHeight, gameWidth);
-        panel.add(base, BorderLayout.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        panel.add(base, c);
     }
 
     public void createTimer() {

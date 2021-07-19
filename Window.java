@@ -4,27 +4,33 @@
     Includes menu bar for single player, multiplayer modes, help, and options. 
 */
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.BorderLayout;
+import java.net.*;
 
 public class Window extends JFrame implements ActionListener {
     // constant values for dimensional purposes
     private static final int MAX_WIDTH = 720;
     private static final int MAX_HEIGHT = 720;
 
+    // menu items and bar properties
     private JMenuBar menubar;
     private JMenu singlemode, multimode;
     private JMenu onevsall, onevsbomb;
     private JMenuItem easysingle, mediumsingle, hardsingle, crazysingle;
     private JMenuItem easyvsall, mediumvsall, hardvsall, crazyvsall;
     private JMenuItem easybomb, mediumbomb, hardbomb, crazybomb;
-
     private JMenu optionsmenu, helpmenu;
+    private JMenuItem opfeedback;
     private JMenuItem helphowto, helpcontrols, helpabout;
 
+    // status bar for the bottom of window
     public JLabel readStatus;
+
+    // grid constraints for layout of window 
+    public GridBagConstraints c;
 
     public Window() {
         // default constructor
@@ -37,23 +43,31 @@ public class Window extends JFrame implements ActionListener {
         frame.setVisible(true);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(MAX_WIDTH, MAX_HEIGHT);
+        frame.setBounds(180, 60, MAX_WIDTH, MAX_HEIGHT);
         
         // image for window
         Image icon = Toolkit.getDefaultToolkit().getImage("Images/Flag.png");
         frame.setIconImage(icon);
 
         // panel
-        panel = new JPanel(new GridLayout(8, 4, 4, 4));
-            // redefine panel settings
+        panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+            // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
         panel.setVisible(true);
         frame.add(panel); 
+
+        // components for panel, specify constraints
+        c = new GridBagConstraints();
 
         // menu + status bar 
         createMenu(panel);
         readStatus = new JLabel("MINESWEEPER BEEP BOOP");
         readStatus.setSize(350, 100);
-        panel.add(readStatus, BorderLayout.SOUTH);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_END;
+
+        panel.add(readStatus, c);
         enableMenuActions();
 
         // redirect to the controls
@@ -64,6 +78,7 @@ public class Window extends JFrame implements ActionListener {
         all menu bar properties and action listener methods
     */
     public void createMenu(JPanel panel) {
+  
         // menu bar for top of program
         menubar = new JMenuBar();
         menubar.setBounds(0, 0, MAX_WIDTH, 30);
@@ -87,6 +102,7 @@ public class Window extends JFrame implements ActionListener {
         onevsbomb = new JMenu("One vs. Bomb");
         multimode.add(onevsall);
         multimode.add(onevsbomb);
+
         easyvsall = new JMenuItem("Easy");
         mediumvsall = new JMenuItem("Medium");
         hardvsall = new JMenuItem("Hard");
@@ -107,6 +123,8 @@ public class Window extends JFrame implements ActionListener {
         // ... options menu
         optionsmenu = new JMenu("Options");
         menubar.add(optionsmenu);
+        opfeedback = new JMenuItem("Feedback");
+        optionsmenu.add(opfeedback);
         
         // ... help menu
         helpmenu = new JMenu("Help");
@@ -118,7 +136,10 @@ public class Window extends JFrame implements ActionListener {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        panel.add(menubar, BorderLayout.NORTH);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = c.gridy = 0;
+        panel.add(menubar, c);
     }
 
     public void enableMenuActions() {
@@ -131,15 +152,22 @@ public class Window extends JFrame implements ActionListener {
         mediumsingle.addActionListener(this);
         hardsingle.addActionListener(this);
         crazysingle.addActionListener(this);
+
         easyvsall.addActionListener(this);
         mediumvsall.addActionListener(this);
         hardvsall.addActionListener(this);
         crazyvsall.addActionListener(this);
+
         easybomb.addActionListener(this);
         mediumbomb.addActionListener(this);
         hardbomb.addActionListener(this);
         crazybomb.addActionListener(this);
         
+        opfeedback.addActionListener(this);
+
+        helphowto.addActionListener(this);
+        helpcontrols.addActionListener(this);
+        helpabout.addActionListener(this);
     }
 
     @Override
@@ -160,6 +188,21 @@ public class Window extends JFrame implements ActionListener {
                 // new SocketMain();
                     // NOTE: gets stuck if left like this...
             }
+
+        // feedback option, redirect to website for user input
+        if (e.getSource() == opfeedback) {
+            opfeedback.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://msn.com"));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+                // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing
+        }
 
         // for help menu
         if (e.getSource() == helphowto) {
