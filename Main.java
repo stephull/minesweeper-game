@@ -5,6 +5,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.*;
+import java.time.format.*;
 
 public class Main {
     // main method
@@ -12,6 +14,11 @@ public class Main {
     private static JPanel panel; 
     
     public static void main(String[] args) {
+        // always print message before running program with timestamp...
+        System.out.println(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now()));
+        System.out.println("Beginning Minesweeper...");
+
+        // start
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 frame = new JFrame();
