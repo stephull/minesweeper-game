@@ -18,6 +18,11 @@ public class Gameplay extends Main {
     // main gameplay function
     public Gameplay(JPanel panel) {
         test(panel);
+
+        // while the game is running...
+        /*while (true) {
+
+        }*/
     }       
 
     public void test(JPanel panel) {
@@ -33,7 +38,7 @@ public class Gameplay extends Main {
                         testinside.setText("IT'S ME");
                     }
                 });
-                panel.add(testinside);
+                panel.add(testinside, BorderLayout.PAGE_START);
     }
 
     // NOTE: all methods here are to be executed in real time while gameplay is initiated

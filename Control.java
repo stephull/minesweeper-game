@@ -103,12 +103,10 @@ public class Control extends Main {
     }
 
     public void createBoard(JPanel panel) {
-        JPanel boardwork = new JPanel();
-        boardwork.setBackground(Color.GREEN);
-
-        // create buttons for board
-        new Board(boardwork, gameHeight, gameWidth);
-        panel.add(boardwork);
+        // create board of buttons for the game
+        JPanel base = new JPanel();
+        new Board(base, gameHeight, gameWidth);
+        panel.add(base, BorderLayout.CENTER);
     }
 
     public void createTimer() {
