@@ -18,7 +18,8 @@
 * Defined properties for board panel. 
 * Added an option item called 'Feedback' for future opinions/suggestions. Included a mouse listener for external hyperlink. 
 * Created a timestamp for each time a test run occurs. 
-* Adding action listeners for board panel. 
+* Adding action listeners for board panel (NOTE: CURRENTLY TRYING TO FIX ALL BUTTON LISTENERS). 
+* Declared new files for individual timer and counter objects for control panel. 
 
 ## July 20, 2021
 * TBA
