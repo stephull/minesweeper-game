@@ -35,8 +35,8 @@ public class Control extends Window {
     int gameWidth, gameHeight;
 
     boolean active; // the game is running on a timer?
-    Timer timer;    // for timer
-    TimerTask ttask;
+
+    // other control panel properties
     int mines;      // number of mines
     int smile;      // for smiley face button
 
@@ -54,7 +54,6 @@ public class Control extends Window {
         // components for the control panel in game window
         JPanel controlpanel = new JPanel();
         active = false;
-        timer = new Timer("Timer");
 
         // adjust based on user's difficulty
         switch(mode) {
@@ -82,12 +81,16 @@ public class Control extends Window {
                 break;
         }
 
+        // configure items for control panel above game board
+        createTimer(controlpanel);
+        createCounter(controlpanel, mines);
+        configureSmiley(controlpanel);
+        panel.add(controlpanel);
+
         /*
             ::: switch over from control to main board game panel(s)...
         */
-
         // create new board for game
-        panel.add(controlpanel);
         createBoard(panel, c);
 
         // start gameplay
@@ -107,24 +110,25 @@ public class Control extends Window {
         panel.add(base, c);
     }
 
-    public void createTimer() {
+    /*
+        Objects for Control Panel
+        Each object returns either a JPanel or JButton
+    */
+    public void createTimer(JPanel panel) {
         // create timer
+        MineTimer timer = new MineTimer();
+        panel.add(timer.exportTimer());
     }
 
-    public void createCounter() {
+    public void createCounter(JPanel panel, int count) {
         // create counter for number of flags
+        MineCounter counter = new MineCounter(count);
+        panel.add(counter.exportCounter());
     }
 
-    public void configureSmiley() {
+    public void configureSmiley(JPanel panel) {
         // ??? create or settings for smiley thing
+        MineSmiley smiley = new MineSmiley();
+        panel.add(smiley.exportSmiley());
     }
-
-    public void restartGame() {
-        // when user clicks on smiley face
-    }
-
-    public void requestMorePlayers() {
-        // for multiplayer, get at least 1-3 other players for games
-    }
-    
 }

@@ -17,9 +17,6 @@ public class Gameplay extends Window {
 
     // main gameplay function
     public Gameplay(JPanel panel) {
-        JButton button = new JButton();
-        button.setText("TEST");
-        panel.add(button);
 
         // while the game is running...
         /*while (true) {
@@ -27,22 +24,11 @@ public class Gameplay extends Window {
         }*/
     }       
 
-    // NOTE: all methods here are to be executed in real time while gameplay is initiated
-    
-    public void randomizeMines() {
-        // start of game: randomize mine placement using number generation
-        // NOTE: originally thinking of placing new board, skip that!
+    public void restartGame() {
+        // when user clicks on smiley face
     }
 
-    public void clearMines() {
-        // if one clicks on a clear tile, clear out respective spaces
-    }
-
-    public void configureNums() {
-        // how many mines are nearby? 1 to 7
-    }
-
-    public void showMines() {
-        // show mines when game is done, and show marked incorrect mines too
+    public void requestMorePlayers() {
+        // for multiplayer, get at least 1-3 other players for games
     }
 }

@@ -14,6 +14,9 @@ public class MineTimer {
         // default settings
         time = 0;
         images = new ImageIcon[3];
+
+        JButton button = new JButton();
+        button.setText("Timer Test");
     }
 
     public void changeTime(int time) {
@@ -33,5 +36,10 @@ public class MineTimer {
         for (int i = 0; i < images.length; i++) {
             // assign each image
         }
+    }
+
+    public JPanel exportTimer() {
+        JPanel temp = new JPanel();
+        return temp;
     }
 }

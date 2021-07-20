@@ -9,12 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends Control {
+public class Board extends Window {
 
     private JButton[][] buttons;
     private ImageIcon img;
-    public static final int SIZE = 10;
-    private boolean clicked;
+    //private boolean clicked;
 
     public Board() {
         // default constructor
@@ -23,10 +22,10 @@ public class Board extends Control {
     public Board(JPanel base, GridBagConstraints c, int height, int width) {
         buttons = new JButton[width][height];
         base.setLayout(new GridLayout(width, height));
-        clicked = false;
+        //clicked = false;
 
         // prepare image for button
-        img = prepareImage("Images/Tile-01.png");
+        img = prepareImage("Images/Flag.png");
 
         // make button board on screen...
         for (int i = 0; i < width; i++) {
@@ -40,7 +39,8 @@ public class Board extends Control {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource() == buttons) {
-                            clicked = true;
+                            readStatus.setText(":: BUTTON TEST :: " + e.toString());
+                            //clicked = true;
                             /* do something then revert back to false before exiting */
                 
                             img = prepareImage("Images/EmptyTile-01.png");
@@ -71,8 +71,29 @@ public class Board extends Control {
 
     public ImageIcon prepareImage(String link) {
         ImageIcon tempimgicon= new ImageIcon(getClass().getResource(link));
-        Image tempimg = tempimgicon.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH);
-        return new ImageIcon(tempimg);
+        return tempimgicon; 
+        //Image tempimg = tempimgicon.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH);
+        //return new ImageIcon(tempimg);
             // SOURCE: https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
+    }
+
+    // NOTE: all methods here are to be executed in real time while gameplay is initiated
+    // METHODS for in-game functions...
+
+    public void randomizeMines() {
+        // start of game: randomize mine placement using number generation
+        // NOTE: originally thinking of placing new board, skip that!
+    }
+
+    public void clearMines() {
+        // if one clicks on a clear tile, clear out respective spaces
+    }
+
+    public void configureNums() {
+        // how many mines are nearby? 1 to 7
+    }
+
+    public void showMines() {
+        // show mines when game is done, and show marked incorrect mines too
     }
 }
