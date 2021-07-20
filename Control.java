@@ -44,7 +44,7 @@ public class Control extends Window {
         // default constructor
     }
 
-    public Control(JPanel panel) {
+    public Control(JPanel panel, GridBagConstraints c) {
 
         // ::: DEFAULT SETTINGS FOR FIRST GAME :::
         boolean isMulti = false;      // set to single player for default settings, when opening the game
@@ -88,19 +88,20 @@ public class Control extends Window {
 
         // create new board for game
         panel.add(controlpanel);
-        createBoard(panel);
+        createBoard(panel, c);
 
         // start gameplay
         new Gameplay(panel);
             // QUESTION: is it ok to just pass controlpanel and boardpanel???
     }
 
-    public void createBoard(JPanel panel) {
+    public void createBoard(JPanel panel, GridBagConstraints c) {
+
         // create board of buttons for the game
         JPanel base = new JPanel();
-        new Board(base, gameHeight, gameWidth);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        new Board(base, c, gameHeight, gameWidth);
+
+        c.fill = GridBagConstraints.CENTER;
         panel.add(base, c);
     }
 

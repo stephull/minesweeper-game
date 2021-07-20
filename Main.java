@@ -15,8 +15,8 @@ public class Main {
     
     public static void main(String[] args) {
         // always print message before running program with timestamp...
-        System.out.println(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now()));
-        System.out.println("Beginning Minesweeper...");
+        System.out.print(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now()));
+        System.out.println(" :: Beginning Minesweeper...");
 
         // start
         EventQueue.invokeLater(new Runnable() {

@@ -7,10 +7,9 @@ import javax.swing.ImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.event.*;
 import java.awt.event.*;
 
-public class Board extends Control implements ActionListener {
+public class Board extends Control {
 
     private JButton[][] buttons;
     private ImageIcon img;
@@ -21,17 +20,13 @@ public class Board extends Control implements ActionListener {
         // default constructor
     }
 
-    public Board(JPanel base, int height, int width) {
+    public Board(JPanel base, GridBagConstraints c, int height, int width) {
         buttons = new JButton[width][height];
         base.setLayout(new GridLayout(width, height));
-        base.setBackground(Color.MAGENTA);
         clicked = false;
 
         // prepare image for button
-        img = new ImageIcon(getClass().getResource("Images/Tile-01.png"));
-        Image tempimg = img.getImage().getScaledInstance(80, 75, Image.SCALE_SMOOTH);
-        img = new ImageIcon(tempimg);
-            // SOURCE: https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
+        img = prepareImage("Images/Tile-01.png");
 
         // make button board on screen...
         for (int i = 0; i < width; i++) {
@@ -40,6 +35,19 @@ public class Board extends Control implements ActionListener {
                 JButton temp = buttons[i][j];
                 setButton(temp, img);
                 base.add(temp);
+
+                temp.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource() == buttons) {
+                            clicked = true;
+                            /* do something then revert back to false before exiting */
+                
+                            img = prepareImage("Images/EmptyTile-01.png");
+                            setButton(temp, img);
+                        }
+                    }
+                });
             }
         }
 
@@ -55,17 +63,16 @@ public class Board extends Control implements ActionListener {
 
     public void setButton(JButton button, ImageIcon img) {
         button.setVisible(true);
-        button.setBackground(Color.PINK);
+        button.setBackground(Color.GRAY);
         button.addActionListener(this);
         button.setFocusable(false);
         button.setIcon(img);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == buttons) {
-            clicked = true;
-            /* do something then revert back to false before exiting */
-        }
+    public ImageIcon prepareImage(String link) {
+        ImageIcon tempimgicon= new ImageIcon(getClass().getResource(link));
+        Image tempimg = tempimgicon.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH);
+        return new ImageIcon(tempimg);
+            // SOURCE: https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
     }
 }

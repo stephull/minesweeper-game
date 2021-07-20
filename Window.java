@@ -10,9 +10,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.net.*;
 
-public class Window extends JFrame implements ActionListener {
+public class Window implements ActionListener {
     // constant values for dimensional purposes
-    private static final int MAX_WIDTH = 720;
+    private static final int MAX_WIDTH = 780;
     private static final int MAX_HEIGHT = 720;
 
     // menu items and bar properties
@@ -29,8 +29,9 @@ public class Window extends JFrame implements ActionListener {
     // status bar for the bottom of window
     public JLabel readStatus;
 
-    // grid constraints for layout of window 
+    // layout properties
     public GridBagConstraints c;
+    private static final Insets insets = new Insets(0, 0, 0, 0);
 
     public Window() {
         // default constructor
@@ -39,7 +40,7 @@ public class Window extends JFrame implements ActionListener {
     public Window(JFrame frame, JPanel panel) {
         // frame properties
         frame.setTitle("Minesweeper Project -- TEST");
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setVisible(true);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,35 +50,42 @@ public class Window extends JFrame implements ActionListener {
         Image icon = Toolkit.getDefaultToolkit().getImage("Images/Flag.png");
         frame.setIconImage(icon);
 
-        // panel
+        // panel + layout
         panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-            // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
+        c = new GridBagConstraints();
+        panel.setLayout(new GridBagLayout());    // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
         panel.setVisible(true);
         frame.add(panel); 
 
-        // components for panel, specify constraints
-        c = new GridBagConstraints();
-
         // menu + status bar 
-        createMenu(panel);
-        readStatus = new JLabel("MINESWEEPER BEEP BOOP");
-        readStatus.setSize(350, 100);
+        createMenu(panel, c);
+        readStatus = new JLabel("STATUS BAR");
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.PAGE_END;
-
+        // constraints for status bar, add onto panel
+        c.fill = GridBagConstraints.PAGE_END;
         panel.add(readStatus, c);
+
+        // action listeners
         enableMenuActions();
 
         // redirect to the controls
-        new Control(panel);
+        new Control(panel, c);
+    }
+
+    // add component with GridBagConstraints into panel
+    /*
+        SOURCE CODE FROM: http://www.java2s.com/Tutorial/Java/0240__Swing/UsingGridBagConstraints.htm 
+    */
+    public static void addComponent(Container container, Component component, int gridx, int gridy, 
+        int gridwidth, int gridheight, int anchor, int fill, GridBagConstraints c) {
+            c = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0, anchor, fill, insets, 0, 0);
+            container.add(component, c);
     }
 
     /*
         all menu bar properties and action listener methods
     */
-    public void createMenu(JPanel panel) {
+    public void createMenu(JPanel panel, GridBagConstraints c) {
   
         // menu bar for top of program
         menubar = new JMenuBar();
@@ -136,9 +144,7 @@ public class Window extends JFrame implements ActionListener {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = c.gridy = 0;
+        c.fill = GridBagConstraints.PAGE_START;
         panel.add(menubar, c);
     }
 
@@ -148,23 +154,25 @@ public class Window extends JFrame implements ActionListener {
             for all menu items
             MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
         */
+
+        // single player AND multiplayer
         easysingle.addActionListener(this);
         mediumsingle.addActionListener(this);
         hardsingle.addActionListener(this);
         crazysingle.addActionListener(this);
-
         easyvsall.addActionListener(this);
         mediumvsall.addActionListener(this);
         hardvsall.addActionListener(this);
         crazyvsall.addActionListener(this);
-
         easybomb.addActionListener(this);
         mediumbomb.addActionListener(this);
         hardbomb.addActionListener(this);
         crazybomb.addActionListener(this);
         
+        // options
         opfeedback.addActionListener(this);
 
+        // help
         helphowto.addActionListener(this);
         helpcontrols.addActionListener(this);
         helpabout.addActionListener(this);
@@ -184,13 +192,13 @@ public class Window extends JFrame implements ActionListener {
             e.getSource() == mediumbomb ||
             e.getSource() == hardbomb ||
             e.getSource() == crazybomb) {
-                readStatus.setText(":: REQUESTING SERVER CONNECTION ::" + e.toString());
-                // new SocketMain();
-                    // NOTE: gets stuck if left like this...
+                readStatus.setText(":: REQUESTING SERVER CONNECTION :: " + e.toString());
+                // new SocketMain();    // NOTE: gets stuck if left like this...
             }
 
         // feedback option, redirect to website for user input
         if (e.getSource() == opfeedback) {
+            readStatus.setText(":: CONNECTING TO INTERNET :: " + e.toString());
             opfeedback.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -199,6 +207,16 @@ public class Window extends JFrame implements ActionListener {
                     } catch (IOException | URISyntaxException ex) {
                         ex.printStackTrace();
                     }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    // BLANK
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    // BLANK
                 }
             });
                 // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing
