@@ -31,7 +31,7 @@ public class Window implements ActionListener {
 
     // layout properties
     public GridBagConstraints c;
-    private static final Insets insets = new Insets(0, 0, 0, 0);
+    private static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
 
     public Window() {
         // default constructor
@@ -62,7 +62,9 @@ public class Window implements ActionListener {
         readStatus = new JLabel("STATUS BAR");
 
         // constraints for status bar, add onto panel
-        c.fill = GridBagConstraints.PAGE_END;
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.insets = insets;
         panel.add(readStatus, c);
 
         // action listeners
@@ -70,16 +72,6 @@ public class Window implements ActionListener {
 
         // redirect to the controls
         new Control(panel, c);
-    }
-
-    // add component with GridBagConstraints into panel
-    /*
-        SOURCE CODE FROM: http://www.java2s.com/Tutorial/Java/0240__Swing/UsingGridBagConstraints.htm 
-    */
-    public static void addComponent(Container container, Component component, int gridx, int gridy, 
-        int gridwidth, int gridheight, int anchor, int fill, GridBagConstraints c) {
-            c = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0, anchor, fill, insets, 0, 0);
-            container.add(component, c);
     }
 
     /*
@@ -144,7 +136,11 @@ public class Window implements ActionListener {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        c.fill = GridBagConstraints.PAGE_START;
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = c.weighty = 0.5;
+        c.gridx = c.gridy = 0;
+        c.insets = insets;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         panel.add(menubar, c);
     }
 

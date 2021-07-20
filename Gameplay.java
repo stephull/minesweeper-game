@@ -5,8 +5,8 @@
 
 //import java.io.*;
 //import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
+//import java.awt.*;
+//import java.awt.event.*;
 import javax.swing.*;
 
 public class Gameplay extends Window {
@@ -17,7 +17,9 @@ public class Gameplay extends Window {
 
     // main gameplay function
     public Gameplay(JPanel panel) {
-        
+        JButton button = new JButton();
+        button.setText("TEST");
+        panel.add(button);
 
         // while the game is running...
         /*while (true) {

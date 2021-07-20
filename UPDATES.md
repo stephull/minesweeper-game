@@ -13,4 +13,12 @@
 * Utilized border layout properties for improved window structure.
 * Added panel board for buttons, and included icons for each block.
 
-## ???
+## July 19, 2021
+* Utilized GridBagLayout for layout, using GridBagConstraints to describe layout properties.
+* Defined properties for board panel. 
+* Added an option item called 'Feedback' for future opinions/suggestions. Included a mouse listener for external hyperlink. 
+* Created a timestamp for each time a test run occurs. 
+* Adding action listeners for board panel. 
+
+## July 20, 2021
+* TBA

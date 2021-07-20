@@ -101,7 +101,9 @@ public class Control extends Window {
         JPanel base = new JPanel();
         new Board(base, c, gameHeight, gameWidth);
 
-        c.fill = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.weightx = c.weighty = 0.5;
         panel.add(base, c);
     }
 
