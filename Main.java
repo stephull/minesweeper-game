@@ -21,9 +21,13 @@ public class Main {
         // start
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frame = new JFrame();
-                panel = new JPanel();
-                new Window(frame, panel);
+                try {
+                    frame = new JFrame();
+                    panel = new JPanel();
+                    new Window(frame, panel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         /*

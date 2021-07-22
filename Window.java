@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.net.*;
 
 public class Window implements ActionListener {
+
     // constant values for dimensional purposes
     private static final int MAX_WIDTH = 780;
     private static final int MAX_HEIGHT = 720;
@@ -45,10 +46,7 @@ public class Window implements ActionListener {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(180, 60, MAX_WIDTH, MAX_HEIGHT);
-        
-        // image for window
-        Image icon = Toolkit.getDefaultToolkit().getImage("Images/Flag.png");
-        frame.setIconImage(icon);
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
 
         // panel + layout
         panel = new JPanel();
@@ -199,20 +197,19 @@ public class Window implements ActionListener {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     try {
-                        Desktop.getDesktop().browse(new URI("https://msn.com"));
-                    } catch (IOException | URISyntaxException ex) {
+                        Desktop.getDesktop().browse(new URI("https://www.roblox.com"));
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
-
-                @Override
+                /*@Override
                 public void mouseExited(MouseEvent e) {
                     // BLANK
-                }
-
+                }*/
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    // BLANK
+                    readStatus.setText(":: Please note that choosing 'Feedback'"
+                        + " will redirect to a web browser. We hope you understand! ::");
                 }
             });
                 // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing
