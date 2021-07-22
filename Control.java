@@ -4,36 +4,51 @@
 */
 
 import java.util.*;
-import java.util.Timer;
 import java.awt.*;
 import javax.swing.*;
 
 public class Control extends Window {
 
+    // enumerate and define each analog image for the time and counter
+    public enum Analog {
+        ZERO, ONE, TWO, THREE, FOUR,
+        FIVE, SIX, SEVEN, EIGHT, NINE
+    };
+    public static final String ZERO = "Images/0analog.png";
+    public static final String ONE = "Images/1analog.png";
+    public static final String TWO = "Images/2analog.png";
+    public static final String THREE = "Images/3analog.png";
+    public static final String FOUR = "Images/4analog.png";
+    public static final String FIVE = "Images/5analog.png";
+    public static final String SIX = "Images/6analog.png";
+    public static final String SEVEN = "Images/7analog.png";
+    public static final String EIGHT = "Images/8analog.png";
+    public static final String NINE = "Images/9analog.png";
+
         // ::: DIFFICULTIES :::
     // easy difficulty -- STANDARD (mode 0)
-    public static final int EASY_WIDTH = 9;
-    public static final int EASY_HEIGHT = 9;
+    public static final int EASY_WH = 9;
+    public static final int EASY_MINES = 10;
 
     // medium difficulty    (mode 1)
-    public static final int MED_WIDTH = 16;
-    public static final int MED_HEIGHT = 16;
+    public static final int MED_WH = 9;
+    public static final int MED_MINES = 40;
 
     // hard difficulty  (mode 2)
-    public static final int HARD_WIDTH = 16;
-    public static final int HARD_HEIGHT = 30;
+    public static final int HARD_W = 30;
+    public static final int HARD_H = 16;
+    public static final int HARD_MINES = 99;
 
     // crazy difficulty (mode 3)
-    public static final int CRAZY_WIDTH = 30;
-    public static final int CRAZY_HEIGHT = 30;
+    public static final int CRAZY_WH = 30;
+    public static final int CRAZY_MINES = 255;
 
     // for optional settings, must be no more than 3600 tiles
     // (mode 4)
-    public static final int ABS_WIDTH = 60;
-    public static final int ABS_HEIGHT = 60;
+    public static final int ABS_WH = 60;
+    public static final int ABS_MINES = 999;
 
     int gameWidth, gameHeight;
-
     boolean active; // the game is running on a timer?
 
     // other control panel properties
@@ -58,26 +73,26 @@ public class Control extends Window {
         // adjust based on user's difficulty
         switch(mode) {
             case 0:
-                mines = 10;
-                gameWidth = gameHeight = 9;
+                mines = EASY_MINES;
+                gameWidth = gameHeight = EASY_WH;
                 break;
             case 1:
-                mines = 40;
-                gameWidth = gameHeight = 16;
+                mines = MED_MINES;
+                gameWidth = gameHeight = MED_WH;
                 break;
             case 2:
-                mines = 99;
-                gameWidth = 30;
-                gameHeight = 16;
+                mines = HARD_MINES;
+                gameWidth = HARD_W;
+                gameHeight = HARD_H;
                 break;
             case 3:
-                mines = 255;
-                gameWidth = gameHeight = 30;
+                mines = CRAZY_MINES;
+                gameWidth = gameHeight = CRAZY_WH;
                 break;
             case 4:
-                Random rand = new Random();
-                mines = rand.nextInt(600) + 255;
-                    // fix later
+                //Random rand = new Random();
+                mines = ABS_MINES;
+                gameWidth = gameHeight = ABS_WH;
                 break;
         }
 
@@ -114,6 +129,22 @@ public class Control extends Window {
         Objects for Control Panel
         Each object returns either a JPanel or JButton
     */
+
+    public void configureImages(String text, int step, ImageIcon[] images, JPanel panel) {
+        // for each starting game, TIMER
+        for (int i = step; i < images.length; i++) {
+            images[i] = new ImageIcon(getClass().getResource(text));
+            Image tempimage = images[i].getImage().getScaledInstance(30, 45, Image.SCALE_SMOOTH);
+            images[i] = new ImageIcon(tempimage);
+            JLabel templabel = new JLabel(images[i]);
+            panel.add(templabel);
+        }
+    }
+    public void configureImages(String[] text, int step, ImageIcon[] images, JPanel panel) {
+        // ditto, COUNTER (depends on mode)...
+        
+    }
+
     public void createTimer(JPanel panel) {
         // create timer
         MineTimer timer = new MineTimer();
@@ -131,4 +162,5 @@ public class Control extends Window {
         MineSmiley smiley = new MineSmiley();
         panel.add(smiley.exportSmiley());
     }
+
 }
