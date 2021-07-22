@@ -22,4 +22,11 @@
 * Declared new files for individual timer and counter objects for control panel. 
 
 ## July 20, 2021
-* TBA
+* Updating layout for proper inheritance. Allocating existing functions into different files; mostly determined by which functions are important while in-game. 
+* Declared new file for one more object in the control panel.
+
+## July 22, 2021
+* Added pseudocode for board and control item functionalities. 
+* Added enum values for images to match the numeric values of time and mine count in controls. 
+* Renamed images to match appropriate function names. 
+* Created function to correspond numeric input conversion with matching analog number images. 

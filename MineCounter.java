@@ -4,7 +4,6 @@
 */
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MineCounter extends Control {
     
@@ -21,45 +20,33 @@ public class MineCounter extends Control {
         images = new ImageIcon[3];
         countpanel = new JPanel();
 
+        String[] sources = new String[3];
+        sources[0] = sources[2] = ZERO;
         switch(count) {
-            
+            case EASY_MINES:
+                sources[1] = ONE;   break;
+            case MED_MINES:
+                sources[1] = FOUR;  break;
+            case HARD_MINES:
+                sources[1] = sources[2] = NINE; break;
+            case CRAZY_MINES:
+                sources[0] = TWO;
+                sources[1] = sources[2] = FIVE; break;
+            case ABS_MINES:
+                sources[0] = sources[1] = sources[2] = NINE;    break;
         }
 
-        configureImages(ZERO, 0, images, countpanel);  
+        configureImages(sources, 0, images, countpanel);
+        changeAnalogOutput(count, images, countpanel);
         exportCounter();
-
-        // when game starts
     }
-
-    public void changeCount(int count) {
-        int step = 0, temp = count;
-        if (temp / 100 > 0) {
-
-            temp %= 100;
-        }
-        if (temp / 10 > 0) {
-            step = 1;
-
-            temp %= 10;
-        }
-        if (temp > 0) {
-            step = 2;
-
-            temp = 0;
-        }
-    }
-
-    /*public void configureImages(String text, int step) {
-        for (int i = step; i < images.length; i++) {
-            images[i] = new ImageIcon(getClass().getResource(text));
-            Image tempimage = images[i].getImage().getScaledInstance(30, 45, Image.SCALE_SMOOTH);
-            images[i] = new ImageIcon(tempimage);
-            JLabel templabel = new JLabel(images[i]);
-            countpanel.add(templabel);
-        }
-    }*/
 
     public JPanel exportCounter() {
+        JButton idk = new JButton();
+        idk.setText("CCC");
+        countpanel.add(idk);
+            // TEST appears twice, why???
+
         return countpanel;
     }
 }

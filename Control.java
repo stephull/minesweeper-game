@@ -74,26 +74,21 @@ public class Control extends Window {
         switch(mode) {
             case 0:
                 mines = EASY_MINES;
-                gameWidth = gameHeight = EASY_WH;
-                break;
+                gameWidth = gameHeight = EASY_WH;   break;
             case 1:
                 mines = MED_MINES;
-                gameWidth = gameHeight = MED_WH;
-                break;
+                gameWidth = gameHeight = MED_WH;    break;
             case 2:
                 mines = HARD_MINES;
                 gameWidth = HARD_W;
-                gameHeight = HARD_H;
-                break;
+                gameHeight = HARD_H;    break;
             case 3:
                 mines = CRAZY_MINES;
-                gameWidth = gameHeight = CRAZY_WH;
-                break;
+                gameWidth = gameHeight = CRAZY_WH;  break;
             case 4:
                 //Random rand = new Random();
                 mines = ABS_MINES;
-                gameWidth = gameHeight = ABS_WH;
-                break;
+                gameWidth = gameHeight = ABS_WH;    break;
         }
 
         // configure items for control panel above game board
@@ -142,9 +137,51 @@ public class Control extends Window {
     }
     public void configureImages(String[] text, int step, ImageIcon[] images, JPanel panel) {
         // ditto, COUNTER (depends on mode)...
-        
+        for (int i = step; i < images.length; i++) {
+            images[i] = new ImageIcon(getClass().getResource(text[i]));
+            Image tempimage = images[i].getImage().getScaledInstance(30, 45, Image.SCALE_SMOOTH);
+            images[i] = new ImageIcon(tempimage);
+            JLabel templabel = new JLabel(images[i]);
+            panel.add(templabel);
+        }
     }
 
+    public String getAnalog(int input) {
+        switch(input) {
+            case 1: return ONE;
+            case 2: return TWO;
+            case 3: return THREE;
+            case 4: return FOUR;
+            case 5: return FIVE;
+            case 6: return SIX;
+            case 7: return SEVEN;
+            case 8: return EIGHT;
+            case 9: return NINE;
+            default: return ZERO;
+        }
+    }
+
+    public void changeAnalogOutput(int numericInput, ImageIcon[] images, JPanel panel) {
+        // change images accordingly by its time using 0-9 analog png's 
+
+        // FOR TIMER: always set it to 0 0 0 before every game
+        // FOR COUNTER: arbitrary numbers, set according to mine count
+        int temp = numericInput;
+        if (temp / 100 > 0) {
+            configureImages(getAnalog(temp / 100), 0, images, panel);
+            temp %= 100;
+        } 
+        if (temp / 10 > 0) {
+            configureImages(getAnalog(temp / 10), 1, images, panel);
+            temp %= 10;
+        }
+        if (temp > 0) {
+            configureImages(getAnalog(temp), 2, images, panel);
+            temp = 0;
+        }
+    }
+
+    // creation of control panel items
     public void createTimer(JPanel panel) {
         // create timer
         MineTimer timer = new MineTimer();
