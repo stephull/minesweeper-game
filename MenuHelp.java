@@ -5,8 +5,7 @@
     and credits via the about option.
 */
 
-import java.awt.Toolkit;
-
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -16,16 +15,19 @@ public class MenuHelp extends Window implements MenuListener {
     private static final int HELP_WIDTH = 600;
     private static final int HELP_HEIGHT = 480;
 
+    // panel for window
+    public JFrame frame;
+    public JPanel helppanel;
+    public String[] titles = new String[] {
+        "How to Play", "Controls", "About"
+    };
+
     public MenuHelp() {
         // default constructor
     }
 
     public MenuHelp(int type) {
-        String[] titles = new String[] {
-            "How to Play", "Controls", "About"
-        };
-
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             // NOTE: EXIT_ON_CLOSE exits everything!
         frame.setVisible(true);
@@ -33,16 +35,58 @@ public class MenuHelp extends Window implements MenuListener {
         frame.pack();
         frame.setBounds(240, 80, HELP_WIDTH, HELP_HEIGHT);
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
-        /*
-            QUESTION: when closing the help window, everything closes.
-                How to fix this? 0_0
-        */
 
-        JPanel help = new JPanel();
+        helppanel = new JPanel();
+        c = new GridBagConstraints();
+
         JLabel helplabel = new JLabel();
         helplabel.setText(titles[type]);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.insets = insets;
+        helplabel.setBackground(Color.RED);
+        helppanel.add(helplabel, c);
+
+        switch(type) {
+            case 0: displayHowTo(); break;
+            case 1: displayControls(); break;
+            case 2: displayAbout(); break;
+        }
+        
         frame.setTitle(titles[type]);
-        frame.add(help);
+        frame.add(helppanel);
+    }
+
+    public void displayHowTo() {
+        JLabel label1 = new JLabel();
+        label1.setText("How to Play Minesweeper");
+        
+        JButton single = new JButton();
+        JButton multi = new JButton();
+        single.setText("Single Player Rules");
+        multi.setText("Multiplayer Rules");
+
+        helppanel.add(single);
+        helppanel.add(multi);
+    }
+
+    public void displayControls() {
+        JLabel label1 = new JLabel();
+        label1.setText("Controls for Minesweeper");
+
+        helppanel.add(label1);
+    }
+
+    public void displayAbout() {
+        JLabel label1 = new JLabel();
+        label1.setText("Created by Stephen Hullender");
+        label1.setBackground(Color.BLUE);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 3;
+        helppanel.add(label1, c);
     }
 
     @Override
