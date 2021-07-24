@@ -1,5 +1,3 @@
-import javax.swing.ImageIcon;
-
 /* 
     Board.java
     Separate method for working on gameboard panel
@@ -12,9 +10,6 @@ import java.awt.event.*;
 public class Board extends Window {
 
     // for board numbers, wherever a mine is located nearby
-    public enum Vicinity {
-        ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN
-    };
     public static final String ONE = "Images/boardOne.png";
     public static final String TWO = "Images/boardTwo.png";
     public static final String THREE = "Images/boardThree.png";
@@ -24,12 +19,10 @@ public class Board extends Window {
     public static final String SEVEN = "Images/boardSeven.png";
     
     // at the end of a game, show mines on the board
-    public enum Mines { PRESENT, CROSSED};
     public static final String PRESENT = "Images/MinePresent.png";
     public static final String CROSSED = "Images/MineCrossed.png";
     
     // for tiles
-    public enum Tiles { FULL, EMPTY };
     public static final String FULL = "Images/Tile.png";
     public static final String EMPTY = "Images/EmptyTile.png";
 
@@ -57,6 +50,7 @@ public class Board extends Window {
                 setButton(temp, img);
                 base.add(temp);
 
+                // QUESTION: fix this?????
                 temp.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -84,43 +78,31 @@ public class Board extends Window {
     public void setButton(JButton button, ImageIcon img) {
         button.setVisible(true);
         button.setBackground(Color.GRAY);
-        button.addActionListener(this);
+        button.addActionListener(new CustomActionListener());
+            // NOTE: addActionListener -> new CustomActionListener()
+            // connects to window
         button.setFocusable(false);
         button.setIcon(img);
     }
 
     public ImageIcon prepareImage(String link) {
-        ImageIcon tempimgicon= new ImageIcon(getClass().getResource(link));
-        //return tempimgicon; 
-        Image tempimg = tempimgicon.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH);
-        return new ImageIcon(tempimg);
-            // SOURCE: https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
+        ImageIcon temp = new ImageIcon(getClass().getResource(link));
+        return new ImageIcon(temp.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH));
+            // SOURCE: https://stackoverflow.com/questions/6714045/
     }
-
 
     // NOTE: all methods here are to be executed in real time while gameplay is initiated
     // METHODS for in-game functions...
-    public void randomizeMines() {
+    public void implementRandomMines() {
+        
         // start of game: randomize mine placement using number generation
-        // NOTE: originally thinking of placing new board, skip that!
 
         // PSEUDOCODE
         /*
             if (user clicks on first tile) {
                 generate randomized placements for mines using the number of mines permitted
                 try to make sure they are not all stuck in one area, spread them out!
-                
-                example:
-                int temp = mines;
-                Random rand = new Random();
-                while (temp != 0) {
-                    int place1 = rand.nextInt();
-                    int place2 = rand.nextInt();
-
-                    add mine to coordinates: board(place1, place2), corresponding to x, y
-
-                    temp--;
-                }
+                (NOTE: look at Gameplay.java >> randomizeCoordinates()... hehe)
             }
             at the end, first tile is changed
         */
@@ -144,8 +126,7 @@ public class Board extends Window {
         // PSEUDOCODE
         /*
             if mines are present in any of the following locations:
-            left, right, up, down, northwest, southwest, southeast, northeast
-            OR (-1, 0), (1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, -1), (1,1)
+            anywhere nearby :: (-1, 0), (1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, -1), (1,1)
             increment variable
             
             keep incrementing variable for every surrounding tile checked until all 8 are dismissed

@@ -4,13 +4,12 @@
     Includes menu bar for single player, multiplayer modes, help, and options. 
 */
 
-import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.net.*;
 
-public class Window implements ActionListener {
+public class Window /*implements ActionListener*/ {
 
     // constant values for dimensional purposes
     private static final int MAX_WIDTH = 780;
@@ -32,7 +31,7 @@ public class Window implements ActionListener {
 
     // layout properties
     public GridBagConstraints c;
-    private static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
+    protected static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
 
     public Window() {
         // default constructor
@@ -150,78 +149,86 @@ public class Window implements ActionListener {
         */
 
         // single player AND multiplayer
-        easysingle.addActionListener(this);
-        mediumsingle.addActionListener(this);
-        hardsingle.addActionListener(this);
-        crazysingle.addActionListener(this);
-        easyvsall.addActionListener(this);
-        mediumvsall.addActionListener(this);
-        hardvsall.addActionListener(this);
-        crazyvsall.addActionListener(this);
-        easybomb.addActionListener(this);
-        mediumbomb.addActionListener(this);
-        hardbomb.addActionListener(this);
-        crazybomb.addActionListener(this);
+        easysingle.addActionListener(new CustomActionListener());
+        mediumsingle.addActionListener(new CustomActionListener());
+        hardsingle.addActionListener(new CustomActionListener());
+        crazysingle.addActionListener(new CustomActionListener());
+        easyvsall.addActionListener(new CustomActionListener());
+        mediumvsall.addActionListener(new CustomActionListener());
+        hardvsall.addActionListener(new CustomActionListener());
+        crazyvsall.addActionListener(new CustomActionListener());
+        easybomb.addActionListener(new CustomActionListener());
+        mediumbomb.addActionListener(new CustomActionListener());
+        hardbomb.addActionListener(new CustomActionListener());
+        crazybomb.addActionListener(new CustomActionListener());
         
         // options
-        opfeedback.addActionListener(this);
+        opfeedback.addActionListener(new CustomActionListener());
 
         // help
-        helphowto.addActionListener(this);
-        helpcontrols.addActionListener(this);
-        helpabout.addActionListener(this);
+        helphowto.addActionListener(new CustomActionListener());
+        helpcontrols.addActionListener(new CustomActionListener());
+        helpabout.addActionListener(new CustomActionListener());
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        readStatus.setText(e.toString());
+    // actionListener interface
+    class CustomActionListener implements ActionListener {
 
-        // for multiplayer options, apply socket programming
-        if (e.getSource() == easyvsall || 
-            e.getSource() == mediumvsall ||
-            e.getSource() == hardvsall || 
-            e.getSource() == crazyvsall ||
-            e.getSource() == easybomb ||
-            e.getSource() == mediumbomb ||
-            e.getSource() == hardbomb ||
-            e.getSource() == crazybomb) {
-                readStatus.setText(":: REQUESTING SERVER CONNECTION :: " + e.toString());
-                // new SocketMain();    // NOTE: gets stuck if left like this...
-            }
-
-        // feedback option, redirect to website for user input
-        if (e.getSource() == opfeedback) {
-            readStatus.setText(":: CONNECTING TO INTERNET :: " + e.toString());
-            opfeedback.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    try {
-                        Desktop.getDesktop().browse(new URI("https://www.roblox.com"));
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            readStatus.setText(e.toString());
+    
+            // for multiplayer options, apply socket programming
+            if (e.getSource() == easyvsall || 
+                e.getSource() == mediumvsall ||
+                e.getSource() == hardvsall || 
+                e.getSource() == crazyvsall ||
+                e.getSource() == easybomb ||
+                e.getSource() == mediumbomb ||
+                e.getSource() == hardbomb ||
+                e.getSource() == crazybomb) {
+                    readStatus.setText(":: REQUESTING SERVER CONNECTION :: " + e.toString());
+                    // new SocketMain();    // NOTE: gets stuck...
+                }
+    
+            // feedback option, redirect to website for user input
+            if (e.getSource() == opfeedback) {
+                readStatus.setText(":: CONNECTING TO INTERNET :: " + e.toString());
+                opfeedback.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        try {
+                            Desktop.getDesktop().browse(new URI("https://www.roblox.com"));
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
-                }
-                /*@Override
-                public void mouseExited(MouseEvent e) {
-                    // BLANK
-                }*/
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    readStatus.setText(":: Please note that choosing 'Feedback'"
-                        + " will redirect to a web browser. We hope you understand! ::");
-                }
-            });
+                    /*@Override
+                    public void mouseExited(MouseEvent e) {
+                        // BLANK
+                    }*/
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        readStatus.setText(":: Please note that choosing 'Feedback'"
+                            + " will redirect to a web browser. We hope you understand! ::");
+                    }
+                });
                 // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing
+            }
+    
+            // for help menu
+            if (e.getSource() == helphowto) {
+                readStatus.setText(":: SELECT Help >> How To Play ::");
+                new MenuHelp(0);
+            } else if (e.getSource() == helpcontrols) {
+                readStatus.setText(":: SELECT Help >> Controls ::");
+                new MenuHelp(1);
+            } else if (e.getSource() == helpabout) {
+                readStatus.setText(":: SELECT Help >> About ::");
+                new MenuHelp(2);
+            }
         }
 
-        // for help menu
-        if (e.getSource() == helphowto) {
-            new MenuHelp(0);
-        } else if (e.getSource() == helpcontrols) {
-            new MenuHelp(1);
-        } else if (e.getSource() == helpabout) {
-            new MenuHelp(2);
-        }
     }
 }

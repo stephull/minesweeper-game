@@ -3,22 +3,23 @@
     Create object for number of flags/mines present in the game.
 */
 
+import java.awt.*;
 import javax.swing.*;
 
 public class MineCounter extends Control {
-    
     public int flags;
     public ImageIcon[] images;
     public JPanel countpanel;
     
-    MineCounter() {
+    public MineCounter() {
         // default constructor
     }
 
-    MineCounter(int count) {
+    public MineCounter(int count) {
         flags = count;
         images = new ImageIcon[3];
         countpanel = new JPanel();
+        /* TEST */ countpanel.setBackground(Color.ORANGE);
 
         String[] sources = new String[3];
         sources[0] = sources[2] = ZERO;
@@ -42,11 +43,10 @@ public class MineCounter extends Control {
     }
 
     public JPanel exportCounter() {
-        JButton idk = new JButton();
-        idk.setText("CCC");
-        countpanel.add(idk);
-            // TEST appears twice, why???
-
         return countpanel;
+    }
+
+    public void toggleCount() {
+        // in-game function to change flags when necessary
     }
 }

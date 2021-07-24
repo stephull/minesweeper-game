@@ -11,11 +11,11 @@ public class MineTimer extends Control {
     public ImageIcon[] images;
     public JPanel timerpanel;
     
-    MineTimer() {
+    public MineTimer() {
         // default constructor
     }
 
-    MineTimer(int time) {
+    public MineTimer(int time) {
         // default properties, initialization
         images = new ImageIcon[3];
         timerpanel = new JPanel();
@@ -34,5 +34,9 @@ public class MineTimer extends Control {
 
     public JPanel exportTimer() {
         return timerpanel;
+    }
+
+    public void toggleTime() {
+        // in-game function for changing time constantly
     }
 }
