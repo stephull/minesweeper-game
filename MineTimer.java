@@ -7,15 +7,15 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MineTimer extends ControlPanel {
-    public int time;
-    public ImageIcon[] images;
-    public JPanel timerpanel;
+    protected int time;     // needs access to ControlPanel
+    private ImageIcon[] images;
+    private JPanel timerpanel;
     
-    public MineTimer() {
+    MineTimer() {
         // default constructor
     }
 
-    public MineTimer(int time) {
+    MineTimer(int time) {
         // default properties, initialization
         images = new ImageIcon[3];
         timerpanel = new JPanel();
@@ -32,11 +32,11 @@ public class MineTimer extends ControlPanel {
         }*/
     }
 
-    public JPanel exportTimer() {
+    protected JPanel exportTimer() {
         return timerpanel;
     }
 
-    public void toggleTime() {
+    protected void toggleTime() {
         // in-game function for changing time constantly
     }
 }

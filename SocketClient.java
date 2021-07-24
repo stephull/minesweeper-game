@@ -1,4 +1,5 @@
 import java.net.*;
+import java.util.*;
 import java.io.*;
 
 public class SocketClient extends Thread {
@@ -7,8 +8,9 @@ public class SocketClient extends Thread {
     private InputStream is;
     private OutputStream os;
     private BufferedReader reader;
+    private Scanner sc;
 
-    public SocketClient(Socket cs) {
+    SocketClient(Socket cs) {
         this.cs = cs;
     }
 
@@ -26,10 +28,18 @@ public class SocketClient extends Thread {
         os = cs.getOutputStream();
 
         reader = new BufferedReader(new InputStreamReader(is));
-        String line;
+        sc = new Scanner(System.in);
+
+        String line, user;
+
+        String input = "Enter your username: ";
+        os.write(input.getBytes());
+        user = sc.nextLine();
+
         while ((line = reader.readLine()) != null) {
+
             if ("quit".equalsIgnoreCase(line)) { break; }
-            String ms = "You typed \"" + line + "\"\n\n";
+            String ms = user + " typed \"" + line + "\"\n\n";
             os.write(ms.getBytes());
         }
         /*  for (int i = 0; i < 10; i++) {

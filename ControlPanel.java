@@ -4,28 +4,26 @@ import javax.swing.*;
 public class ControlPanel extends Configurations {
 
     // enumerate and define each analog image for the time and counter
-    public static final String ZERO = "Images/0analog.png";
-    public static final String ONE = "Images/1analog.png";
-    public static final String TWO = "Images/2analog.png";
-    public static final String THREE = "Images/3analog.png";
-    public static final String FOUR = "Images/4analog.png";
-    public static final String FIVE = "Images/5analog.png";
-    public static final String SIX = "Images/6analog.png";
-    public static final String SEVEN = "Images/7analog.png";
-    public static final String EIGHT = "Images/8analog.png";
-    public static final String NINE = "Images/9analog.png";
+    protected final String ZERO = "Images/0analog.png";
+    protected final String ONE = "Images/1analog.png";
+    protected final String TWO = "Images/2analog.png";
+    protected final String THREE = "Images/3analog.png";
+    protected final String FOUR = "Images/4analog.png";
+    protected final String FIVE = "Images/5analog.png";
+    protected final String SIX = "Images/6analog.png";
+    protected final String SEVEN = "Images/7analog.png";
+    protected final String EIGHT = "Images/8analog.png";
+    protected final String NINE = "Images/9analog.png";
 
     // components for the control panel in game window
-    public JPanel controlpanel;
+    private JPanel controlpanel;
+    private int time;
 
-    // other variables
-    int time;
-
-    public ControlPanel() {
+    ControlPanel() {
         // default
     }
 
-    public ControlPanel(JPanel base, GridBagConstraints c, int mines) {
+    ControlPanel(JPanel base, GridBagConstraints c, int mines) {
         controlpanel = new JPanel();
         time = 0;
 
@@ -38,7 +36,7 @@ public class ControlPanel extends Configurations {
 
     // get new constructor
 
-    public String getAnalog(int input) {
+    protected String getAnalog(int input) {
         switch(input) {
             case 1: return ONE;
             case 2: return TWO;
@@ -53,7 +51,7 @@ public class ControlPanel extends Configurations {
         }
     }
 
-    public void configureImages(String text, int step, ImageIcon[] images, JPanel panel) {
+    protected void configureImages(String text, int step, ImageIcon[] images, JPanel panel) {
         // for each starting game, TIMER
         for (int i = step; i < images.length; i++) {
             images[i] = new ImageIcon(getClass().getResource(text));
@@ -70,7 +68,7 @@ public class ControlPanel extends Configurations {
         }
     }
 
-    public void changeAnalogOutput(int numericInput, ImageIcon[] images, JPanel panel) {
+    protected void changeAnalogOutput(int numericInput, ImageIcon[] images, JPanel panel) {
         // change images accordingly by its time using 0-9 analog png's 
 
         // FOR TIMER: always set it to 0 0 0 before every game
@@ -91,19 +89,19 @@ public class ControlPanel extends Configurations {
     }
 
     // creation of control panel items
-    public void createTimer(JPanel panel) {
+    protected void createTimer(JPanel panel) {
         // create timer
         MineTimer timer = new MineTimer(time);
         panel.add(timer.exportTimer());
     }
 
-    public void configureSmiley(JPanel panel) {
+    protected void configureSmiley(JPanel panel) {
         // ??? create or settings for smiley thing
         MineSmiley smiley = new MineSmiley();
         panel.add(smiley.exportSmiley());
     }
 
-    public void createCounter(JPanel panel, int count) {
+    protected void createCounter(JPanel panel, int count) {
         // create counter for number of flags
         MineCounter counter = new MineCounter(count);
         panel.add(counter.exportCounter());

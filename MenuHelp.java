@@ -12,21 +12,21 @@ import javax.swing.event.*;
 public class MenuHelp extends Window implements MenuListener {
 
     // for help options, windows will always appear smaller...
-    private static final int HELP_WIDTH = 600;
-    private static final int HELP_HEIGHT = 480;
+    private final int HELP_WIDTH = 600;
+    private final int HELP_HEIGHT = 480;
 
     // panel for window
-    public JFrame frame;
-    public JPanel helppanel;
-    public String[] titles = new String[] {
+    private JFrame frame;
+    private JPanel helppanel;
+    private String[] titles = new String[] {
         "How to Play", "Controls", "About"
     };
 
-    public MenuHelp() {
+    MenuHelp() {
         // default constructor
     }
 
-    public MenuHelp(int type) {
+    MenuHelp(int type) {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             // NOTE: EXIT_ON_CLOSE exits everything!
@@ -59,7 +59,7 @@ public class MenuHelp extends Window implements MenuListener {
         frame.add(helppanel);
     }
 
-    public void displayHowTo() {
+    private void displayHowTo() {
         JLabel label1 = new JLabel();
         label1.setText("How to Play Minesweeper");
         
@@ -72,14 +72,14 @@ public class MenuHelp extends Window implements MenuListener {
         helppanel.add(multi);
     }
 
-    public void displayControls() {
+    private void displayControls() {
         JLabel label1 = new JLabel();
         label1.setText("Controls for Minesweeper");
 
         helppanel.add(label1);
     }
 
-    public void displayAbout() {
+    private void displayAbout() {
         JLabel label1 = new JLabel();
         label1.setText("Created by Stephen Hullender");
         label1.setBackground(Color.BLUE);

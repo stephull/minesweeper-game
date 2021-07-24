@@ -9,15 +9,15 @@ import javax.swing.*;
 public class MineSmiley extends ControlPanel {
     
     // for smiley face images
-    public static String DEF = "Images/DefaultFace.png";
-    public static String INTER = "Images/InterFace.png";
-    public static String FAIL = "Images/FailFace.png";
-    public static String PASS = "Images/PassFace.png";
+    protected final String DEF = "Images/DefaultFace.png";
+    protected final String INTER = "Images/InterFace.png";
+    protected final String FAIL = "Images/FailFace.png";
+    protected final String PASS = "Images/PassFace.png";
 
-    public JButton smiley;
-    public ImageIcon image;
+    protected JButton smiley;
+    protected ImageIcon image;
 
-    public MineSmiley() {
+    MineSmiley() {
         smiley = new JButton();
         image = new ImageIcon(getClass().getResource(DEF));
         image = new ImageIcon(image.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
@@ -34,7 +34,7 @@ public class MineSmiley extends ControlPanel {
         exportSmiley();
     }
 
-    public void changeFaces() {
+    protected void changeFaces() {
         // PSEUDO CODE
         /* if (clicked) {
             change face to :O
@@ -50,7 +50,7 @@ public class MineSmiley extends ControlPanel {
         */
     }
 
-    public JButton exportSmiley() {
+    protected JButton exportSmiley() {
         return smiley;
     }
 }

@@ -3,12 +3,12 @@ import java.io.*;
 
 public class SocketMain {
 
-    public static final int DEFAULT_PORT = 6604;
+    private final int DEFAULT_PORT = 6604;
     private ServerSocket ss;
     private Socket cs;
     private SocketClient client;
 
-    public SocketMain() {
+    SocketMain() {
         try {
             ss = new ServerSocket(DEFAULT_PORT);
             while (true) {
@@ -23,7 +23,7 @@ public class SocketMain {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new SocketMain();
-    }
+    }*/
 }

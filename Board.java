@@ -10,31 +10,31 @@ import java.awt.event.*;
 public class Board extends Window {
 
     // for board numbers, wherever a mine is located nearby
-    public static final String ONE = "Images/boardOne.png";
-    public static final String TWO = "Images/boardTwo.png";
-    public static final String THREE = "Images/boardThree.png";
-    public static final String FOUR = "Images/boardFour.png";
-    public static final String FIVE = "Images/boardFive.png";
-    public static final String SIX = "Images/boardSix.png";
-    public static final String SEVEN = "Images/boardSeven.png";
+    protected final String ONE = "Images/boardOne.png";
+    protected final String TWO = "Images/boardTwo.png";
+    protected final String THREE = "Images/boardThree.png";
+    protected final String FOUR = "Images/boardFour.png";
+    protected final String FIVE = "Images/boardFive.png";
+    protected final String SIX = "Images/boardSix.png";
+    protected final String SEVEN = "Images/boardSeven.png";
     
     // at the end of a game, show mines on the board
-    public static final String PRESENT = "Images/MinePresent.png";
-    public static final String CROSSED = "Images/MineCrossed.png";
+    protected final String PRESENT = "Images/MinePresent.png";
+    protected final String CROSSED = "Images/MineCrossed.png";
     
     // for tiles
-    public static final String FULL = "Images/Tile.png";
-    public static final String EMPTY = "Images/EmptyTile.png";
+    protected final String FULL = "Images/Tile.png";
+    protected final String EMPTY = "Images/EmptyTile.png";
 
     private JButton[][] buttons;
     private ImageIcon img;
     //private boolean clicked;
 
-    public Board() {
+    Board() {
         // default constructor
     }
 
-    public Board(JPanel base, GridBagConstraints c, int height, int width) {
+    Board(JPanel base, GridBagConstraints c, int height, int width) {
         buttons = new JButton[width][height];
         base.setLayout(new GridLayout(width, height));
         //clicked = false;
@@ -75,7 +75,7 @@ public class Board extends Window {
         }*/
     }
 
-    public void setButton(JButton button, ImageIcon img) {
+    private void setButton(JButton button, ImageIcon img) {
         button.setVisible(true);
         button.setBackground(Color.GRAY);
         button.addActionListener(new CustomActionListener());
@@ -85,7 +85,7 @@ public class Board extends Window {
         button.setIcon(img);
     }
 
-    public ImageIcon prepareImage(String link) {
+    private ImageIcon prepareImage(String link) {
         ImageIcon temp = new ImageIcon(getClass().getResource(link));
         return new ImageIcon(temp.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH));
             // SOURCE: https://stackoverflow.com/questions/6714045/
@@ -93,7 +93,7 @@ public class Board extends Window {
 
     // NOTE: all methods here are to be executed in real time while gameplay is initiated
     // METHODS for in-game functions...
-    public void implementRandomMines() {
+    protected void implementRandomMines() {
         
         // start of game: randomize mine placement using number generation
 
@@ -108,7 +108,7 @@ public class Board extends Window {
         */
     }
 
-    public void clearMines() {
+    protected void clearMines() {
         // if one clicks on a clear tile, clear out respective spaces
 
         // PSEUDOCODE
@@ -120,7 +120,7 @@ public class Board extends Window {
         */
     }
 
-    public void configureNums() {
+    protected void configureNums() {
         // how many mines are nearby? 1 to 7
 
         // PSEUDOCODE
@@ -134,7 +134,7 @@ public class Board extends Window {
         */
     }
 
-    public void showMines() {
+    protected void showMines() {
         // show mines when game is done, and show marked incorrect mines too
 
         // PSEUDOCODE

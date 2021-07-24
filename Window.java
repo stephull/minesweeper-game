@@ -8,6 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.net.*;
+import java.time.format.*;
+import java.time.*;
 
 public class Window {
 
@@ -27,17 +29,17 @@ public class Window {
     private JMenuItem helphowto, helpcontrols, helpabout;
 
     // status bar for the bottom of window
-    public JLabel readStatus;
+    protected JLabel readStatus;
 
     // layout properties
-    public GridBagConstraints c;
+    protected GridBagConstraints c;
     protected static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
 
-    public Window() {
+    Window() {
         // default constructor
     }
 
-    public Window(JFrame frame, JPanel panel) {
+    Window(JFrame frame, JPanel panel) {
         // frame properties
         frame.setTitle("Minesweeper Project -- TEST");
         frame.setResizable(true);
@@ -72,7 +74,7 @@ public class Window {
     }
 
     // all menu bar properties and action listener methods
-    public void createMenu(JPanel panel, GridBagConstraints c) {
+    protected void createMenu(JPanel panel, GridBagConstraints c) {
   
         // menu bar for top of program
         menubar = new JMenuBar();
@@ -139,7 +141,7 @@ public class Window {
         panel.add(menubar, c);
     }
 
-    public void enableMenuActions() {
+    protected void enableMenuActions() {
         // MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
 
         // single player AND multiplayer
@@ -223,5 +225,28 @@ public class Window {
             }
         }
 
+    }
+
+    // main method for testing
+    public static void main(String[] args) {
+        // always print message before running program with timestamp...
+        System.out.println(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now()) 
+            + " :: Beginning Minesweeper...");
+
+        // start
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new Window(new JFrame(), new JPanel());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /*
+            EventQueue.invokeLater() involves threading; changes in the GUI will not 
+            affect the current thread, but will operate after. 
+            SOURCE: https://stackoverflow.com/questions/22534356/
+        */
     }
 }

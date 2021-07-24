@@ -9,21 +9,21 @@ import javax.swing.*;
 public class Configurations extends Window {
 
     // ::: DIFFICULTIES :::
-    public static final int EASY_WH = 9, EASY_MINES = 10;
-    public static final int MED_WH = 9, MED_MINES = 40;
-    public static final int HARD_W = 30, HARD_H = 16, HARD_MINES = 99;
-    public static final int CRAZY_WH = 30, CRAZY_MINES = 255;
-    public static final int ABS_WH = 60, ABS_MINES = 999;
+    protected final int EASY_WH = 9, EASY_MINES = 10;
+    protected final int MED_WH = 9, MED_MINES = 40;
+    protected final int HARD_W = 30, HARD_H = 16, HARD_MINES = 99;
+    protected final int CRAZY_WH = 30, CRAZY_MINES = 255;
+    protected final int ABS_WH = 60, ABS_MINES = 999;
         // ABS_?? for customizable purposes, max limits
 
-    int gameWidth, gameHeight, mines;
-    boolean active; // the game is running on a timer?
+    private int gameWidth, gameHeight, mines;
+    protected boolean active; // the game is running on a timer?
 
-    public Configurations() {
+    Configurations() {
         // default constructor
     }
 
-    public Configurations(JPanel panel, GridBagConstraints c) {
+    Configurations(JPanel panel, GridBagConstraints c) {
         boolean isMulti = false;      // set to single player for default settings, when opening the game
         int mode = 0;            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
         int type = (isMulti) ? 1 : 0 ;  // type is 0 if single player; otherwise, pick 1 or 2
@@ -59,7 +59,7 @@ public class Configurations extends Window {
         /*Gameplay newgame =*/ new Gameplay(panel, mines, type);
     }
 
-    public void createBoard(JPanel panel, GridBagConstraints c) {
+    protected void createBoard(JPanel panel, GridBagConstraints c) {
 
         // create board of buttons for the game
         JPanel base = new JPanel();
@@ -71,7 +71,7 @@ public class Configurations extends Window {
         panel.add(base, c);
     }
 
-    public void createMenu(JPanel panel, GridBagConstraints c) {
+    protected void createMenu(JPanel panel, GridBagConstraints c) {
         JPanel base = new JPanel();
         /*ControlPanel cp =*/ new ControlPanel(base, c, mines);
 

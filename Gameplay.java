@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
 
-public class Gameplay extends Control {
+public class Gameplay extends Configurations {
 
     public boolean active;
     public HashSet<ArrayList<Integer>> coordinates;

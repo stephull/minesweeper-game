@@ -30,3 +30,12 @@
 * Added enum values for images to match the numeric values of time and mine count in controls. 
 * Renamed images to match appropriate function names. 
 * Created function to correspond numeric input conversion with matching analog number images. 
+* Working on hyperlink, began operating on windows for options menu. 
+
+## July 24, 2021
+* Changed action listener interface for Window.java and children classes.
+* Added all information and semantics for menu options and help. 
+* Added HashSet-ArrayList for generating randomized coordinates for mines.
+* Changed configurations by separating configurations for game into one file, control panel variables and methods in another; both can be seen in Configurations.java and ControlPanel.java. Control.java deleted. 
+* Moved Main.java to main arguments method in Window.java; Window.java is now the main file, Main.java deleted. 
+* Changed privacy for most variables and functions from public to protected or private to restrict access from certain classes.  

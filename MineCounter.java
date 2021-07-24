@@ -7,15 +7,15 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MineCounter extends ControlPanel {
-    public int flags;
-    public ImageIcon[] images;
-    public JPanel countpanel;
+    protected int flags;
+    private ImageIcon[] images;
+    private JPanel countpanel;
     
-    public MineCounter() {
+    MineCounter() {
         // default constructor
     }
 
-    public MineCounter(int count) {
+    MineCounter(int count) {
         flags = count;
         images = new ImageIcon[3];
         countpanel = new JPanel();
@@ -42,11 +42,11 @@ public class MineCounter extends ControlPanel {
         exportCounter();
     }
 
-    public JPanel exportCounter() {
+    protected JPanel exportCounter() {
         return countpanel;
     }
 
-    public void toggleCount() {
+    protected void toggleCount() {
         // in-game function to change flags when necessary
     }
 }
