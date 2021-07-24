@@ -6,7 +6,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class MineCounter extends Control {
+public class MineCounter extends ControlPanel {
     public int flags;
     public ImageIcon[] images;
     public JPanel countpanel;

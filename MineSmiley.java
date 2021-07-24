@@ -6,12 +6,9 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class MineSmiley extends Control {
+public class MineSmiley extends ControlPanel {
     
     // for smiley face images
-    public enum Faces {
-        DEF, INTER, FAIL, PASS
-    };
     public static String DEF = "Images/DefaultFace.png";
     public static String INTER = "Images/InterFace.png";
     public static String FAIL = "Images/FailFace.png";
@@ -20,7 +17,7 @@ public class MineSmiley extends Control {
     public JButton smiley;
     public ImageIcon image;
 
-    MineSmiley() {
+    public MineSmiley() {
         smiley = new JButton();
         image = new ImageIcon(getClass().getResource(DEF));
         image = new ImageIcon(image.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));

@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.net.*;
 
-public class Window /*implements ActionListener*/ {
+public class Window {
 
     // constant values for dimensional purposes
     private static final int MAX_WIDTH = 780;
@@ -68,12 +68,10 @@ public class Window /*implements ActionListener*/ {
         enableMenuActions();
 
         // redirect to the controls
-        new Control(panel, c);
+        new Configurations(panel, c);
     }
 
-    /*
-        all menu bar properties and action listener methods
-    */
+    // all menu bar properties and action listener methods
     public void createMenu(JPanel panel, GridBagConstraints c) {
   
         // menu bar for top of program
@@ -142,11 +140,7 @@ public class Window /*implements ActionListener*/ {
     }
 
     public void enableMenuActions() {
-        /*
-            less than optimal solution to adding actionListener's
-            for all menu items
-            MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
-        */
+        // MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
 
         // single player AND multiplayer
         easysingle.addActionListener(new CustomActionListener());
@@ -162,16 +156,15 @@ public class Window /*implements ActionListener*/ {
         hardbomb.addActionListener(new CustomActionListener());
         crazybomb.addActionListener(new CustomActionListener());
         
-        // options
+        // options + help
         opfeedback.addActionListener(new CustomActionListener());
-
-        // help
         helphowto.addActionListener(new CustomActionListener());
         helpcontrols.addActionListener(new CustomActionListener());
         helpabout.addActionListener(new CustomActionListener());
     }
 
     // actionListener interface
+    // FROM: https://www.tutorialspoint.com/swing/swing_action_listener.htm 
     class CustomActionListener implements ActionListener {
 
         @Override
@@ -204,10 +197,10 @@ public class Window /*implements ActionListener*/ {
                             ex.printStackTrace();
                         }
                     }
-                    /*@Override
+                    @Override
                     public void mouseExited(MouseEvent e) {
                         // BLANK
-                    }*/
+                    }
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         readStatus.setText(":: Please note that choosing 'Feedback'"

@@ -6,7 +6,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class MineTimer extends Control {
+public class MineTimer extends ControlPanel {
     public int time;
     public ImageIcon[] images;
     public JPanel timerpanel;
