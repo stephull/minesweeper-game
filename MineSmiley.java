@@ -4,6 +4,7 @@
 */
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class MineSmiley extends ControlPanel {
@@ -19,10 +20,43 @@ public class MineSmiley extends ControlPanel {
 
     MineSmiley() {
         smiley = new JButton();
-        image = new ImageIcon(getClass().getResource(DEF));
-        image = new ImageIcon(image.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
         smiley.setBackground(Color.GRAY);
-        smiley.add(new JLabel(image));
+        changeFaces(setButton(DEF));
+
+        // add action listener to JButton
+        smiley.addActionListener(new ActionListener() {
+            int testcount = 0;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == smiley) {
+                    /*
+                        'wantToChange' is a test boolean value for 
+                        whether or not a menu option for single or multi
+                        player (opposite of the running game) is clicked
+                        on while the game is active... this will be added
+                        later on, another time!
+                    */
+                    boolean wantToChange = true;
+                    if (/*active && */wantToChange) {
+                        // opens a new option dialog that lets user choose if they want to exit or not...
+                        Object[] dialogOptions = {"YES", "NO"};
+                        JOptionPane.showOptionDialog(null, "Are you sure you want to switch modes mid-game?", null, 
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, dialogOptions, dialogOptions[0]);
+                    }
+                    // test -- not for actual gameplay
+                    // SUGGESTION: testcount counts how many games the player goes through (for data?)
+                    String test = "";
+                    switch (++testcount % 4) {
+                        case 0: test = DEF;     break;
+                        case 1: test = INTER;   break;
+                        case 2: test = FAIL;    break;
+                        case 3: test = PASS;    break;
+                    }
+                    changeFaces(setButton(test));
+                    System.out.println("TESTCOUNT: " + testcount);
+                }
+            }
+        });
 
         // PSEUDOCODE
         /*
@@ -30,11 +64,14 @@ public class MineSmiley extends ControlPanel {
                 changeFaces() -- every time the user clicks on smiley
             }
         */
-
-        exportSmiley();
     }
 
-    protected void changeFaces() {
+    protected ImageIcon setButton(String resource) {
+        image = new ImageIcon(getClass().getResource(resource));
+        return new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+    }
+
+    protected void changeFaces(ImageIcon img) {
         // PSEUDO CODE
         /* if (clicked) {
             change face to :O
@@ -48,6 +85,8 @@ public class MineSmiley extends ControlPanel {
         }
 
         */
+        smiley.setIcon(img);
+        exportSmiley();
     }
 
     protected JButton exportSmiley() {

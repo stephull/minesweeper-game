@@ -52,8 +52,8 @@ public class Configurations extends Window {
         /*
             ::: create panels for controls and board :::
         */
+        createControlPanel(panel, c);
         createBoard(panel, c);
-        createMenu(panel, c);
 
         // establish new game
         /*Gameplay newgame =*/ new Gameplay(panel, mines, type);
@@ -71,7 +71,7 @@ public class Configurations extends Window {
         panel.add(base, c);
     }
 
-    protected void createMenu(JPanel panel, GridBagConstraints c) {
+    protected void createControlPanel(JPanel panel, GridBagConstraints c) {
         JPanel base = new JPanel();
         /*ControlPanel cp =*/ new ControlPanel(base, c, mines);
 

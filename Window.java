@@ -29,7 +29,7 @@ public class Window {
     private JMenuItem helphowto, helpcontrols, helpabout;
 
     // status bar for the bottom of window
-    protected JLabel readStatus;
+    protected JLabel readStatus = new JLabel("STATUS BAR");
 
     // layout properties
     protected GridBagConstraints c;
@@ -58,10 +58,10 @@ public class Window {
 
         // menu + status bar 
         createMenu(panel, c);
-        readStatus = new JLabel("STATUS BAR");
 
         // constraints for status bar, add onto panel
-        //c.fill = GridBagConstraints.HORIZONTAL;
+        readStatus.setBackground(Color.WHITE);
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LAST_LINE_START;
         c.insets = insets;
         panel.add(readStatus, c);
@@ -70,7 +70,7 @@ public class Window {
         enableMenuActions();
 
         // redirect to the controls
-        new Configurations(panel, c);
+        /*Configurations con = */new Configurations(panel, c);
     }
 
     // all menu bar properties and action listener methods

@@ -91,20 +91,15 @@ public class ControlPanel extends Configurations {
     // creation of control panel items
     protected void createTimer(JPanel panel) {
         // create timer
-        MineTimer timer = new MineTimer(time);
-        panel.add(timer.exportTimer());
+        panel.add(new MineTimer(time).exportTimer());
     }
-
     protected void configureSmiley(JPanel panel) {
         // ??? create or settings for smiley thing
-        MineSmiley smiley = new MineSmiley();
-        panel.add(smiley.exportSmiley());
+        panel.add(new MineSmiley().exportSmiley());
     }
-
     protected void createCounter(JPanel panel, int count) {
         // create counter for number of flags
-        MineCounter counter = new MineCounter(count);
-        panel.add(counter.exportCounter());
+        panel.add(new MineCounter(count).exportCounter());
     }
     
 }
