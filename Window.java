@@ -30,9 +30,6 @@ public class Window {
 
     // status bar for the bottom of window
     protected JLabel readStatus = new JLabel("STATUS BAR");
-
-    // layout properties
-    protected GridBagConstraints c;
     protected static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
 
     Window() {
@@ -51,30 +48,27 @@ public class Window {
 
         // panel + layout
         panel = new JPanel();
-        c = new GridBagConstraints();
-        panel.setLayout(new GridBagLayout());    // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
+        panel.setLayout(new BorderLayout(8, 8));    
+            // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
         panel.setVisible(true);
         frame.add(panel); 
 
         // menu + status bar 
-        createMenu(panel, c);
+        createMenu(panel);
 
         // constraints for status bar, add onto panel
         readStatus.setBackground(Color.WHITE);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.LAST_LINE_START;
-        c.insets = insets;
-        panel.add(readStatus, c);
+        panel.add(readStatus);
 
         // action listeners
         enableMenuActions();
 
         // redirect to the controls
-        /*Configurations con = */new Configurations(panel, c);
+        /*Configurations con = */new Configurations(panel);
     }
 
     // all menu bar properties and action listener methods
-    protected void createMenu(JPanel panel, GridBagConstraints c) {
+    protected void createMenu(JPanel panel) {
   
         // menu bar for top of program
         menubar = new JMenuBar();
@@ -133,12 +127,7 @@ public class Window {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        //c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = c.weighty = 0.5;
-        c.gridx = c.gridy = 0;
-        c.insets = insets;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        panel.add(menubar, c);
+        panel.add(menubar);
     }
 
     protected void enableMenuActions() {

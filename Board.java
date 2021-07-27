@@ -34,7 +34,7 @@ public class Board extends Window {
         // default constructor
     }
 
-    Board(JPanel base, GridBagConstraints c, int height, int width) {
+    Board(JPanel base, int height, int width) {
         buttons = new JButton[width][height];
         base.setLayout(new GridLayout(width, height));
         //clicked = false;

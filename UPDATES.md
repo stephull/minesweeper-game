@@ -39,3 +39,12 @@
 * Changed configurations by separating configurations for game into one file, control panel variables and methods in another; both can be seen in Configurations.java and ControlPanel.java. Control.java deleted. 
 * Moved Main.java to main arguments method in Window.java; Window.java is now the main file, Main.java deleted. 
 * Changed privacy for most variables and functions from public to protected or private to restrict access from certain classes.  
+
+## July 25, 2021
+* Will update soon!
+
+## July 26, 2021
+* Added information for credits and control/gameplay instructions.
+
+## July 27, 2021
+* Removed all constraints and properties for GridBagLayout. Switch to GridLayout, along with FlowLayout and BorderLayout constraints. 

@@ -23,7 +23,7 @@ public class ControlPanel extends Configurations {
         // default
     }
 
-    ControlPanel(JPanel base, GridBagConstraints c, int mines) {
+    ControlPanel(JPanel base, int mines) {
         controlpanel = new JPanel();
         time = 0;
 

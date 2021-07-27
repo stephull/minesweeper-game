@@ -3,7 +3,6 @@
 
 */
 
-import java.awt.*;
 import javax.swing.*;
 
 public class Configurations extends Window {
@@ -23,7 +22,7 @@ public class Configurations extends Window {
         // default constructor
     }
 
-    Configurations(JPanel panel, GridBagConstraints c) {
+    Configurations(JPanel panel) {
         boolean isMulti = false;      // set to single player for default settings, when opening the game
         int mode = 0;            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
         int type = (isMulti) ? 1 : 0 ;  // type is 0 if single player; otherwise, pick 1 or 2
@@ -52,33 +51,25 @@ public class Configurations extends Window {
         /*
             ::: create panels for controls and board :::
         */
-        createControlPanel(panel, c);
-        createBoard(panel, c);
+        createControlPanel(panel);
+        createBoard(panel);
 
         // establish new game
         /*Gameplay newgame =*/ new Gameplay(panel, mines, type);
     }
 
-    protected void createBoard(JPanel panel, GridBagConstraints c) {
+    protected void createBoard(JPanel panel) {
 
         // create board of buttons for the game
         JPanel base = new JPanel();
-        /*Board board =*/ new Board(base, c, gameHeight, gameWidth);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
-        c.weightx = c.weighty = 0.5;
-        panel.add(base, c);
+        /*Board board =*/ new Board(base, gameHeight, gameWidth);
+        panel.add(base);
     }
 
-    protected void createControlPanel(JPanel panel, GridBagConstraints c) {
+    protected void createControlPanel(JPanel panel) {
         JPanel base = new JPanel();
-        /*ControlPanel cp =*/ new ControlPanel(base, c, mines);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
-        c.weightx = c.weighty = 0.5;
-        panel.add(base, c);
+        /*ControlPanel cp =*/ new ControlPanel(base, mines);
+        panel.add(base);
     }
 
 }

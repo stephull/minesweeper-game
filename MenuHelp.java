@@ -60,6 +60,9 @@ public class MenuHelp extends Window implements MenuListener {
         frame.add(helppanel);
     }
 
+    /*
+        HOW TO PLAY
+    */
     private void displayHowTo(JPanel panel) {
         JButton single = new JButton();
         JButton multi = new JButton();
@@ -99,11 +102,28 @@ public class MenuHelp extends Window implements MenuListener {
         helppanel.add(panel);
     }
 
+    /*
+        CONTROLS
+    */
     private void displayControls(JPanel panel) {
+        JLabel controlsText1 = new JLabel();
+        controlsText1.setText("<html><ul style='list-style-type: lower-alpha'>" +
+        "<dt><u>GENERAL</u></dt><br>" +
+        "<dd>&emsp;SMILEY - left click to reset game</dd><br>" + 
+        "<dt><u>IN GAME</u></dt><br>" +
+        "<dd>&emsp;LEFT CLICK - clear a tile</dd><br>" + 
+        "<dd>&emsp;RIGHT CLICK - flag tile (where a suspected mine is located) </dd><br>" +
+        "<dt><u>KEYBOARD SHORTCUTS</u></dt><br>" + 
+        "<dd>&emsp;SPACE BAR - (optional), start game by randomly assigning a tile to clear out</dd><br>" +
+        "</ul></html>");
 
+        panel.add(controlsText1);
         helppanel.add(panel);
     }
 
+    /*
+        ABOUT + CREDS
+    */
     private void displayAbout(JPanel panel) {
         JLabel aboutText1 = new JLabel(), aboutText2 = new JLabel();
         aboutText1.setText("<html>" + 
@@ -137,6 +157,9 @@ public class MenuHelp extends Window implements MenuListener {
         helppanel.add(panel);
     }
 
+    /*
+        AUTO-GENERATED METHODS FOR MENU
+    */
     @Override
     public void menuSelected(MenuEvent e) {
         // TODO Auto-generated method stub

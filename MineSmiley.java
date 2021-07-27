@@ -42,6 +42,7 @@ public class MineSmiley extends ControlPanel {
                         Object[] dialogOptions = {"YES", "NO"};
                         JOptionPane.showOptionDialog(null, "Are you sure you want to switch modes mid-game?", null, 
                             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, dialogOptions, dialogOptions[0]);
+                            // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
                     }
                     // test -- not for actual gameplay
                     // SUGGESTION: testcount counts how many games the player goes through (for data?)
