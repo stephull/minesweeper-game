@@ -24,6 +24,13 @@ public class ControlPanel extends Configurations {
     // components for the control panel in game window
     private JPanel controlpanel;
     private int time;
+    protected static int gameCount;
+
+    // control panel items
+    protected static MineCounter counter;
+    protected static MineSmiley smiley;
+    protected static MineTimer timer;
+    protected static JLabel userPlayedThisMuch;
 
     ControlPanel() {
         // default
@@ -31,10 +38,12 @@ public class ControlPanel extends Configurations {
 
     ControlPanel(JPanel base, int mines) {
         controlpanel = new JPanel();
+        controlpanel.setLayout(new GridLayout(4, 1, 1, 10));
         time = 0;
+        gameCount = 0;
 
         // layout for control panel
-        base.setPreferredSize(new Dimension(480, 480));
+        base.setPreferredSize(new Dimension(240, 480));
         base.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 0));
         base.setBorder(new LineBorder(Color.BLACK, 2));
 
@@ -42,6 +51,15 @@ public class ControlPanel extends Configurations {
         createCounter(controlpanel, mines);
         configureSmiley(controlpanel);
         createTimer(controlpanel);
+
+        // extra: how many times has user played since the beginning?
+        userPlayedThisMuch = new JLabel();
+        userPlayedThisMuch.setText("Games played: " + Integer.toString(gameCount));
+        controlpanel.add(userPlayedThisMuch);
+        /*
+            Add games won, games lost, and highest score later on
+        */
+
         base.add(controlpanel);
     }
 
@@ -102,15 +120,18 @@ public class ControlPanel extends Configurations {
     // creation of control panel items
     protected void createTimer(JPanel panel) {
         // create timer
-        panel.add(new MineTimer(time).exportTimer());
+        timer = new MineTimer(time);
+        panel.add(timer.exportTimer());
     }
     protected void configureSmiley(JPanel panel) {
         // ??? create or settings for smiley thing
-        panel.add(new MineSmiley().exportSmiley());
+        smiley = new MineSmiley();
+        panel.add(smiley.exportSmiley());
     }
     protected void createCounter(JPanel panel, int count) {
         // create counter for number of flags
-        panel.add(new MineCounter(count).exportCounter());
+        counter = new MineCounter(count);
+        panel.add(counter.exportCounter());
     }
     
 }

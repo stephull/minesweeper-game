@@ -21,6 +21,11 @@ public class MineCounter extends ControlPanel {
         countpanel = new JPanel();
         countpanel.setBackground(Color.DARK_GRAY);
 
+        JLabel l = new JLabel();
+        l.setText("Flags:");
+        l.setForeground(Color.WHITE);
+        countpanel.add(l);
+
         String[] sources = new String[3];
         sources[0] = sources[2] = ZERO;
         switch(count) {

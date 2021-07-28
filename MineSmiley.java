@@ -25,7 +25,6 @@ public class MineSmiley extends ControlPanel {
 
         // add action listener to JButton
         smiley.addActionListener(new ActionListener() {
-            int testcount = 0;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == smiley) {
@@ -37,7 +36,7 @@ public class MineSmiley extends ControlPanel {
                         later on, another time!
                     */
                     boolean wantToChange = true;
-                    if (/*active && */wantToChange) {
+                    if (active && wantToChange) {
                         // opens a new option dialog that lets user choose if they want to exit or not...
                         Object[] dialogOptions = {"YES", "NO"};
                         JOptionPane.showOptionDialog(null, "Are you sure you want to switch modes mid-game?", null, 
@@ -47,14 +46,14 @@ public class MineSmiley extends ControlPanel {
                     // test -- not for actual gameplay
                     // SUGGESTION: testcount counts how many games the player goes through (for data?)
                     String test = "";
-                    switch (++testcount % 4) {
+                    switch (++gameCount % 4) {
                         case 0: test = DEF;     break;
                         case 1: test = INTER;   break;
                         case 2: test = FAIL;    break;
                         case 3: test = PASS;    break;
                     }
                     changeFaces(setButton(test));
-                    System.out.println("TESTCOUNT: " + testcount);
+                    System.out.println("COUNT: " + gameCount);
                 }
             }
         });
@@ -69,7 +68,7 @@ public class MineSmiley extends ControlPanel {
 
     protected ImageIcon setButton(String resource) {
         image = new ImageIcon(getClass().getResource(resource));
-        return new ImageIcon(image.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        return new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
     }
 
     protected void changeFaces(ImageIcon img) {

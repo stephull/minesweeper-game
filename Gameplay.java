@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
 
-public class Gameplay extends Configurations /*implements Runnable*/ {
+public class Gameplay extends Configurations implements Runnable {
     protected static final int timeLeft = 999;
     protected int timerTime;
 
@@ -32,30 +32,21 @@ public class Gameplay extends Configurations /*implements Runnable*/ {
     public void randomizeCoordinates(int mines, int w, int h) {
         // look at Board.java >>
         // public void implementRandomMines() for more information
-        int temp = 0;
 
-        while (temp != mines) {
+        while (coordinatesList.size() != mines) {
             // mines must be in parameters, returns blank list otherwise...
             int x = ThreadLocalRandom.current().nextInt(0, w);
             int y = ThreadLocalRandom.current().nextInt(0, h);
 
             ArrayList<Integer> testArray = new ArrayList<Integer>(Arrays.asList(x, y));
-            //System.out.println("BOOO: " + testArray.toString());
             if (coordinatesList.contains(testArray)) {
                 x = ThreadLocalRandom.current().nextInt(0, w);
                 y = ThreadLocalRandom.current().nextInt(0, h);
-                //System.out.println("AAAHHH: " + x + " : " + y);
             }
 
             coordinatesList.add(new ArrayList<Integer>(Arrays.asList(x ,y)));
-            temp++;
         }
         System.out.println("TEST: " + coordinatesList);
-    }
-
-    public void restartGame() {
-        // when user clicks on smiley face
-
     }
 
     public void requestMorePlayers() {
@@ -63,7 +54,7 @@ public class Gameplay extends Configurations /*implements Runnable*/ {
 
     }
 
-    /*@Override
+    @Override
     public void run() {
         // TODO Auto-generated method stub
 
@@ -80,5 +71,5 @@ public class Gameplay extends Configurations /*implements Runnable*/ {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 }

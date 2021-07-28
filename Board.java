@@ -47,8 +47,9 @@ public class Board extends Configurations {
         targetList = new ArrayList<JButton>();
 
         // make button board on screen...
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        int i = 0, j = 0;
+        for (i = 0; i < width; i++) {
+            for (j = 0; j < height; j++) {
                 buttons[i][j] = new JButton();
                 JButton tempBtn = buttons[i][j];
                 if (coordinatesList.contains(Arrays.asList(i, j))) {
@@ -57,6 +58,10 @@ public class Board extends Configurations {
                 setButton(tempBtn, prepareImage(FULL), Color.GRAY);
                 base.add(tempBtn);
 
+                /**
+                 *  DIFFERENCE BETWEEN MOUSELISTENER & ACTIONLISTENER?
+                 *  https://stackoverflow.com/questions/32399652/ 
+                 */
                 tempBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -64,15 +69,20 @@ public class Board extends Configurations {
                             active = true;
                             if (++buttonsClicked == 1) {
                                 System.out.println("TEST GAME BEGIN");
+                                /*if (targetList.contains(tempBtn)) {
+                                    Random random = new Random();
+                                }*/
+                                //randomizeCoordinates(mines, width, height);
+                                    // ???
                                 //gameplay.run();
-                                // QUESTION: should we add randomizeCoordinates() here?!?
-                                implementRandomMines();
-                            }
-                                // when run() is on, turn the statement above off...
+                                    // when first tile is clicked, we start game, timer, everything...
+                                //implementRandomMines();
+                                    // Do we need this?
+                            } 
                             if (targetList.contains(tempBtn)) {
                                 setButton(tempBtn, prepareImage(PRESENT), Color.RED);
                             } else {
-                                setButton(tempBtn, prepareImage(EMPTY), Color.WHITE);
+                                setButton(tempBtn, prepareImage(EMPTY), Color.LIGHT_GRAY);
                             }
                             tempBtn.removeActionListener(this);
                         }
@@ -94,7 +104,7 @@ public class Board extends Configurations {
 
     private ImageIcon prepareImage(String link) {
         ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
+        return new ImageIcon(temp.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
             // SOURCE: https://stackoverflow.com/questions/6714045/
     }
 
@@ -155,5 +165,14 @@ public class Board extends Configurations {
                 show mines where placed, including the one clicked (if applicable)
             }
         */
+    }
+
+    // switch method from Gameplay.java to here
+    protected void startBoard() {
+        // when game is over, press the smiley face or switch game mode; board will start over
+        /**
+         *  GOAL: try to switch around action listener into its own class within Board.java
+         *  and take JButton[][] buttons to implement onto the board, within THIS method.
+         */
     }
 }

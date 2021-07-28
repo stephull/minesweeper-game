@@ -21,6 +21,11 @@ public class MineTimer extends ControlPanel {
         timerpanel = new JPanel();
         timerpanel.setBackground(Color.DARK_GRAY);
 
+        JLabel l = new JLabel();
+        l.setText("Timer:");
+        l.setForeground(Color.WHITE);
+        timerpanel.add(l);
+
         // set default settings and export
         configureImages(ZERO, 0, images, timerpanel);
         changeAnalogOutput(time, images, timerpanel);
