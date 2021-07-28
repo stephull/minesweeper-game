@@ -4,6 +4,7 @@
 */
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 public class Configurations extends Window {
@@ -16,10 +17,7 @@ public class Configurations extends Window {
     protected final int ABS_WH = 60, ABS_MINES = 999;
     private int gameWidth, gameHeight, mines;
 
-    // data structures
     protected static ArrayList<ArrayList<Integer>> coordinatesList = new ArrayList<ArrayList<Integer>>();
-
-    // a button is clicked AND the game is running on a timer?
     protected static boolean active;
 
     Configurations() {
@@ -57,26 +55,24 @@ public class Configurations extends Window {
         }
 
         /*
-            :: establish new game ::
+            ::: create panels for controls, board, AND initiate Gameplay :::
         */
-        new Gameplay(panel, mines, type);
-
-        /*
-            ::: create panels for controls and board :::
-        */
+        Gameplay gameplay = new Gameplay(panel, mines, gameWidth, gameHeight, type);
+            // NOTE: gameplay goes first, set up instance before adding opaque objects below
+            //      AND gameplay is initialized for run(); see Board.java for example.....
         createControlPanel(panel);
         createBoard(panel);
     }
 
     protected void createBoard(JPanel panel) {
         JPanel base = new JPanel();
-        /*Board board =*/ new Board(base, gameHeight, gameWidth);
-        panel.add(base);
+        new Board(base, gameHeight, gameWidth);
+        panel.add(base, BorderLayout.LINE_START);
     }
 
     protected void createControlPanel(JPanel panel) {
         JPanel base = new JPanel();
-        /*ControlPanel cp =*/ new ControlPanel(base, mines);
+        new ControlPanel(base, mines);
         panel.add(base);
     }
 }

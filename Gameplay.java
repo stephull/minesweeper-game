@@ -7,8 +7,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
 
-public class Gameplay extends Configurations {
+public class Gameplay extends Configurations /*implements Runnable*/ {
     protected static final int timeLeft = 999;
+    protected int timerTime;
 
     public Gameplay() {
         // default constructor
@@ -16,22 +17,16 @@ public class Gameplay extends Configurations {
 
     // main gameplay function
     public Gameplay(JPanel panel, int mines, int w, int h, int type) {
-        int time = 0;
+        timerTime = 0;
         randomizeCoordinates(mines, w, h);
 
         if (type > 0) {
             requestMorePlayers();
         }
 
-        /* 
-            :: for in-game function(s) ::
+        /*
+            NOTE: runnable for system time WHILE game is on... how?
         */
-        while (time != timeLeft) {
-            // first, update time on analog display
-            // :: MAIN FUNCTIONS ::
-            // conclude with timely increment
-            time++;
-        }
     }       
 
     public void randomizeCoordinates(int mines, int w, int h) {
@@ -67,4 +62,23 @@ public class Gameplay extends Configurations {
         // for multiplayer, get at least 1-3 other players for games
 
     }
+
+    /*@Override
+    public void run() {
+        // TODO Auto-generated method stub
+
+        while (active && timerTime != timeLeft) {
+            // first, update time on analog display
+            // :: MAIN FUNCTIONS ::
+            // conclude with timely increment
+
+            System.out.println("SYSTEM TIME: " + timerTime++);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }*/
 }

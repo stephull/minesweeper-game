@@ -41,10 +41,15 @@
 * Changed privacy for most variables and functions from public to protected or private to restrict access from certain classes.  
 
 ## July 25, 2021
-* Will update soon!
-
-## July 26, 2021
+* Added action listeners for menu help and smiley button. 
 * Added information for credits and control/gameplay instructions.
 
 ## July 27, 2021
 * Removed all constraints and properties for GridBagLayout. Switch to GridLayout, along with FlowLayout and BorderLayout constraints. 
+* Implemented data structure for randomized coordinates. Successfully translated onto board buttons. When the respective button is clicked, the button displays the mine. 
+* Temporarily restructures layout to display horizontally BorderLayout. 
+* Introduced to problems regarding threading, specifically with running time and program responsiveness.
+* Updated some variables to static for easier access across classes. (May change, may not change, who knows?)
+
+## July 28, 2021
+* TBA

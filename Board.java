@@ -61,13 +61,13 @@ public class Board extends Configurations {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource() == tempBtn) {
+                            active = true;
                             if (++buttonsClicked == 1) {
                                 System.out.println("TEST GAME BEGIN");
                                 //gameplay.run();
                                 // QUESTION: should we add randomizeCoordinates() here?!?
                                 implementRandomMines();
                             }
-                            active = true;
                                 // when run() is on, turn the statement above off...
                             if (targetList.contains(tempBtn)) {
                                 setButton(tempBtn, prepareImage(PRESENT), Color.RED);
