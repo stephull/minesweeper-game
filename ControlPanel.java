@@ -1,5 +1,11 @@
+/*
+    ControlPanel.java
+    
+*/
+
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 public class ControlPanel extends Configurations {
 
@@ -26,6 +32,11 @@ public class ControlPanel extends Configurations {
     ControlPanel(JPanel base, int mines) {
         controlpanel = new JPanel();
         time = 0;
+
+        // layout for control panel
+        base.setPreferredSize(new Dimension(480, 480));
+        base.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 0));
+        base.setBorder(new LineBorder(Color.BLACK, 2));
 
         // configure items for control panel above game board
         createCounter(controlpanel, mines);

@@ -8,11 +8,7 @@ import java.util.concurrent.*;
 import javax.swing.*;
 
 public class Gameplay extends Configurations {
-
-    public boolean active;
-    public HashSet<ArrayList<Integer>> coordinates;
-
-    public final int timeLeft = 999;
+    protected static final int timeLeft = 999;
 
     public Gameplay() {
         // default constructor
@@ -21,8 +17,6 @@ public class Gameplay extends Configurations {
     // main gameplay function
     public Gameplay(JPanel panel, int mines, int type) {
         int time = 0;
-        active = false;
-        coordinates = new HashSet<ArrayList<Integer>>();
         randomizeCoordinates(mines);
 
         if (type > 0) {
@@ -44,14 +38,24 @@ public class Gameplay extends Configurations {
         // look at Board.java >>
         // public void implementRandomMines() for more information
         int temp = 0;
+
         while (temp != mines) {
             // mines must be in parameters, returns blank list otherwise...
-            int x = ThreadLocalRandom.current().nextInt(1, 10);
-            int y = ThreadLocalRandom.current().nextInt(1, 10);
-            coordinates.add(new ArrayList<Integer>(Arrays.asList(x, y)));
+            int x = ThreadLocalRandom.current().nextInt(0, mines);
+            int y = ThreadLocalRandom.current().nextInt(0, mines);
+
+            ArrayList<Integer> testArray = new ArrayList<Integer>(Arrays.asList(x, y));
+            //System.out.println("BOOO: " + testArray.toString());
+            if (coordinatesList.contains(testArray)) {
+                x = ThreadLocalRandom.current().nextInt(0, mines);
+                y = ThreadLocalRandom.current().nextInt(0, mines);
+                //System.out.println("AAAHHH: " + x + " : " + y);
+            }
+
+            coordinatesList.add(new ArrayList<Integer>(Arrays.asList(x ,y)));
             temp++;
         }
-        System.out.println("TEST: " + coordinates);
+        System.out.println("TEST: " + coordinatesList);
     }
 
     public void restartGame() {

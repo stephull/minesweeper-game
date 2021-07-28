@@ -4,10 +4,11 @@
 */
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends Window {
+public class Board extends Configurations {
 
     // for board numbers, wherever a mine is located nearby
     protected final String ONE = "Images/boardOne.png";
@@ -28,7 +29,7 @@ public class Board extends Window {
 
     private JButton[][] buttons;
     private ImageIcon img;
-    //private boolean clicked;
+    private int buttonsClicked;
 
     Board() {
         // default constructor
@@ -36,58 +37,56 @@ public class Board extends Window {
 
     Board(JPanel base, int height, int width) {
         buttons = new JButton[width][height];
-        base.setLayout(new GridLayout(width, height));
-        //clicked = false;
-
-        // prepare image for button
-        img = prepareImage(FULL);
+        buttonsClicked = 0;
+            //base.setLayout(new GridLayout(width, height));
+        base.setPreferredSize(new Dimension(640, 640));
+        base.setLayout(new FlowLayout(FlowLayout.LEADING));
 
         // make button board on screen...
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 buttons[i][j] = new JButton();
                 JButton temp = buttons[i][j];
-                setButton(temp, img);
+                setButton(temp, prepareImage(FULL));
+                temp.setBackground(Color.GRAY);
                 base.add(temp);
 
                 // QUESTION: fix this?????
                 temp.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == buttons) {
-                            readStatus.setText(":: BUTTON TEST :: " + e.toString());
-                            //clicked = true;
-                            /* do something then revert back to false before exiting */
+                        if (e.getSource() == temp) {
+                            ++buttonsClicked;
+                            if (buttonsClicked == 1) {
+                                System.out.println("TEST GAME BEGIN");
+                                implementRandomMines();
+                            }
+                            System.out.println("Buttons clicked on board: " + buttonsClicked);
+                            active = true;
                 
                             img = prepareImage(EMPTY);
                             setButton(temp, img);
+                            temp.setBackground(Color.WHITE);
+                            temp.setEnabled(false);
                         }
                     }
                 });
             }
         }
 
-        // PSEUDO CODE
-        /*if (clicked) {
-            //buttons.setEnabled(true);
-        } else {
-            //buttons.setEnabled(false);
-        }*/
+        base.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
     private void setButton(JButton button, ImageIcon img) {
         button.setVisible(true);
-        button.setBackground(Color.GRAY);
         button.addActionListener(new CustomActionListener());
-            // NOTE: addActionListener -> new CustomActionListener()
-            // connects to window
         button.setFocusable(false);
         button.setIcon(img);
     }
 
     private ImageIcon prepareImage(String link) {
         ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(100, 90, Image.SCALE_SMOOTH));
+        return new ImageIcon(temp.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
             // SOURCE: https://stackoverflow.com/questions/6714045/
     }
 
@@ -95,6 +94,8 @@ public class Board extends Window {
     // METHODS for in-game functions...
     protected void implementRandomMines() {
         
+        System.out.println("ANOTHER TEST, RANDOM MINES");
+
         // start of game: randomize mine placement using number generation
 
         // PSEUDOCODE
