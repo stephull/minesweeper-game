@@ -19,7 +19,7 @@ public class MineTimer extends ControlPanel {
         // default properties, initialization
         images = new ImageIcon[3];
         timerpanel = new JPanel();
-        /* TEST */ timerpanel.setBackground(Color.CYAN);
+        timerpanel.setBackground(Color.DARK_GRAY);
 
         // set default settings and export
         configureImages(ZERO, 0, images, timerpanel);

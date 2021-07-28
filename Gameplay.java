@@ -15,9 +15,9 @@ public class Gameplay extends Configurations {
     }
 
     // main gameplay function
-    public Gameplay(JPanel panel, int mines, int type) {
+    public Gameplay(JPanel panel, int mines, int w, int h, int type) {
         int time = 0;
-        randomizeCoordinates(mines);
+        randomizeCoordinates(mines, w, h);
 
         if (type > 0) {
             requestMorePlayers();
@@ -34,21 +34,21 @@ public class Gameplay extends Configurations {
         }
     }       
 
-    public void randomizeCoordinates(int mines) {
+    public void randomizeCoordinates(int mines, int w, int h) {
         // look at Board.java >>
         // public void implementRandomMines() for more information
         int temp = 0;
 
         while (temp != mines) {
             // mines must be in parameters, returns blank list otherwise...
-            int x = ThreadLocalRandom.current().nextInt(0, mines);
-            int y = ThreadLocalRandom.current().nextInt(0, mines);
+            int x = ThreadLocalRandom.current().nextInt(0, w);
+            int y = ThreadLocalRandom.current().nextInt(0, h);
 
             ArrayList<Integer> testArray = new ArrayList<Integer>(Arrays.asList(x, y));
             //System.out.println("BOOO: " + testArray.toString());
             if (coordinatesList.contains(testArray)) {
-                x = ThreadLocalRandom.current().nextInt(0, mines);
-                y = ThreadLocalRandom.current().nextInt(0, mines);
+                x = ThreadLocalRandom.current().nextInt(0, w);
+                y = ThreadLocalRandom.current().nextInt(0, h);
                 //System.out.println("AAAHHH: " + x + " : " + y);
             }
 

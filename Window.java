@@ -14,7 +14,7 @@ import java.time.*;
 public class Window {
 
     // constant values for dimensional purposes
-    private static final int MAX_WIDTH = 780;
+    private static final int MAX_WIDTH = 1080;//780;
     private static final int MAX_HEIGHT = 720;
 
     // menu items and bar properties
@@ -28,9 +28,9 @@ public class Window {
     private JMenuItem opfeedback;
     private JMenuItem helphowto, helpcontrols, helpabout;
 
-    // status bar for the bottom of window
-    protected JLabel readStatus = new JLabel("STATUS BAR");
-    protected static final Insets insets = new Insets(0, 0, 0, 0);    // borders of a container
+    // status bar for the bottom of window, static for all classes to access
+    protected static JLabel readStatus = new JLabel("STATUS BAR");
+    protected static final Insets insets = new Insets(0, 0, 0, 0);
 
     Window() {
         // default constructor
@@ -48,23 +48,20 @@ public class Window {
 
         // panel + layout
         panel = new JPanel();
-        panel.setLayout(new BorderLayout(8, 8));    
+        panel.setLayout(new BorderLayout(4, 0));
             // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
         panel.setVisible(true);
         frame.add(panel); 
 
         // menu + status bar 
         createMenu(panel);
-
-        // constraints for status bar, add onto panel
-        readStatus.setBackground(Color.WHITE);
-        panel.add(readStatus);
+        panel.add(readStatus, BorderLayout.SOUTH);
 
         // action listeners
         enableMenuActions();
 
         // redirect to the controls
-        /*Configurations con = */new Configurations(panel);
+        new Configurations(panel);
     }
 
     // all menu bar properties and action listener methods
@@ -127,7 +124,7 @@ public class Window {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
-        panel.add(menubar);
+        panel.add(menubar, BorderLayout.NORTH);
     }
 
     protected void enableMenuActions() {
@@ -163,6 +160,21 @@ public class Window {
             // TODO Auto-generated method stub
             readStatus.setText(e.toString());
     
+            if (e.getSource() == easysingle ||
+                e.getSource() == mediumsingle || 
+                e.getSource() == hardsingle ||
+                e.getSource() == crazysingle) {
+                readStatus.setText(":: SINGLE PLAYER MODE :: " + e.toString());
+                if (e.getSource() == easysingle) {
+                    readStatus.setText(" :: DEFAULT MODE :: " + e.toString());
+                } else if (e.getSource() == crazysingle) {
+                    readStatus.setText(" ::: WARNING: game may take a while to load due to user-customized constraints ::: " + e.toString());
+                    /*
+                        TIME COMPLEXITY PROBLEM: more tiles = way more time to load up...
+                    */
+                }
+            }
+
             // for multiplayer options, apply socket programming
             if (e.getSource() == easyvsall || 
                 e.getSource() == mediumvsall ||
@@ -195,7 +207,7 @@ public class Window {
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         readStatus.setText(":: Please note that choosing 'Feedback'"
-                            + " will redirect to a web browser. We hope you understand! ::");
+                            + " will redirect to a web browser ::");
                     }
                 });
                 // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing

@@ -19,7 +19,7 @@ public class MineCounter extends ControlPanel {
         flags = count;
         images = new ImageIcon[3];
         countpanel = new JPanel();
-        /* TEST */ countpanel.setBackground(Color.ORANGE);
+        countpanel.setBackground(Color.DARK_GRAY);
 
         String[] sources = new String[3];
         sources[0] = sources[2] = ZERO;
@@ -38,7 +38,7 @@ public class MineCounter extends ControlPanel {
         }
 
         configureImages(sources, 0, images, countpanel);
-        changeAnalogOutput(count, images, countpanel);
+        //changeAnalogOutput(count, images, countpanel); // SAVE for another time
         exportCounter();
     }
 
