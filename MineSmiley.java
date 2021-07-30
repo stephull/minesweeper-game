@@ -8,12 +8,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MineSmiley extends ControlPanel {
-    
-    // for smiley face images
-    protected final String DEF = "Images/DefaultFace.png";
-    protected final String INTER = "Images/InterFace.png";
-    protected final String FAIL = "Images/FailFace.png";
-    protected final String PASS = "Images/PassFace.png";
 
     protected JButton smiley;
     protected ImageIcon image;
@@ -21,7 +15,7 @@ public class MineSmiley extends ControlPanel {
     MineSmiley() {
         smiley = new JButton();
         smiley.setBackground(Color.GRAY);
-        changeFaces(setButton(DEF));
+        changeFaces(setSmileButton(DEF));
 
         // add action listener to JButton
         smiley.addActionListener(new ActionListener() {
@@ -35,25 +29,29 @@ public class MineSmiley extends ControlPanel {
                         on while the game is active... this will be added
                         later on, another time!
                     */
-                    boolean wantToChange = true;
-                    if (active && wantToChange) {
-                        // opens a new option dialog that lets user choose if they want to exit or not...
-                        Object[] dialogOptions = {"YES", "NO"};
-                        JOptionPane.showOptionDialog(null, "Are you sure you want to switch modes mid-game?", null, 
-                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, dialogOptions, dialogOptions[0]);
-                            // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
+                    boolean wantToChangeModes = true;
+                    if (active && wantToChangeModes) {
+                        // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
+                        String dialogText = "Are you sure you want to switch while game is running?";
+                        String titleText = "Minesweeper :: Game active";
+                        int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (input == 0) {
+                            ;
+                        } else if (input == 1) {
+                            ;
+                        }
                     }
-                    // test -- not for actual gameplay
+
                     // SUGGESTION: testcount counts how many games the player goes through (for data?)
                     String test = "";
-                    switch (++gameCount % 4) {
+                    switch (++gameCount % 2) {
                         case 0: test = DEF;     break;
                         case 1: test = INTER;   break;
-                        case 2: test = FAIL;    break;
-                        case 3: test = PASS;    break;
                     }
-                    changeFaces(setButton(test));
-                    System.out.println("COUNT: " + gameCount);
+                    changeFaces(setSmileButton(test));
+
+                    active = false;
+                    isActive.setText(IS_ACTIVE_TEXT + returnActive());
                 }
             }
         });
@@ -66,7 +64,7 @@ public class MineSmiley extends ControlPanel {
         */
     }
 
-    protected ImageIcon setButton(String resource) {
+    protected ImageIcon setSmileButton(String resource) {
         image = new ImageIcon(getClass().getResource(resource));
         return new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
     }

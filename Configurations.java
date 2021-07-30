@@ -20,6 +20,24 @@ public class Configurations extends Window {
     protected static ArrayList<ArrayList<Integer>> coordinatesList = new ArrayList<ArrayList<Integer>>();
     protected static boolean active;
 
+    // for smiley face images
+    protected final String DEF = "Images/DefaultFace.png";
+    protected final String INTER = "Images/InterFace.png";
+    protected final String FAIL = "Images/FailFace.png";
+    protected final String PASS = "Images/PassFace.png";
+
+    // control panel items
+    protected static MineCounter counter;
+    protected static MineSmiley smiley;
+    protected static MineTimer timer;
+    protected static JLabel gamesPlayed, isActive, gamesWon;
+
+    // sample text for panel
+    protected static final String IS_ACTIVE_TEXT = "Active game: ";
+    protected static final String GAMES_PLAYED_TEXT = "Games played total: ";
+    protected static final String GAMES_WON_TEXT = "Games won: ";
+    protected static final String HIGHEST_SCORE_TEXT = "Highest score: ";
+
     Configurations() {
         // default constructor
     }
@@ -67,12 +85,16 @@ public class Configurations extends Window {
     protected void createBoard(JPanel panel) {
         JPanel base = new JPanel();
         new Board(base, gameHeight, gameWidth);
-        panel.add(base, BorderLayout.LINE_START);
+        panel.add(base, BorderLayout.CENTER);
     }
 
     protected void createControlPanel(JPanel panel) {
         JPanel base = new JPanel();
         new ControlPanel(base, mines);
-        panel.add(base);
+        panel.add(base, BorderLayout.LINE_START);
+    }
+
+    public boolean returnActive() {
+        return active;
     }
 }

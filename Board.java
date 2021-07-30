@@ -55,7 +55,7 @@ public class Board extends Configurations {
                 if (coordinatesList.contains(Arrays.asList(i, j))) {
                     targetList.add(tempBtn);
                 }
-                setButton(tempBtn, prepareImage(FULL), Color.GRAY);
+                setBoardButton(tempBtn, prepareImage(FULL), Color.GRAY);
                 base.add(tempBtn);
 
                 /**
@@ -67,6 +67,7 @@ public class Board extends Configurations {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource() == tempBtn) {
                             active = true;
+                            isActive.setText(IS_ACTIVE_TEXT + returnActive());
                             if (++buttonsClicked == 1) {
                                 System.out.println("TEST GAME BEGIN");
                                 /*if (targetList.contains(tempBtn)) {
@@ -80,9 +81,12 @@ public class Board extends Configurations {
                                     // Do we need this?
                             } 
                             if (targetList.contains(tempBtn)) {
-                                setButton(tempBtn, prepareImage(PRESENT), Color.RED);
+                                setBoardButton(tempBtn, prepareImage(PRESENT), Color.RED);
+                                active = false;
+                                isActive.setText(IS_ACTIVE_TEXT + "finished");
+                                smiley.changeFaces(smiley.setSmileButton(FAIL));
                             } else {
-                                setButton(tempBtn, prepareImage(EMPTY), Color.LIGHT_GRAY);
+                                setBoardButton(tempBtn, prepareImage(EMPTY), Color.LIGHT_GRAY);
                             }
                             tempBtn.removeActionListener(this);
                         }
@@ -94,7 +98,7 @@ public class Board extends Configurations {
         base.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
-    private void setButton(JButton button, ImageIcon img, Color color) {
+    private void setBoardButton(JButton button, ImageIcon img, Color color) {
         button.setVisible(true);
         button.setBackground(color);
         button.addActionListener(new CustomActionListener());

@@ -26,24 +26,17 @@ public class ControlPanel extends Configurations {
     private int time;
     protected static int gameCount;
 
-    // control panel items
-    protected static MineCounter counter;
-    protected static MineSmiley smiley;
-    protected static MineTimer timer;
-    protected static JLabel userPlayedThisMuch;
-
     ControlPanel() {
         // default
     }
 
     ControlPanel(JPanel base, int mines) {
         controlpanel = new JPanel();
-        controlpanel.setLayout(new GridLayout(4, 1, 1, 10));
-        time = 0;
-        gameCount = 0;
+        controlpanel.setLayout(new GridLayout(8, 1, 0, 2));
+        time = gameCount = 0;
 
         // layout for control panel
-        base.setPreferredSize(new Dimension(240, 480));
+        base.setPreferredSize(new Dimension(240, 360));
         base.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 0));
         base.setBorder(new LineBorder(Color.BLACK, 2));
 
@@ -52,13 +45,15 @@ public class ControlPanel extends Configurations {
         configureSmiley(controlpanel);
         createTimer(controlpanel);
 
-        // extra: how many times has user played since the beginning?
-        userPlayedThisMuch = new JLabel();
-        userPlayedThisMuch.setText("Games played: " + Integer.toString(gameCount));
-        controlpanel.add(userPlayedThisMuch);
-        /*
-            Add games won, games lost, and highest score later on
-        */
+        gamesPlayed = new JLabel();
+        gamesPlayed.setText(GAMES_PLAYED_TEXT + gameCount);
+        controlpanel.add(gamesPlayed);
+        isActive = new JLabel();
+        isActive.setText(IS_ACTIVE_TEXT + returnActive());
+        controlpanel.add(isActive);
+        gamesWon = new JLabel();
+        gamesWon.setText(GAMES_WON_TEXT + "NaN for now");
+        controlpanel.add(gamesWon);
 
         base.add(controlpanel);
     }
@@ -133,5 +128,4 @@ public class ControlPanel extends Configurations {
         counter = new MineCounter(count);
         panel.add(counter.exportCounter());
     }
-    
 }
