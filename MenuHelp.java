@@ -12,10 +12,6 @@ import javax.swing.event.*;
 
 public class MenuHelp extends Window implements MenuListener {
 
-    // for help options, windows will always appear smaller...
-    private final int HELP_WIDTH = 600;
-    private final int HELP_HEIGHT = 480;
-
     // panel for window
     private JFrame frame;
     private JPanel helppanel;
@@ -34,20 +30,13 @@ public class MenuHelp extends Window implements MenuListener {
         frame.setVisible(true);
         frame.setResizable(true);
         frame.pack();
-        frame.setBounds(240, 80, HELP_WIDTH, HELP_HEIGHT);
+        frame.setBounds(240, 80, MIN_WIDTH, MIN_HEIGHT);
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
         frame.setLayout(new GridLayout(2, 2));
-        //frame.setLayout(new GridBagLayout());
         helppanel = new JPanel();
-        //c = new GridBagConstraints();
 
         JLabel helplabel = new JLabel();
         helplabel.setText(titles[type]);
-        /*c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.insets = insets;*/
         helplabel.setBackground(Color.RED);
         helppanel.add(helplabel);
 
@@ -147,10 +136,6 @@ public class MenuHelp extends Window implements MenuListener {
          "recreate it with some additional tools such as multiplayer interaction and customizable controls, along<br>"+
          "with implementing a database to keep scores, hopefully via SQL. </p>"
          + "</html>");
-
-        /*c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 3;*/
 
         panel.add(aboutText1);
         panel.add(aboutText2);

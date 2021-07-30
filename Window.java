@@ -14,8 +14,18 @@ import java.time.*;
 public class Window {
 
     // constant values for dimensional purposes
-    private static final int MAX_WIDTH = 1080;//780;
-    private static final int MAX_HEIGHT = 720;
+    private final int MAX_WIDTH = 960;
+    private final int MAX_HEIGHT = 720;
+
+    // for help options, windows will always appear smaller...
+    final int MIN_WIDTH = 600;
+    final int MIN_HEIGHT = 480;
+
+    // string values for modes
+    protected static final String EASY = "Easy";
+    protected static final String MED = "Medium";
+    protected static final String HARD = "Hard";
+    protected static final String CRAZY = "Crazy";
 
     // menu items and bar properties
     private JMenuBar menubar;
@@ -24,6 +34,8 @@ public class Window {
     private JMenuItem easysingle, mediumsingle, hardsingle, crazysingle;
     private JMenuItem easyvsall, mediumvsall, hardvsall, crazyvsall;
     private JMenuItem easybomb, mediumbomb, hardbomb, crazybomb;
+    private JMenu datamenu;
+    private JMenuItem data, scores;
     private JMenu optionsmenu, helpmenu;
     private JMenuItem opfeedback;
     private JMenuItem helphowto, helpcontrols, helpabout;
@@ -74,10 +86,10 @@ public class Window {
         // ...single player drop down menu
         singlemode = new JMenu("Single Player");
         menubar.add(singlemode);
-        easysingle = new JMenuItem("Easy");
-        mediumsingle = new JMenuItem("Medium");
-        hardsingle = new JMenuItem("Hard");
-        crazysingle = new JMenuItem("Crazy");
+        easysingle = new JMenuItem(EASY);
+        mediumsingle = new JMenuItem(MED);
+        hardsingle = new JMenuItem(HARD);
+        crazysingle = new JMenuItem(CRAZY);
         singlemode.add(easysingle);
         singlemode.add(mediumsingle);
         singlemode.add(hardsingle);
@@ -107,6 +119,14 @@ public class Window {
         onevsbomb.add(mediumbomb);
         onevsbomb.add(hardbomb);
         onevsbomb.add(crazybomb);
+
+        // ... data menu
+        datamenu = new JMenu("Data");
+        data = new JMenuItem("Player Data");
+        scores = new JMenuItem("Scoreboard");
+        datamenu.add(data);
+        datamenu.add(scores);
+        menubar.add(datamenu);
 
         // ... options menu
         optionsmenu = new JMenu("Options");
@@ -144,6 +164,10 @@ public class Window {
         hardbomb.addActionListener(new CustomActionListener());
         crazybomb.addActionListener(new CustomActionListener());
         
+        // data and scoreboard for all users
+        data.addActionListener(new CustomActionListener());
+        scores.addActionListener(new CustomActionListener());
+
         // options + help
         opfeedback.addActionListener(new CustomActionListener());
         helphowto.addActionListener(new CustomActionListener());
