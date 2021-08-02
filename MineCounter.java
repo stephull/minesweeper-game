@@ -10,6 +10,16 @@ public class MineCounter extends ControlPanel {
     protected int flags;
     private ImageIcon[] images;
     private JPanel countpanel;
+
+    // getter for flags
+    protected int getCounter() {
+        return flags;
+    }
+
+    // setter for flag count
+    protected void setCounter(int newFlags) {
+        this.flags = newFlags;
+    }
     
     MineCounter() {
         // default constructor
@@ -42,16 +52,12 @@ public class MineCounter extends ControlPanel {
                 sources[0] = sources[1] = sources[2] = NINE;    break;
         }
 
-        configureImages(sources, 0, images, countpanel);
+        configureAnalogImages(sources, 0, images, countpanel);
         //changeAnalogOutput(count, images, countpanel); // SAVE for another time
-        exportCounter();
+        export();
     }
 
-    protected JPanel exportCounter() {
+    protected JPanel export() {
         return countpanel;
-    }
-
-    protected void toggleCount() {
-        // in-game function to change flags when necessary
     }
 }

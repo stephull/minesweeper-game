@@ -11,7 +11,7 @@ import java.net.*;
 import java.time.format.*;
 import java.time.*;
 
-public class Window {
+public class Window extends JFrame {
 
     // constant values for dimensional purposes
     private final int MAX_WIDTH = 960;
@@ -48,22 +48,23 @@ public class Window {
         // default constructor
     }
 
-    Window(JFrame frame, JPanel panel) {
+    Window(JPanel panel) {
         // frame properties
-        frame.setTitle("Minesweeper Project -- TEST");
-        frame.setResizable(true);
-        frame.setVisible(true);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(180, 60, MAX_WIDTH, MAX_HEIGHT);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
+        this.setTitle("Minesweeper Project -- TEST");
+        toggleWindowSize(false);
+
+        this.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBounds(180, 60, MAX_WIDTH, MAX_HEIGHT);
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
 
         // panel + layout
         panel = new JPanel();
         panel.setLayout(new BorderLayout(4, 0));
             // CONSIDER: https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
         panel.setVisible(true);
-        frame.add(panel); 
+        this.add(panel); 
 
         // menu + status bar 
         createMenu(panel);
@@ -151,37 +152,40 @@ public class Window {
         // MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
 
         // single player AND multiplayer
-        easysingle.addActionListener(new CustomActionListener());
-        mediumsingle.addActionListener(new CustomActionListener());
-        hardsingle.addActionListener(new CustomActionListener());
-        crazysingle.addActionListener(new CustomActionListener());
-        easyvsall.addActionListener(new CustomActionListener());
-        mediumvsall.addActionListener(new CustomActionListener());
-        hardvsall.addActionListener(new CustomActionListener());
-        crazyvsall.addActionListener(new CustomActionListener());
-        easybomb.addActionListener(new CustomActionListener());
-        mediumbomb.addActionListener(new CustomActionListener());
-        hardbomb.addActionListener(new CustomActionListener());
-        crazybomb.addActionListener(new CustomActionListener());
+        easysingle.addActionListener(new WindowActionListener());
+        mediumsingle.addActionListener(new WindowActionListener());
+        hardsingle.addActionListener(new WindowActionListener());
+        crazysingle.addActionListener(new WindowActionListener());
+        easyvsall.addActionListener(new WindowActionListener());
+        mediumvsall.addActionListener(new WindowActionListener());
+        hardvsall.addActionListener(new WindowActionListener());
+        crazyvsall.addActionListener(new WindowActionListener());
+        easybomb.addActionListener(new WindowActionListener());
+        mediumbomb.addActionListener(new WindowActionListener());
+        hardbomb.addActionListener(new WindowActionListener());
+        crazybomb.addActionListener(new WindowActionListener());
         
         // data and scoreboard for all users
-        data.addActionListener(new CustomActionListener());
-        scores.addActionListener(new CustomActionListener());
+        data.addActionListener(new WindowActionListener());
+        scores.addActionListener(new WindowActionListener());
 
         // options + help
-        opfeedback.addActionListener(new CustomActionListener());
-        helphowto.addActionListener(new CustomActionListener());
-        helpcontrols.addActionListener(new CustomActionListener());
-        helpabout.addActionListener(new CustomActionListener());
+        opfeedback.addActionListener(new WindowActionListener());
+        helphowto.addActionListener(new WindowActionListener());
+        helpcontrols.addActionListener(new WindowActionListener());
+        helpabout.addActionListener(new WindowActionListener());
+    }
+
+    public void toggleWindowSize(boolean b) {
+        this.setResizable(b);
     }
 
     // actionListener interface
     // FROM: https://www.tutorialspoint.com/swing/swing_action_listener.htm 
-    class CustomActionListener implements ActionListener {
+    class WindowActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
             readStatus.setText(e.toString());
     
             if (e.getSource() == easysingle ||
@@ -189,14 +193,9 @@ public class Window {
                 e.getSource() == hardsingle ||
                 e.getSource() == crazysingle) {
                 readStatus.setText(":: SINGLE PLAYER MODE :: " + e.toString());
-                if (e.getSource() == easysingle) {
-                    readStatus.setText(" :: DEFAULT MODE :: " + e.toString());
-                } else if (e.getSource() == crazysingle) {
-                    readStatus.setText(" ::: WARNING: game may take a while to load due to user-customized constraints ::: " + e.toString());
-                    /*
-                        TIME COMPLEXITY PROBLEM: more tiles = way more time to load up...
-                    */
-                }
+                /*
+                     TIME COMPLEXITY PROBLEM: more tiles = way more time to load up...
+                */
             }
 
             // for multiplayer options, apply socket programming
@@ -262,7 +261,7 @@ public class Window {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Window(new JFrame(), new JPanel());
+                    new Window(new JPanel());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

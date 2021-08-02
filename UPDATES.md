@@ -51,5 +51,9 @@
 * Introduced to problems regarding threading, specifically with running time and program responsiveness.
 * Updated some variables to static for easier access across classes. (May change, may not change, who knows?)
 
-## July 28, 2021
-* TBA
+## August 1, 2021
+* Deleted Gameplay.java, redirect all methods to Configurations.java
+* Encapsulated all control panel items with getters and setters.
+* Reduced redundant code within control panel.
+* Added more details for data help and menu help.
+* Created a new class for each individual button, Tile.java; testing for now!

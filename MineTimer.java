@@ -11,11 +11,19 @@ public class MineTimer extends ControlPanel {
     private ImageIcon[] images;
     private JPanel timerpanel;
     
-    MineTimer() {
-        // default constructor
+    // getter for time
+    protected int getTimer() {
+        return time;
     }
 
-    MineTimer(int time) {
+    // setter for time
+    protected void setTimer(int newTime) {
+        this.time = newTime;
+    }
+
+    MineTimer() {
+        time = 0;
+
         // default properties, initialization
         images = new ImageIcon[3];
         timerpanel = new JPanel();
@@ -27,9 +35,9 @@ public class MineTimer extends ControlPanel {
         timerpanel.add(l);
 
         // set default settings and export
-        configureImages(ZERO, 0, images, timerpanel);
-        changeAnalogOutput(time, images, timerpanel);
-        exportTimer();
+        configureAnalogImages(ZERO, 0, images, timerpanel);
+        //changeAnalogOutput(time, images, timerpanel);
+        export();
 
         // while game is running
         /*if (active) {
@@ -37,11 +45,7 @@ public class MineTimer extends ControlPanel {
         }*/
     }
 
-    protected JPanel exportTimer() {
+    protected JPanel export() {
         return timerpanel;
-    }
-
-    protected void toggleTime() {
-        // in-game function for changing time constantly
     }
 }

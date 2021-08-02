@@ -11,8 +11,21 @@ public class MineSmiley extends ControlPanel {
 
     protected JButton smiley;
     protected ImageIcon image;
+    protected int gameCount;
+
+    // getter for total number of games played
+    protected int getGameCount() {
+        return gameCount;
+    }
+
+    // setter for total number of games played
+    protected void setGameCount(int newGameCount) {
+        this.gameCount = newGameCount;
+    }
 
     MineSmiley() {
+        gameCount = 0;
+
         smiley = new JButton();
         smiley.setBackground(Color.GRAY);
         changeFaces(setSmileButton(DEF));
@@ -42,14 +55,11 @@ public class MineSmiley extends ControlPanel {
                         }
                     }
 
-                    // SUGGESTION: testcount counts how many games the player goes through (for data?)
-                    String test = "";
-                    switch (++gameCount % 2) {
-                        case 0: test = DEF;     break;
-                        case 1: test = INTER;   break;
-                    }
-                    changeFaces(setSmileButton(test));
+                    //startBoard();
 
+                    // SUGGESTION: testcount counts how many games the player goes through (for data?)
+                    changeFaces(setSmileButton(DEF));
+                    ++gameCount;
                     active = false;
                     isActive.setText(IS_ACTIVE_TEXT + returnActive());
                 }
@@ -84,10 +94,10 @@ public class MineSmiley extends ControlPanel {
 
         */
         smiley.setIcon(img);
-        exportSmiley();
+        export();
     }
 
-    protected JButton exportSmiley() {
+    protected JButton export() {
         return smiley;
     }
 }

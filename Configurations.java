@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-public class Configurations extends Window {
+public class Configurations extends Window implements Runnable {
 
     // ::: DIFFICULTIES :::
     protected final int EASY_WH = 9, EASY_MINES = 10;
@@ -19,6 +19,7 @@ public class Configurations extends Window {
 
     protected static ArrayList<ArrayList<Integer>> coordinatesList = new ArrayList<ArrayList<Integer>>();
     protected static boolean active;
+    protected static final int timeLeft = 999;
 
     // for smiley face images
     protected final String DEF = "Images/DefaultFace.png";
@@ -27,16 +28,15 @@ public class Configurations extends Window {
     protected final String PASS = "Images/PassFace.png";
 
     // control panel items
-    protected static MineCounter counter;
-    protected static MineSmiley smiley;
-    protected static MineTimer timer;
+    protected static MineCounter mc;
+    protected static MineSmiley ms;
+    protected static MineTimer mt;
+
+    // entities for control panel items above
     protected static JLabel gamesPlayed, isActive, gamesWon;
 
     // sample text for panel
     protected static final String IS_ACTIVE_TEXT = "Active game: ";
-    protected static final String GAMES_PLAYED_TEXT = "Games played total: ";
-    protected static final String GAMES_WON_TEXT = "Games won: ";
-    protected static final String HIGHEST_SCORE_TEXT = "Highest score: ";
 
     Configurations() {
         // default constructor
@@ -50,6 +50,10 @@ public class Configurations extends Window {
         int mode = 0;            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
         int type = (isMulti) ? 1 : 0 ;  // type is 0 if single player; otherwise, pick 1 or 2
         active = false;
+
+        if (mode > 1) {
+            toggleWindowSize(true);
+        }
 
         // adjust based on user's difficulty
         switch(mode) {
@@ -75,7 +79,7 @@ public class Configurations extends Window {
         /*
             ::: create panels for controls, board, AND initiate Gameplay :::
         */
-        Gameplay gameplay = new Gameplay(panel, mines, gameWidth, gameHeight, type);
+        //Gameplay gameplay = new Gameplay(panel, mines, gameWidth, gameHeight, type);
             // NOTE: gameplay goes first, set up instance before adding opaque objects below
             //      AND gameplay is initialized for run(); see Board.java for example.....
         createControlPanel(panel);
@@ -84,7 +88,7 @@ public class Configurations extends Window {
 
     protected void createBoard(JPanel panel) {
         JPanel base = new JPanel();
-        new Board(base, gameHeight, gameWidth);
+        new Board(base, mines, gameHeight, gameWidth);
         panel.add(base, BorderLayout.CENTER);
     }
 
@@ -96,5 +100,30 @@ public class Configurations extends Window {
 
     public boolean returnActive() {
         return active;
+    }
+
+    public void enableSocketProgram() {
+
+    }
+
+    public void requestMultiplayer() {
+        
+    }
+
+    @Override
+    public void run() {
+        while (active && mt.getTimer() != timeLeft) {
+            // first, update time on analog display
+            // :: MAIN FUNCTIONS ::
+            // conclude with timely increment
+
+            int i = 0;
+            mt.setTimer(i++);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
