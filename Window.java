@@ -14,18 +14,18 @@ import java.time.*;
 public class Window extends JFrame {
 
     // constant values for dimensional purposes
-    private final int MAX_WIDTH = 960;
-    private final int MAX_HEIGHT = 720;
+    protected final int MAX_WIDTH = 960;
+    protected final int MAX_HEIGHT = 720;
 
     // for help options, windows will always appear smaller...
-    final int MIN_WIDTH = 600;
-    final int MIN_HEIGHT = 480;
+    protected final int HELP_WIDTH = 600;
+    protected final int HELP_HEIGHT = 480;
 
     // string values for modes
-    protected static final String EASY = "Easy";
-    protected static final String MED = "Medium";
-    protected static final String HARD = "Hard";
-    protected static final String CRAZY = "Crazy";
+    protected final String EASY = "Easy";
+    protected final String MED = "Medium";
+    protected final String HARD = "Hard";
+    protected final String CRAZY = "Crazy";
 
     // menu items and bar properties
     private JMenuBar menubar;
@@ -42,7 +42,7 @@ public class Window extends JFrame {
 
     // status bar for the bottom of window, static for all classes to access
     protected static JLabel readStatus = new JLabel("STATUS BAR");
-    protected static final Insets insets = new Insets(0, 0, 0, 0);
+    //protected final Insets insets = new Insets(0, 0, 0, 0);
 
     Window() {
         // default constructor

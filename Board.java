@@ -6,7 +6,6 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 
 public class Board extends Configurations {
@@ -29,107 +28,35 @@ public class Board extends Configurations {
     protected final String EMPTY = "Images/EmptyTile.png";
 
     // everything else...
-    protected ArrayList<JButton> targetList;
-    private JButton[][] buttons;
-    private int buttonsClicked;
+    protected ArrayList<Tile> targetList;
+    private Tile[][] tiles;
 
     Board() {
         // default constructor
     }
 
-    Board(JPanel base, int height, int width) {
-        buttons = new JButton[width][height];
-        buttonsClicked = 0;
+    Board(JPanel base, int mines) {
+        tiles = new Tile[width][height];
         base.setPreferredSize(new Dimension(640, 640));
         base.setBorder(new EmptyBorder(10, 10, 10, 10));
         base.setLayout(new GridLayout(9, 4, 1, 1));
         /**TEST */ //base.setBackground(Color.RED);
-        targetList = new ArrayList<JButton>();
-
-        // make button board on screen...
-        int i = 0, j = 0;
-        for (i = 0; i < width; i++) {
-            for (j = 0; j < height; j++) {
-                buttons[i][j] = new JButton();
-                JButton tempBtn = buttons[i][j];
-                if (coordinatesList.contains(Arrays.asList(i, j))) {
-                    targetList.add(tempBtn);
-                }
-                setBoardButton(tempBtn, prepareImage(FULL), Color.GRAY);
-                base.add(tempBtn);
-
-                /**
-                 *  DIFFERENCE BETWEEN MOUSELISTENER & ACTIONLISTENER?
-                 *  https://stackoverflow.com/questions/32399652/ 
-                 */
-                tempBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == tempBtn) {
-                            active = true;
-                            isActive.setText(IS_ACTIVE_TEXT + returnActive());
-                            if (++buttonsClicked == 1) {
-                                System.out.println("TEST GAME BEGIN");
-                                /*if (targetList.contains(tempBtn)) {
-                                    Random random = new Random();
-                                }*/
-                                //randomizeCoordinates(mines, width, height);
-                                    // ???
-                                //gameplay.run();
-                                    // when first tile is clicked, we start game, timer, everything...
-                                //implementRandomMines();
-                                    // Do we need this?
-                            } 
-                            if (targetList.contains(tempBtn)) {
-                                setBoardButton(tempBtn, prepareImage(PRESENT), Color.RED);
-                                active = false;
-                                isActive.setText(IS_ACTIVE_TEXT + "finished");
-                                smiley.changeFaces(smiley.setSmileButton(FAIL));
-                            } else {
-                                setBoardButton(tempBtn, prepareImage(EMPTY), Color.LIGHT_GRAY);
-                            }
-                            tempBtn.removeActionListener(this);
-                        }
-                    }
-                });
-            }
-        }
+        targetList = new ArrayList<Tile>();
 
         base.setBorder(new LineBorder(Color.BLACK, 2));
     }
 
-    private void setBoardButton(JButton button, ImageIcon img, Color color) {
-        button.setVisible(true);
-        button.setBackground(color);
-        button.addActionListener(new CustomActionListener());
-        button.setFocusable(false);
-        button.setIcon(img);
+    protected Tile[][] setBoard() {
+        return tiles;
     }
 
-    private ImageIcon prepareImage(String link) {
-        ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
-            // SOURCE: https://stackoverflow.com/questions/6714045/
-    }
-
-    // NOTE: all methods here are to be executed in real time while gameplay is initiated
-    // METHODS for in-game functions...
-    protected void implementRandomMines() {
-        
-        // System.out.println("ANOTHER TEST, RANDOM MINES");
-
-        // start of game: randomize mine placement using number generation
-
-        // PSEUDOCODE
-        /*
-            if (user clicks on first tile) {
-                generate randomized placements for mines using the number of mines permitted
-                try to make sure they are not all stuck in one area, spread them out!
-                (NOTE: look at Gameplay.java >> randomizeCoordinates()... hehe)
-            }
-            at the end, first tile is changed
-        */
-    }
+    /*protected void setBoardButton(Tile t, ImageIcon img, Color color) {
+        t.setVisible(true);
+        t.setBackground(color);
+        t.addActionListener(new WindowActionListener());
+        t.setFocusable(false);
+        t.setIcon(img);
+    }*/
 
     protected void clearMines() {
         // if one clicks on a clear tile, clear out respective spaces
@@ -171,12 +98,44 @@ public class Board extends Configurations {
         */
     }
 
-    // switch method from Gameplay.java to here
-    protected void startBoard() {
-        // when game is over, press the smiley face or switch game mode; board will start over
-        /**
-         *  GOAL: try to switch around action listener into its own class within Board.java
-         *  and take JButton[][] buttons to implement onto the board, within THIS method.
-         */
+    protected void calculateCloseMines() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int count = 0;
+                if (i > 0 && tiles[i-1][j].hasMine()) {
+                    // check upwards
+                    count++;
+                }
+                if (i < width-1 && tiles[i+1][j].hasMine()) {
+                    // check downwards
+                    count++;
+                }
+                if (i > 0 && tiles[i][j-1].hasMine()) {
+                    // check left
+                    count++;
+                }
+                if (i < height-1 && tiles[i][j+1].hasMine()) {
+                    // check right 
+                    count++;
+                }
+                if (i > 0 && tiles[i-1][j-1].hasMine()) {
+                    // check northwest
+                    count++;
+                }
+                if (i < height-1 && tiles[i-1][j+1].hasMine()) {
+                    // check northeast
+                    count++;
+                }
+                if (i > 0 && tiles[i+1][j-1].hasMine()) {
+                    // check southwest
+                    count++;
+                }
+                if (i < height-1 && tiles[i+1][j+1].hasMine()) {
+                    // check southeast
+                    count++;
+                }
+                tiles[i][j].setCloseMines(count);
+            }
+        }
     }
 }
