@@ -15,7 +15,7 @@ public class Configurations extends Window implements Runnable {
 
     // ::: DIFFICULTIES :::
     protected final int EASY_WH = 9, EASY_MINES = 10;
-    protected final int MED_WH = 9, MED_MINES = 40;
+    protected final int MED_WH = 9, MED_MINES = 45;
     protected final int HARD_W = 30, HARD_H = 16, HARD_MINES = 99;
     protected final int CRAZY_WH = 30, CRAZY_MINES = 255;
     protected final int ABS_WH = 60, ABS_MINES = 999;
@@ -23,7 +23,8 @@ public class Configurations extends Window implements Runnable {
     protected int mines;
 
     protected static ArrayList<ArrayList<Integer>> coordinatesList = new ArrayList<ArrayList<Integer>>();
-    protected boolean active;
+    public static boolean active = false;
+    public static boolean gameOver = false;
 
     // time contents
     protected Timer timer;
@@ -36,13 +37,12 @@ public class Configurations extends Window implements Runnable {
     protected final String PASS = "Images/PassFace.png";
 
     // control panel items
-    protected MineCounter mc;
-    protected MineSmiley ms;
-    protected MineTimer mt;
+    protected static MineCounter mc;
+    protected static MineSmiley ms;
+    protected static MineTimer mt;
 
     // entities for control panel items above
-    protected static JLabel gamesPlayed, isActive, gamesWon;
-    protected final String IS_ACTIVE_TEXT = "Active game: ";
+    protected static JLabel gamesPlayed, gamesWon;
 
     Configurations() {
         // default constructor
@@ -50,14 +50,15 @@ public class Configurations extends Window implements Runnable {
 
     Configurations(JPanel panel) {
         /*
-            DEFAULT SETTINGS FOR FIRST GAME
+            DEFAULT ATTRIBUTES FOR FIRST GAME
         */
         boolean isMulti = false;      // set to single player for default settings, when opening the game
         int mode = 0;            // 0 for easy, 1 for med., 2 for hard, 3 for crazy, 4 for etc.
         int type = (isMulti) ? 1 : 0 ;  // type is 0 if single player; otherwise, pick 1 or 2
         active = false;
 
-        if (mode > 1) {
+        // multiplayer games can resize window
+        if (type > 0) {
             toggleWindowSize(true);
         }
 
@@ -88,13 +89,17 @@ public class Configurations extends Window implements Runnable {
         //Gameplay gameplay = new Gameplay(panel, mines, width, height, type);
             // NOTE: gameplay goes first, set up instance before adding opaque objects below
             //      AND gameplay is initialized for run(); see Board.java for example.....
+        mc = new MineCounter(mines);
+        ms = new MineSmiley();
+        mt = new MineTimer();
+        
         createControlPanel(panel);
         createBoard(panel);
 
-        if (active) {
+        /*if (active) {
             // once game starts, add coordinates
             randomizeCoordinates(mines);
-        }
+        }*/
     }
 
     protected void createBoard(JPanel panel) {
@@ -107,10 +112,6 @@ public class Configurations extends Window implements Runnable {
         base = new JPanel();
         new ControlPanel(base, mines);
         panel.add(base, BorderLayout.LINE_START);
-    }
-    
-    public boolean isActive() {
-        return active;
     }
 
     public void enableSocketProgram() {

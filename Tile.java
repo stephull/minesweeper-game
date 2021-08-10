@@ -16,23 +16,36 @@ public class Tile extends Board {
 
     // 0-8 mines closeby
     protected int closeMines;
+    protected int x, y;
 
     Tile() {
         //default constructor
     }
 
-    Tile(boolean mine) {
+    Tile(boolean mine, int coorX, int coorY) {
         this.mine = mine;
         flagged = clicked = false;
         closeMines = 0;
+        x = coorX;
+        y = coorY;
 
         ImageIcon img = prepareImage(DEF);
     }
 
-    protected ImageIcon prepareImage(String link) {
-        ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
-            // SOURCE: https://stackoverflow.com/questions/6714045/
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getCoors() {
+        return "[" + x + ", " + y + "]";
+    }
+
+    public void setMine(boolean m) {
+        mine = m;
     }
 
     public void setFlag(boolean f) {

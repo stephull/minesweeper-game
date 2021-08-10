@@ -6,7 +6,9 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+//import java.util.concurrent.ThreadLocalRandom;
 
 public class Board extends Configurations {
 
@@ -26,10 +28,18 @@ public class Board extends Configurations {
     // for tiles
     protected final String FULL = "Images/Tile.png";
     protected final String EMPTY = "Images/EmptyTile.png";
+    protected final String FLAG = "Images/Flag.png";
+
+    // color schemes
+    protected Color normalColor = Color.GRAY;
+    protected Color flagColor = Color.YELLOW;
+    protected Color mineColor = Color.RED;
 
     // everything else...
     protected ArrayList<Tile> targetList;
     private Tile[][] tiles;
+    private int flagClicks;
+    private int flagCountFromBoard;
 
     Board() {
         // default constructor
@@ -44,19 +54,85 @@ public class Board extends Configurations {
         targetList = new ArrayList<Tile>();
 
         base.setBorder(new LineBorder(Color.BLACK, 2));
+
+        //int remaining = 0;
+        //double prob = (double) mines / (width * height);
+        flagClicks = 0;
+        flagCountFromBoard = mines;
+
+        randomizeCoordinates(mines);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                tiles[i][j] = new Tile(false, i, j);
+                Tile t = tiles[i][j];
+
+                if (coordinatesList.contains(Arrays.asList(i, j))) {
+                    targetList.add(t);
+                    t.setMine(true);
+                }
+                JButton b = new JButton();
+                setBoardButton(b, prepareImage(FULL), normalColor);
+                base.add(b);
+                
+                b.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent me) {
+                        if (SwingUtilities.isLeftMouseButton(me)) {
+                            // IF left click, to clear mine
+
+                            active = true;
+                            if (t.hasMine()) {
+                                setBoardButton(b, prepareImage(PRESENT), mineColor);
+                                ms.changeFaces(FAIL);
+                                gameOver = true;
+                                active = false;
+                            } else {
+                                setBoardButton(b, prepareImage(EMPTY), normalColor);
+                            }
+                            b.removeMouseListener(this);
+                        } else if (SwingUtilities.isRightMouseButton(me)) {
+                            // IF right click, for flag
+
+                            if (flagClicks % 2 == 0) {
+                                setBoardButton(b, prepareImage(FLAG), flagColor);
+                                if (t.hasMine()) {
+                                    System.out.println("MINE CAUGHT");  // test
+                                } else {
+                                    if (!active && gameOver) {
+                                        setBoardButton(b, prepareImage(CROSSED), mineColor);
+                                        // so far, only works if game is not on,
+                                        // we want it when the game ends
+                                    }
+                                }
+                                mc.setCounter(flagCountFromBoard--);
+                            } else {
+                                setBoardButton(b, prepareImage(FULL), normalColor);
+                                mc.setCounter(flagCountFromBoard++);
+                            }
+                            flagClicks++;
+                        }
+                    }
+                });
+            }
+        }
     }
 
     protected Tile[][] setBoard() {
         return tiles;
     }
 
-    /*protected void setBoardButton(Tile t, ImageIcon img, Color color) {
-        t.setVisible(true);
-        t.setBackground(color);
-        t.addActionListener(new WindowActionListener());
-        t.setFocusable(false);
-        t.setIcon(img);
-    }*/
+    protected void setBoardButton(JButton b, ImageIcon img, Color c) {
+        b.setVisible(true);
+        b.setBackground(c);    //test
+        b.setFocusable(false);
+        b.setIcon(img);
+    }
+
+    protected ImageIcon prepareImage(String link) {
+        ImageIcon temp = new ImageIcon(getClass().getResource(link));
+        return new ImageIcon(temp.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+            // SOURCE: https://stackoverflow.com/questions/6714045/
+    }
 
     protected void clearMines() {
         // if one clicks on a clear tile, clear out respective spaces
@@ -103,38 +179,38 @@ public class Board extends Configurations {
             for (int j = 0; j < height; j++) {
                 int count = 0;
                 if (i > 0 && tiles[i-1][j].hasMine()) {
-                    // check upwards
-                    count++;
+                    count++;    // touch top area
                 }
-                if (i < width-1 && tiles[i+1][j].hasMine()) {
-                    // check downwards
-                    count++;
+                if (i < height - 1 && tiles[i+1][j].hasMine()) {
+                    count++;    // touch bottom area
                 }
-                if (i > 0 && tiles[i][j-1].hasMine()) {
-                    // check left
-                    count++;
+                if (j > 0) {
+                    // touch left
+                    if (tiles[i-1][j-1].hasMine()) {
+                        count++;    // touch upper-left
+                    }
+                    if (tiles[i][j-1].hasMine()) {
+                        count++;    // touch left-left
+                    }
+                    if (tiles[i+1][j-1].hasMine()) {  
+                        count++;    // touch lower-left
+                    }
                 }
-                if (i < height-1 && tiles[i][j+1].hasMine()) {
-                    // check right 
-                    count++;
-                }
-                if (i > 0 && tiles[i-1][j-1].hasMine()) {
-                    // check northwest
-                    count++;
-                }
-                if (i < height-1 && tiles[i-1][j+1].hasMine()) {
-                    // check northeast
-                    count++;
-                }
-                if (i > 0 && tiles[i+1][j-1].hasMine()) {
-                    // check southwest
-                    count++;
-                }
-                if (i < height-1 && tiles[i+1][j+1].hasMine()) {
-                    // check southeast
-                    count++;
+                if (j < width - 1) {
+                    // touch right
+                    if (tiles[i-1][j+1].hasMine()) {
+                        count++;    // touch upper-right
+                    }
+                    if (tiles[i][j+1].hasMine()) {
+                        count++;    // touch right-right
+                    }
+                    if (tiles[i+1][j+1].hasMine()) {
+                        count++;    // touch lower-right
+                    }
                 }
                 tiles[i][j].setCloseMines(count);
+                // IMPLEMENT: set count to corresponding number tile
+                // (1-8) on [i][j]
             }
         }
     }

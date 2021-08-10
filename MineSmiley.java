@@ -10,7 +10,6 @@ import javax.swing.*;
 public class MineSmiley extends ControlPanel {
 
     protected JButton smiley;
-    protected ImageIcon image;
     protected int gameCount;
 
     // getter for total number of games played
@@ -28,58 +27,46 @@ public class MineSmiley extends ControlPanel {
 
         smiley = new JButton();
         smiley.setBackground(Color.GRAY);
-        changeFaces(setSmileButton(DEF));
+        changeFaces(DEF);
 
         // add action listener to JButton
         smiley.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == smiley) {
+                
+                boolean wantToChangeModes = false;
+                if (wantToChangeModes) {
                     /*
-                        'wantToChange' is a test boolean value for 
-                        whether or not a menu option for single or multi
-                        player (opposite of the running game) is clicked
-                        on while the game is active... this will be added
-                        later on, another time!
+                        'wantToChange' is a test boolean value for whether or not a menu option for single or multiplayer
+                        (opposite of the running game) is clicked on while the game is active... this will be added later on...
+                            NOTE: DIALOG ONLY POPS UP IF USER WANTS TO SWITCH TO MULTIPLAYER (or vice versa) WHILE THE GAME IS ACTIVE
+                            IF USER WANTS TO START SAME GAME OVER, THE USER PRESSES SMILEY AND THE GAME JUST RESTARTS!
                     */
-                    boolean wantToChangeModes = true;
-                    if (active && wantToChangeModes) {
-                        // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
-                        String dialogText = "Are you sure you want to switch while game is running?";
-                        String titleText = "Minesweeper :: Game active";
-                        int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-                        if (input == 0) {
-                            ;
-                        } else if (input == 1) {
-                            ;
-                        }
+                    // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
+                    String dialogText = "Are you sure you want to switch modes while game is running?";
+                    String titleText = "Minesweeper :: Game active";
+                    int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (input == 0) {
+                        ;
+                    } else if (input == 1) {
+                        ;
                     }
-
-                    //startBoard();
-
-                    // SUGGESTION: testcount counts how many games the player goes through (for data?)
-                    changeFaces(setSmileButton(DEF));
-                    ++gameCount;
-                    active = false;
-                    isActive.setText(IS_ACTIVE_TEXT + returnActive());
                 }
+
+                // SUGGESTION: testcount counts how many games the player goes through (for data?)
+                changeFaces(DEF);
+                ++gameCount;
+                active = false;
+
+                //new Board(new JPanel(), mines);
             }
         });
-
-        // PSEUDOCODE
-        /*
-            if (game is on) {
-                changeFaces() -- every time the user clicks on smiley
-            }
-        */
     }
 
-    protected ImageIcon setSmileButton(String resource) {
-        image = new ImageIcon(getClass().getResource(resource));
-        return new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-    }
+    protected void changeFaces(String resource) {
+        ImageIcon image = new ImageIcon(getClass().getResource(resource));
+        image = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 
-    protected void changeFaces(ImageIcon img) {
         // PSEUDO CODE
         /* if (clicked) {
             change face to :O
@@ -93,7 +80,7 @@ public class MineSmiley extends ControlPanel {
         }
 
         */
-        smiley.setIcon(img);
+        smiley.setIcon(image);
         export();
     }
 
