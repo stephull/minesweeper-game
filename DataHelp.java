@@ -1,6 +1,7 @@
 /*
     DataHelp.java
-
+    For the data menu, one option will save the data for the user while another
+    option will tabulate all the recorded scores for the entirety of Minesweeper.
 */
 
 import javax.swing.event.*;
@@ -10,14 +11,17 @@ import java.util.*;
 
 public class DataHelp extends Window implements MenuListener {
 
-    protected static final String GAMES_PLAYED_TEXT = "Games played total under: ";
-    protected static final String GAMES_WON_TEXT = "Games won: ";
-    protected static final String HIGHEST_SCORE_TEXT = "Highest score: ";
+    protected final String GAMES_PLAYED_TEXT = "Games played total under: ";
+    protected final String GAMES_WON_TEXT = "Games won: ";
+    protected final String HIGHEST_SCORE_TEXT = "Highest score: ";
 
-    protected static String username;
+    protected String user;
 
     private JFrame frame;
     private JPanel panel;
+    private String[] titles = {
+        "User Data", "Scoreboard"
+    };
 
     // diff,player,username,time,wins
     protected ArrayList<String[]> dataLines = new ArrayList<>();
@@ -32,13 +36,42 @@ public class DataHelp extends Window implements MenuListener {
         frame.setVisible(true);
         frame.setResizable(true);
         frame.pack();
-        frame.setBounds(240, 80, MIN_WIDTH, MIN_HEIGHT);
+        frame.setBounds(240, 80, HELP_WIDTH, HELP_HEIGHT);
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
         frame.setLayout(new GridLayout(2, 2));
 
-        username = "";
+        user = "";
 
+        panel = new JPanel();
+        frame.add(panel);
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String newUser) {
+        this.user = newUser;
+    }
+
+    public void getData() {
+
+    }
+
+    public void getGamesPlayed() {
         
+    }
+
+    public void getGamesWon() {
+
+    }
+
+    public void getHighScore() {
+        // ??? include mode and difficulty ???
+    }
+
+    public void tabulateScores() {
+        // includes CSV file 'scores.csv'
     }
 
     public void displayUserData() {
@@ -49,44 +82,21 @@ public class DataHelp extends Window implements MenuListener {
 
     }
 
-    public void extractGamesPlayed() {
-        
-    }
-
-    public void extractGamesWon() {
-
-    }
-
-    public void extractHighestScore() {
-
-    }
-
-    public void tabulateScores() {
-        // includes CSV file 'scores.csv'
-    }
-
-    public String exportUsername() {
-        return username;
-    }
-
     /*
         DEFAULT IMPLEMENTATIONS FOR MENULISTENER
     */
     @Override
     public void menuSelected(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void menuDeselected(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void menuCanceled(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
     
