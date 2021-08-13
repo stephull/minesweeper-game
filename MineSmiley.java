@@ -45,11 +45,9 @@ public class MineSmiley extends ControlPanel {
                     // SOURCE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JOptionPane/Create_Custom_Buttons_in_JOptionPane_showInputDialog.htm
                     String dialogText = "Are you sure you want to switch modes while game is running?";
                     String titleText = "Minesweeper :: Game active";
-                    int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (input == 0) {
-                        ;
-                    } else if (input == 1) {
-                        ;
+                    int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (input == 1) {
+                        System.out.println(" :: OPT OUT OF DIALOG :: ");
                     }
                 }
 
@@ -57,8 +55,6 @@ public class MineSmiley extends ControlPanel {
                 changeFaces(DEF);
                 ++gameCount;
                 active = false;
-
-                //new Board(new JPanel(), mines);
             }
         });
     }

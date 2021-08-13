@@ -7,9 +7,9 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MineCounter extends ControlPanel {
-    protected int flags;
     private ImageIcon[] images;
     private JPanel countpanel;
+    protected int flags;
 
     // getter for flags
     protected int getCounter() {

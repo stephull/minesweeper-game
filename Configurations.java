@@ -11,8 +11,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Configurations extends Window implements Runnable {
 
-    protected JPanel base;
-
     // ::: DIFFICULTIES :::
     protected final int EASY_WH = 9, EASY_MINES = 10;
     protected final int MED_WH = 9, MED_MINES = 45;
@@ -40,6 +38,12 @@ public class Configurations extends Window implements Runnable {
     protected static MineCounter mc;
     protected static MineSmiley ms;
     protected static MineTimer mt;
+
+    // bases for control panel and board
+    protected Board board;
+    protected ControlPanel cp;
+    protected JPanel boardBase;
+    protected JPanel cpBase;
 
     // entities for control panel items above
     protected static JLabel gamesPlayed, gamesWon;
@@ -83,12 +87,9 @@ public class Configurations extends Window implements Runnable {
                 width = height = ABS_WH;    break;
         }
 
-        /*
-            ::: create panels for controls, board, AND initiate Gameplay :::
-        */
-        //Gameplay gameplay = new Gameplay(panel, mines, width, height, type);
-            // NOTE: gameplay goes first, set up instance before adding opaque objects below
-            //      AND gameplay is initialized for run(); see Board.java for example.....
+        boardBase = new JPanel();
+        cpBase = new JPanel();
+
         mc = new MineCounter(mines);
         ms = new MineSmiley();
         mt = new MineTimer();
@@ -103,16 +104,16 @@ public class Configurations extends Window implements Runnable {
     }
 
     protected void createBoard(JPanel panel) {
-        base = new JPanel();
-        new Board(base, mines);
-        panel.add(base, BorderLayout.CENTER);
+        new Board(boardBase, mines);
+        panel.add(boardBase, BorderLayout.CENTER);
     }
 
     protected void createControlPanel(JPanel panel) {
-        base = new JPanel();
-        new ControlPanel(base, mines);
-        panel.add(base, BorderLayout.LINE_START);
+        new ControlPanel(cpBase, mines);
+        panel.add(cpBase, BorderLayout.LINE_START);
     }
+
+    // 
 
     public void enableSocketProgram() {
 
@@ -157,6 +158,7 @@ public class Configurations extends Window implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println(i);
         }
     }
 }

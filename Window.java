@@ -13,9 +13,11 @@ import java.time.*;
 
 public class Window extends JFrame {
 
+    private String projectTitle = "Minesweeper Project Test";
+
     // constant values for dimensional purposes
-    protected final int MAX_WIDTH = 960;
-    protected final int MAX_HEIGHT = 720;
+    protected int MAX_WIDTH = 840;
+    protected int MAX_HEIGHT = 600;
 
     // for help options, windows will always appear smaller...
     protected final int HELP_WIDTH = 600;
@@ -50,13 +52,13 @@ public class Window extends JFrame {
 
     Window(JPanel panel) {
         // frame properties
-        this.setTitle("Minesweeper Project -- TEST");
+        this.setTitle(projectTitle);
         toggleWindowSize(false);
 
         this.setVisible(true);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(180, 60, MAX_WIDTH, MAX_HEIGHT);
+        this.setBounds(180, 100, MAX_WIDTH, MAX_HEIGHT);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
 
         // panel + layout
@@ -75,6 +77,10 @@ public class Window extends JFrame {
 
         // redirect to the controls
         new Configurations(panel);
+    }
+
+    public void toggleWindowSize(boolean b) {
+        this.setResizable(b);
     }
 
     // all menu bar properties and action listener methods
@@ -176,10 +182,6 @@ public class Window extends JFrame {
         helpabout.addActionListener(new WindowActionListener());
     }
 
-    public void toggleWindowSize(boolean b) {
-        this.setResizable(b);
-    }
-
     // actionListener interface
     // FROM: https://www.tutorialspoint.com/swing/swing_action_listener.htm 
     class WindowActionListener implements ActionListener {
@@ -216,21 +218,15 @@ public class Window extends JFrame {
                 readStatus.setText(":: CONNECTING TO INTERNET :: " + e.toString());
                 opfeedback.addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
-                        try {
-                            Desktop.getDesktop().browse(new URI("https://www.roblox.com"));
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                    public void mousePressed(MouseEvent me) {
+                        if (SwingUtilities.isLeftMouseButton(me)) {
+                            try {
+                                Desktop.getDesktop().browse(new URI("https://google.co.kr"));
+                                    // works once, if you click on it two times...
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                         }
-                    }
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        // BLANK
-                    }
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        readStatus.setText(":: Please note that choosing 'Feedback'"
-                            + " will redirect to a web browser ::");
                     }
                 });
                 // CHECK: https://www.codejava.net/java-se/swing/how-to-create-hyperlink-with-jlabel-in-java-swing
