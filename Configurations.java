@@ -23,6 +23,7 @@ public class Configurations extends Window implements Runnable {
     protected static ArrayList<ArrayList<Integer>> coordinatesList = new ArrayList<ArrayList<Integer>>();
     public static boolean active = false;
     public static boolean gameOver = false;
+    public static boolean wantsToStartOver = false;
 
     // time contents
     protected Timer timer;
@@ -53,6 +54,7 @@ public class Configurations extends Window implements Runnable {
     }
 
     Configurations(JPanel panel) {
+
         /*
             DEFAULT ATTRIBUTES FOR FIRST GAME
         */
@@ -87,9 +89,6 @@ public class Configurations extends Window implements Runnable {
                 width = height = ABS_WH;    break;
         }
 
-        boardBase = new JPanel();
-        cpBase = new JPanel();
-
         mc = new MineCounter(mines);
         ms = new MineSmiley();
         mt = new MineTimer();
@@ -97,20 +96,22 @@ public class Configurations extends Window implements Runnable {
         createControlPanel(panel);
         createBoard(panel);
 
-        /*if (active) {
-            // once game starts, add coordinates
-            randomizeCoordinates(mines);
-        }*/
+        // request a notification that tells the game to start over at the request of the user
+        // TEST
+        if (wantsToStartOver) {
+            wantsToStartOver = false;
+            createBoard(panel);
+        }
     }
 
     protected void createBoard(JPanel panel) {
-        new Board(boardBase, mines);
-        panel.add(boardBase, BorderLayout.CENTER);
+        Board b = new Board(boardBase, mines);
+        panel.add(b.getBase(), BorderLayout.CENTER);
     }
 
     protected void createControlPanel(JPanel panel) {
-        new ControlPanel(cpBase, mines);
-        panel.add(cpBase, BorderLayout.LINE_START);
+        ControlPanel cp = new ControlPanel(cpBase, mines);
+        panel.add(cp.getBase(), BorderLayout.LINE_START);
     }
 
     // 
@@ -141,20 +142,21 @@ public class Configurations extends Window implements Runnable {
             }
             coordinatesList.add(new ArrayList<Integer>(Arrays.asList(x ,y)));
         }
-        System.out.println("TEST: " + coordinatesList);
+        //System.out.println("TEST: " + coordinatesList);
     }
 
     @Override
     public void run() {
-        while (active && mt.getTimer() != MAX_TIME) {
+        while (active || mt.getTimer() != MAX_TIME) {
             // first, update time on analog display
             // :: MAIN FUNCTIONS ::
             // conclude with timely increment
 
             int i = 0;
-            mt.setTimer(i++);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
+                mt.setTimer(i);
+                i++;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

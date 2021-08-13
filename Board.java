@@ -20,6 +20,7 @@ public class Board extends Configurations {
     protected final String FIVE = "Images/boardFive.png";
     protected final String SIX = "Images/boardSix.png";
     protected final String SEVEN = "Images/boardSeven.png";
+    protected final String EIGHT = "Images/boardEight.png";
     
     // at the end of a game, show mines on the board
     protected final String PRESENT = "Images/MinePresent.png";
@@ -268,6 +269,7 @@ public class Board extends Configurations {
             case 5: return FIVE;
             case 6: return SIX;
             case 7: return SEVEN;
+            case 8: return EIGHT;
             default: return FULL;
         }
     }
