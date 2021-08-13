@@ -5,6 +5,7 @@
 
 import java.awt.*;
 import javax.swing.*;
+//import java.awt.event.*;
 import javax.swing.border.*;
 
 public class ControlPanel extends Configurations {
@@ -29,34 +30,19 @@ public class ControlPanel extends Configurations {
     }
 
     ControlPanel(JPanel base, int mines) {
-        // create new control panel for all control items below...
+        // create new control panel for all control items below
         controlpanel = new JPanel();
         controlpanel.setLayout(new GridLayout(8, 1, 0, 2));
-
-        // layout for control panel
         base.setPreferredSize(new Dimension(240, 360));
         base.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 0));
         base.setBorder(new LineBorder(Color.BLACK, 2));
 
-        /* 
-            configure items for control panel above game board 
-        */
-        mc = new MineCounter(mines);
-        ms = new MineSmiley();   // nothing needed
-        mt = new MineTimer();
+        // configure items for control panel above game board 
         controlpanel.add(mc.export());
         controlpanel.add(ms.export());
         controlpanel.add(mt.export());
-
-        // for testing purposes, determine if game is running or not
-        isActive = new JLabel();
-        isActive.setText(IS_ACTIVE_TEXT + returnActive());
-        controlpanel.add(isActive);
-
         base.add(controlpanel);
     }
-
-    // get new constructor
 
     protected String getAnalog(int input) {
         switch(input) {
@@ -69,7 +55,7 @@ public class ControlPanel extends Configurations {
             case 7: return SEVEN;
             case 8: return EIGHT;
             case 9: return NINE;
-            default: return ZERO;
+            case 0: default: return ZERO;
         }
     }
 
@@ -80,15 +66,19 @@ public class ControlPanel extends Configurations {
             images[i] = new ImageIcon(getClass().getResource(text));
             images[i] = new ImageIcon(images[i].getImage().getScaledInstance(30, 45, Image.SCALE_SMOOTH));
                 // new ImageIcon( ** property of Image object put back into ImageIcon ** )
-            panel.add(new JLabel(images[i]));
+            panel.add(addImageLabel(images[i]));
         }
     }   public void configureAnalogImages(String[] text, int step, ImageIcon[] images, JPanel panel) {
         // ditto, COUNTER (depends on mode)...
         for (int i = step; i < images.length; i++) {
             images[i] = new ImageIcon(getClass().getResource(text[i]));
             images[i] = new ImageIcon(images[i].getImage().getScaledInstance(30, 45, Image.SCALE_SMOOTH));
-            panel.add(new JLabel(images[i]));
+            panel.add(addImageLabel(images[i]));
         }
+    }
+
+    protected JLabel addImageLabel(ImageIcon image) {
+        return new JLabel(image);
     }
 
     protected void changeAnalogOutput(int numericInput, ImageIcon[] images, JPanel panel) {
@@ -106,6 +96,7 @@ public class ControlPanel extends Configurations {
             temp %= 10;
         }
         if (temp > 0) {
+            // not equal to 0, since the default time always starts at 0
             configureAnalogImages(getAnalog(temp), 2, images, panel);
             temp = 0;
         }

@@ -3,7 +3,7 @@
 */
 
 import javax.swing.*;
-import java.awt.*;
+//import java.awt.*;
 
 public class Tile extends Board {
 
@@ -12,6 +12,7 @@ public class Tile extends Board {
     protected boolean mine;
     protected boolean flagged;
     protected boolean clicked;
+    protected boolean numerated;
     protected ImageIcon image;
 
     // 0-8 mines closeby
@@ -22,21 +23,21 @@ public class Tile extends Board {
         //default constructor
     }
 
-    Tile(boolean mine, int coorX, int coorY) {
+    Tile(boolean mine, int i, int j) {
         this.mine = mine;
         flagged = clicked = false;
         closeMines = 0;
-        x = coorX;
-        y = coorY;
+        x = i;
+        y = j;
 
-        ImageIcon img = prepareImage(DEF);
+        /*ImageIcon img =*/ prepareImage(DEF);
     }
 
-    public int getX() {
+    public int getI() {
         return x;
     }
 
-    public int getY() {
+    public int getJ() {
         return y;
     }
 
@@ -44,36 +45,39 @@ public class Tile extends Board {
         return "[" + x + ", " + y + "]";
     }
 
+    // getters and setters for boolean and int values
     public void setMine(boolean m) {
         mine = m;
+    }
+    public boolean getMine() {
+        return mine;
     }
 
     public void setFlag(boolean f) {
         flagged = f;
     }
-
-    public void click() {
-        clicked = true;
-    }
-
-    public boolean isClicked() {
-        return clicked;
-    }
-
     public boolean isFlagged() {
         return flagged;
     }
 
-    public boolean hasMine() {
-        return mine;
+    public void click() {
+        clicked = true;
+    }
+    public boolean isClicked() {
+        return clicked;
     }
 
     public void setCloseMines(int c) {
         closeMines = c;
     }
-
     public int getCloseMines() {
         return closeMines;
     }
 
+    public void setNumerated(boolean n) {
+        numerated = n;
+    }
+    public boolean isNumerated() {
+        return numerated;
+    }
 }

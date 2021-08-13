@@ -30,14 +30,10 @@ public class Board extends Configurations {
     protected final String EMPTY = "Images/EmptyTile.png";
     protected final String FLAG = "Images/Flag.png";
 
-    // color schemes
-    protected Color normalColor = Color.GRAY;
-    protected Color flagColor = Color.YELLOW;
-    protected Color mineColor = Color.RED;
-
     // everything else...
-    protected ArrayList<Tile> targetList;
+    protected ArrayList<Tile> targetList, nonTargetList;
     private Tile[][] tiles;
+    private JLabel[][] labels;
     private int flagClicks;
     private int flagCountFromBoard;
 
@@ -46,33 +42,40 @@ public class Board extends Configurations {
     }
 
     Board(JPanel base, int mines) {
-        tiles = new Tile[width][height];
         base.setPreferredSize(new Dimension(640, 640));
         base.setBorder(new EmptyBorder(10, 10, 10, 10));
         base.setLayout(new GridLayout(9, 4, 1, 1));
         /**TEST */ //base.setBackground(Color.RED);
-        targetList = new ArrayList<Tile>();
-
         base.setBorder(new LineBorder(Color.BLACK, 2));
 
-        //int remaining = 0;
-        //double prob = (double) mines / (width * height);
+        tiles = new Tile[width][height];
+        labels = new JLabel[width][height];
+        targetList = new ArrayList<Tile>();
+        nonTargetList = new ArrayList<Tile>();
+
         flagClicks = 0;
         flagCountFromBoard = mines;
 
         randomizeCoordinates(mines);
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        setBoard(base);
+    }
+
+    protected void setBoard(JPanel base) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 tiles[i][j] = new Tile(false, i, j);
                 Tile t = tiles[i][j];
+
+                labels[i][j] = new JLabel();
+                JLabel b = labels[i][j];
 
                 if (coordinatesList.contains(Arrays.asList(i, j))) {
                     targetList.add(t);
                     t.setMine(true);
+                } else {
+                    nonTargetList.add(t);
                 }
-                JButton b = new JButton();
-                setBoardButton(b, prepareImage(FULL), normalColor);
-                base.add(b);
+                setBoardButton(b, prepareImage(FULL));
                 
                 b.addMouseListener(new MouseAdapter() {
                     @Override
@@ -81,56 +84,55 @@ public class Board extends Configurations {
                             // IF left click, to clear mine
 
                             active = true;
-                            if (t.hasMine()) {
-                                setBoardButton(b, prepareImage(PRESENT), mineColor);
+                            if (t.getMine()) {
+                                setBoardButton(b, prepareImage(PRESENT));
                                 ms.changeFaces(FAIL);
                                 gameOver = true;
                                 active = false;
                             } else {
-                                setBoardButton(b, prepareImage(EMPTY), normalColor);
+                                setBoardButton(b, prepareImage(EMPTY));
                             }
                             b.removeMouseListener(this);
                         } else if (SwingUtilities.isRightMouseButton(me)) {
                             // IF right click, for flag
 
                             if (flagClicks % 2 == 0) {
-                                setBoardButton(b, prepareImage(FLAG), flagColor);
-                                if (t.hasMine()) {
+                                setBoardButton(b, prepareImage(FLAG));
+                                if (t.getMine()) {
                                     System.out.println("MINE CAUGHT");  // test
                                 } else {
                                     if (!active && gameOver) {
-                                        setBoardButton(b, prepareImage(CROSSED), mineColor);
+                                        setBoardButton(b, prepareImage(CROSSED));
                                         // so far, only works if game is not on,
                                         // we want it when the game ends
                                     }
                                 }
                                 mc.setCounter(flagCountFromBoard--);
                             } else {
-                                setBoardButton(b, prepareImage(FULL), normalColor);
+                                setBoardButton(b, prepareImage(FULL));
                                 mc.setCounter(flagCountFromBoard++);
                             }
                             flagClicks++;
                         }
                     }
                 });
+                base.add(b);
             }
+        }
+        for (Tile a : nonTargetList) {
+            calculateCloseMines(a.getI(), a.getJ());
         }
     }
 
-    protected Tile[][] setBoard() {
-        return tiles;
-    }
-
-    protected void setBoardButton(JButton b, ImageIcon img, Color c) {
+    protected void setBoardButton(JLabel b, ImageIcon img) {
         b.setVisible(true);
-        b.setBackground(c);    //test
         b.setFocusable(false);
         b.setIcon(img);
     }
 
     protected ImageIcon prepareImage(String link) {
         ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+        return new ImageIcon(temp.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
             // SOURCE: https://stackoverflow.com/questions/6714045/
     }
 
@@ -174,44 +176,48 @@ public class Board extends Configurations {
         */
     }
 
-    protected void calculateCloseMines() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                int count = 0;
-                if (i > 0 && tiles[i-1][j].hasMine()) {
-                    count++;    // touch top area
-                }
-                if (i < height - 1 && tiles[i+1][j].hasMine()) {
-                    count++;    // touch bottom area
-                }
-                if (j > 0) {
-                    // touch left
-                    if (tiles[i-1][j-1].hasMine()) {
-                        count++;    // touch upper-left
-                    }
-                    if (tiles[i][j-1].hasMine()) {
-                        count++;    // touch left-left
-                    }
-                    if (tiles[i+1][j-1].hasMine()) {  
-                        count++;    // touch lower-left
-                    }
-                }
-                if (j < width - 1) {
-                    // touch right
-                    if (tiles[i-1][j+1].hasMine()) {
-                        count++;    // touch upper-right
-                    }
-                    if (tiles[i][j+1].hasMine()) {
-                        count++;    // touch right-right
-                    }
-                    if (tiles[i+1][j+1].hasMine()) {
-                        count++;    // touch lower-right
-                    }
-                }
-                tiles[i][j].setCloseMines(count);
-                // IMPLEMENT: set count to corresponding number tile
-                // (1-8) on [i][j]
-            }
+    protected void calculateCloseMines(int i, int j) {
+        int count = 0;
+        // ORDER: northwest, north, northeast, east, southeast, south, southwest, west
+        if (i > 0 && j > 0 && tiles[i-1][j-1].getMine()) {
+            count++;
         }
+        if (i > 0 && tiles[i-1][j].getMine()) {
+            count++;
+        }
+        if (i > 0 && j < width-1 && tiles[i-1][j+1].getMine()) {
+            count++;
+        }
+        if (j < width-1 && tiles[i][j+1].getMine()) {
+            count++;
+        }
+        if (i < height-1 && j < width-1 && tiles[i+1][j+1].getMine()) {
+            count++;
+        }
+        if (i < height-1 && tiles[i+1][j].getMine()) {
+            count++;
+        }
+        if (i < height-1 && j > 0 && tiles[i+1][j-1].getMine()) {
+            count++;
+        }
+        if (j > 0 && tiles[i][j-1].getMine()) {
+            count++;
+        }
+
+        tiles[i][j].setCloseMines(count);
+        //System.out.println("\t" + tiles[i][j].getCoors() + ":" + tiles[i][j].getCloseMines());
+
+        ImageIcon temp = new ImageIcon();
+        switch(tiles[i][j].getCloseMines()) {
+            case 1: temp = prepareImage(ONE);
+            case 2: temp = prepareImage(TWO);
+            case 3: temp = prepareImage(THREE);
+            case 4: temp = prepareImage(FOUR);
+            case 5: temp = prepareImage(FIVE);
+            case 6: temp = prepareImage(SIX);
+            case 7: temp = prepareImage(SEVEN);
+            default: temp = prepareImage(FULL);
+        }
+        setBoardButton(labels[i][j], temp);
     }
 }
