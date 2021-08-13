@@ -19,10 +19,6 @@ public class MenuHelp extends Window implements MenuListener {
         "How to Play", "Controls", "About"
     };
 
-    MenuHelp() {
-        // default constructor
-    }
-
     MenuHelp(int type) {
         // new frame + panel contents
         frame = new JFrame();
@@ -30,8 +26,8 @@ public class MenuHelp extends Window implements MenuListener {
         frame.setVisible(true);
         frame.setResizable(true);
         frame.pack();
-        frame.setBounds(240, 80, MIN_WIDTH, MIN_HEIGHT);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
+        frame.setBounds(240, 80, HELP_WIDTH, HELP_HEIGHT);
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(FLAG));
         frame.setLayout(new GridLayout(2, 2));
         helppanel = new JPanel();
 
@@ -60,10 +56,8 @@ public class MenuHelp extends Window implements MenuListener {
 
         // if text is written on screen, dispose and replace with
         // requested text; window starts with nothing on it
-        JLabel singlepanel = new JLabel();
-        JLabel multipanel = new JLabel();
-        panel.add(singlepanel);
-        panel.add(multipanel);
+        JLabel text = new JLabel();
+        panel.add(text);
         panel.add(single);
         panel.add(multi);
                                  
@@ -72,19 +66,15 @@ public class MenuHelp extends Window implements MenuListener {
         single.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                helppanel.setBackground(Color.YELLOW);
-                singlepanel.setText("<html></html>");
-                System.out.println(singlepanel);
-                helppanel.add(singlepanel);
+                text.setText("<html>TEST 1</html>");
+                helppanel.add(text);
             }
         });
         multi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                helppanel.setBackground(Color.GREEN);
-                multipanel.setText("<html></html>");
-                System.out.println(multipanel);
-                helppanel.add(multipanel);
+                text.setText("<html>TEST 2</html>");
+                helppanel.add(text);
             }
         });
 
@@ -147,17 +137,14 @@ public class MenuHelp extends Window implements MenuListener {
     */
     @Override
     public void menuSelected(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
     @Override
     public void menuDeselected(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
     @Override
     public void menuCanceled(MenuEvent e) {
-        // TODO Auto-generated method stub
         
     }
 }
