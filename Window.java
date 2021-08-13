@@ -12,12 +12,12 @@ import java.time.format.*;
 import java.time.*;
 
 public class Window extends JFrame {
-
     private String projectTitle = "Minesweeper Project Test";
+    protected final String FLAG = "Images/Flag.png";
 
     // constant values for dimensional purposes
-    protected int MAX_WIDTH = 840;
-    protected int MAX_HEIGHT = 600;
+    protected int MAX_WIDTH = 700;
+    protected int MAX_HEIGHT = 500;
 
     // for help options, windows will always appear smaller...
     protected final int HELP_WIDTH = 600;
@@ -43,8 +43,8 @@ public class Window extends JFrame {
     private JMenuItem helphowto, helpcontrols, helpabout;
 
     // status bar for the bottom of window, static for all classes to access
+    protected static JLabel readDirection = new JLabel("[ , ]");
     protected static JLabel readStatus = new JLabel("STATUS BAR");
-    //protected final Insets insets = new Insets(0, 0, 0, 0);
 
     Window() {
         // default constructor
@@ -54,12 +54,11 @@ public class Window extends JFrame {
         // frame properties
         this.setTitle(projectTitle);
         toggleWindowSize(false);
-
         this.setVisible(true);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(180, 100, MAX_WIDTH, MAX_HEIGHT);
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Flag.png"));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(FLAG));
 
         // panel + layout
         panel = new JPanel();
@@ -72,10 +71,8 @@ public class Window extends JFrame {
         createMenu(panel);
         panel.add(readStatus, BorderLayout.SOUTH);
 
-        // action listeners
+        // action listeners + PANEL
         enableMenuActions();
-
-        // redirect to the controls
         new Configurations(panel);
     }
 
@@ -151,11 +148,13 @@ public class Window extends JFrame {
         helpmenu.add(helpcontrols);
         helpmenu.add(helpabout);
 
+        readDirection.setForeground(Color.BLUE);
+        menubar.add(readDirection, SpringLayout.EAST);
+
         panel.add(menubar, BorderLayout.NORTH);
     }
 
     protected void enableMenuActions() {
-        // MORE: https://hajsoftutorial.com/jmenuitem-with-actionlistener/
 
         // single player AND multiplayer
         easysingle.addActionListener(new WindowActionListener());
@@ -213,15 +212,21 @@ public class Window extends JFrame {
                     // new SocketMain();    // NOTE: gets stuck...
                 }
     
+            // for user data and all scores
+            if (e.getSource() == data) {
+                new DataHelp(0);
+            } else if (e.getSource() == scores) {
+                new DataHelp(1);
+            }
+
             // feedback option, redirect to website for user input
             if (e.getSource() == opfeedback) {
-                readStatus.setText(":: CONNECTING TO INTERNET :: " + e.toString());
                 opfeedback.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent me) {
                         if (SwingUtilities.isLeftMouseButton(me)) {
                             try {
-                                Desktop.getDesktop().browse(new URI("https://google.co.kr"));
+                                Desktop.getDesktop().browse(new URI("https://minesweeperonline.com/"));
                                     // works once, if you click on it two times...
                             } catch (Exception ex) {
                                 ex.printStackTrace();

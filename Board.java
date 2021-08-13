@@ -28,7 +28,6 @@ public class Board extends Configurations {
     // for tiles
     protected final String FULL = "Images/Tile.png";
     protected final String EMPTY = "Images/EmptyTile.png";
-    protected final String FLAG = "Images/Flag.png";
 
     // everything else...
     protected ArrayList<Tile> targetList, nonTargetList;
@@ -42,6 +41,9 @@ public class Board extends Configurations {
     }
 
     Board(JPanel base, int mines) {
+        base = new JPanel();
+        boardBase = base;
+
         base.setPreferredSize(new Dimension(640, 640));
         base.setBorder(new EmptyBorder(10, 10, 10, 10));
         base.setLayout(new GridLayout(9, 4, 1, 1));
@@ -53,11 +55,16 @@ public class Board extends Configurations {
         targetList = new ArrayList<Tile>();
         nonTargetList = new ArrayList<Tile>();
 
-        flagClicks = 0;
         flagCountFromBoard = mines;
+        flagClicks = 0;
 
+        // randomize mines and start board
         randomizeCoordinates(mines);
         setBoard(base);
+    }
+
+    public JPanel getBase() {
+        return boardBase;
     }
 
     protected void setBoard(JPanel base) {
@@ -65,9 +72,9 @@ public class Board extends Configurations {
             for (int j = 0; j < width; j++) {
                 tiles[i][j] = new Tile(false, i, j);
                 Tile t = tiles[i][j];
-
                 labels[i][j] = new JLabel();
                 JLabel b = labels[i][j];
+                t.setLabel(b);
 
                 if (coordinatesList.contains(Arrays.asList(i, j))) {
                     targetList.add(t);
@@ -83,12 +90,16 @@ public class Board extends Configurations {
                         if (SwingUtilities.isLeftMouseButton(me)) {
                             // IF left click, to clear mine
 
+                            //run();
                             active = true;
                             if (t.getMine()) {
                                 setBoardButton(b, prepareImage(PRESENT));
                                 ms.changeFaces(FAIL);
                                 gameOver = true;
                                 active = false;
+                                showMines(t.getI(), t.getJ());
+                            } else if (t.isNumerated()) {
+                                setBoardButton(b, prepareImage(numerateCloseMines(t.getCloseMines())));
                             } else {
                                 setBoardButton(b, prepareImage(EMPTY));
                             }
@@ -98,21 +109,39 @@ public class Board extends Configurations {
 
                             if (flagClicks % 2 == 0) {
                                 setBoardButton(b, prepareImage(FLAG));
-                                if (t.getMine()) {
+                                /*if (t.getMine()) {
                                     System.out.println("MINE CAUGHT");  // test
-                                } else {
-                                    if (!active && gameOver) {
-                                        setBoardButton(b, prepareImage(CROSSED));
-                                        // so far, only works if game is not on,
-                                        // we want it when the game ends
-                                    }
+                                }*/
+                                if (gameOver && t.isFlagged() && nonTargetList.contains(t)) {
+                                    setBoardButton(b, prepareImage(CROSSED));
+                                    // this would only work if we also had a solution to restard board at once...
+                                    // this is where showMines(), below, comes into place.
                                 }
                                 mc.setCounter(flagCountFromBoard--);
+                                flagClicks = 1;
                             } else {
                                 setBoardButton(b, prepareImage(FULL));
                                 mc.setCounter(flagCountFromBoard++);
+                                flagClicks = 0;
                             }
-                            flagClicks++;
+                        }
+                    }
+                    @Override
+                    public void mouseClicked(MouseEvent me) {
+                        if (SwingUtilities.isLeftMouseButton(me)) {
+                            ms.changeFaces(INTER);
+                        }
+                    }
+                    @Override 
+                    public void mouseReleased(MouseEvent me) {
+                        ms.changeFaces(DEF);
+                    }
+                    @Override
+                    public void mouseEntered (MouseEvent me) {
+                        readDirection.setForeground(Color.BLUE);
+                        readDirection.setText(t.getCoors());
+                        if (gameOver) {
+                            readDirection.setVisible(false);
                         }
                     }
                 });
@@ -132,48 +161,67 @@ public class Board extends Configurations {
 
     protected ImageIcon prepareImage(String link) {
         ImageIcon temp = new ImageIcon(getClass().getResource(link));
-        return new ImageIcon(temp.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
+        return new ImageIcon(temp.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
             // SOURCE: https://stackoverflow.com/questions/6714045/
     }
 
-    protected void clearMines() {
-        // if one clicks on a clear tile, clear out respective spaces
+    protected void restart() {
+        // DUPLICATE CODE FOR NOW, TEST RESTARTING GAME
 
-        // PSEUDOCODE
+        int i = 0, j = 0;
+        if (i < 0 || j < 0 || i > height-1 || j > width-1) {
+            return;
+        }
+        if (tiles[i][j].isClicked()) {
+            return;
+        }
+        tiles[i][j].click();
+        setBoardButton(tiles[i][j].getLabel(), prepareImage(FULL));
+
+        showMines(i-1, j-1);
+        showMines(i-1, j);
+        showMines(i-1, j+1);
+        showMines(i, j+1);
+        showMines(i+1, j+1);
+        showMines(i+1, j);
+        showMines(i+1, j-1);
+        showMines(i, j-1);
+    }
+
+    protected void clearMines(int i, int j) {
+        // if one clicks on a clear tile, clear out respective spaces
         /*
             for every click in-game: 
-            while (mines are not within vicinity) {
-                keep clearing the area until there are mines incoming
-            }
+            while (mines are not within vicinity) : keep clearing the area until there are mines incoming
         */
     }
 
-    protected void configureNums() {
-        // how many mines are nearby? 1 to 7
-
-        // PSEUDOCODE
-        /*
-            if mines are present in any of the following locations:
-            anywhere nearby :: (-1, 0), (1, 0), (0, 1), (0, -1), (-1, 1), (-1, -1), (1, -1), (1,1)
-            increment variable
-            
-            keep incrementing variable for every surrounding tile checked until all 8 are dismissed
-            then plug in the number for the board number
-        */
-    }
-
-    protected void showMines() {
+    protected void showMines(int i, int j) {
         // show mines when game is done, and show marked incorrect mines too
-
-        // PSEUDOCODE
         /*
             if (game ends with PASS || user clicks on a mine) {
-                if (mines are incorrectly flagged) {
-                    show mines with cross-out on respective locations
-                }
+                if (mines are incorrectly flagged) : show mines with cross-out on respective locations
                 show mines where placed, including the one clicked (if applicable)
             }
         */
+
+        if (i < 0 || j < 0 || i > height-1 || j > width-1) {
+            return;
+        }
+        if (tiles[i][j].isClicked()) {
+            return;
+        }
+        tiles[i][j].click();
+        setBoardButton(tiles[i][j].getLabel(), prepareImage(EMPTY));
+
+        showMines(i-1, j-1);
+        showMines(i-1, j);
+        showMines(i-1, j+1);
+        showMines(i, j+1);
+        showMines(i+1, j+1);
+        showMines(i+1, j);
+        showMines(i+1, j-1);
+        showMines(i, j-1);
     }
 
     protected void calculateCloseMines(int i, int j) {
@@ -204,20 +252,23 @@ public class Board extends Configurations {
             count++;
         }
 
-        tiles[i][j].setCloseMines(count);
-        //System.out.println("\t" + tiles[i][j].getCoors() + ":" + tiles[i][j].getCloseMines());
-
-        ImageIcon temp = new ImageIcon();
-        switch(tiles[i][j].getCloseMines()) {
-            case 1: temp = prepareImage(ONE);
-            case 2: temp = prepareImage(TWO);
-            case 3: temp = prepareImage(THREE);
-            case 4: temp = prepareImage(FOUR);
-            case 5: temp = prepareImage(FIVE);
-            case 6: temp = prepareImage(SIX);
-            case 7: temp = prepareImage(SEVEN);
-            default: temp = prepareImage(FULL);
+        if (count > 0) {
+            tiles[i][j].setNumerated(true);
         }
-        setBoardButton(labels[i][j], temp);
+        tiles[i][j].setCloseMines(count);
+        //System.out.println(tiles[i][j].getCoors() + " : " + tiles[i][j].getCloseMines() + " \t " + tiles[i][j].isNumerated());
+    }
+
+    protected String numerateCloseMines(int i) {
+        switch (i) {
+            case 1: return ONE;
+            case 2: return TWO;
+            case 3: return THREE;
+            case 4: return FOUR;
+            case 5: return FIVE;
+            case 6: return SIX;
+            case 7: return SEVEN;
+            default: return FULL;
+        }
     }
 }

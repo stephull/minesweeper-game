@@ -30,6 +30,9 @@ public class ControlPanel extends Configurations {
     }
 
     ControlPanel(JPanel base, int mines) {
+        base = new JPanel();
+        cpBase = base;
+
         // create new control panel for all control items below
         controlpanel = new JPanel();
         controlpanel.setLayout(new GridLayout(8, 1, 0, 2));
@@ -42,6 +45,10 @@ public class ControlPanel extends Configurations {
         controlpanel.add(ms.export());
         controlpanel.add(mt.export());
         base.add(controlpanel);
+    }
+
+    public JPanel getBase() {
+        return cpBase;
     }
 
     protected String getAnalog(int input) {
@@ -95,7 +102,7 @@ public class ControlPanel extends Configurations {
             configureAnalogImages(getAnalog(temp / 10), 1, images, panel);
             temp %= 10;
         }
-        if (temp > 0) {
+        if (temp < 10 && temp > 0) {
             // not equal to 0, since the default time always starts at 0
             configureAnalogImages(getAnalog(temp), 2, images, panel);
             temp = 0;

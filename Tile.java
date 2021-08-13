@@ -16,21 +16,18 @@ public class Tile extends Board {
     protected ImageIcon image;
 
     // 0-8 mines closeby
+    protected JLabel label;
     protected int closeMines;
     protected int x, y;
 
-    Tile() {
-        //default constructor
-    }
-
     Tile(boolean mine, int i, int j) {
         this.mine = mine;
-        flagged = clicked = false;
+        flagged = clicked = numerated = false;
         closeMines = 0;
         x = i;
         y = j;
-
-        /*ImageIcon img =*/ prepareImage(DEF);
+        label = new JLabel();
+        prepareImage(DEF);
     }
 
     public int getI() {
@@ -79,5 +76,12 @@ public class Tile extends Board {
     }
     public boolean isNumerated() {
         return numerated;
+    }
+
+    public void setLabel(JLabel l) {
+        label = l;
+    }
+    public JLabel getLabel() {
+        return label;
     }
 }
