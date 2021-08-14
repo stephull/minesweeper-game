@@ -95,6 +95,7 @@ public class Board extends Configurations {
                             active = true;
                             if (t.getMine()) {
                                 setBoardButton(b, prepareImage(PRESENT));
+                                readStatus.setText("Game over! Location of mine: \t" + t.getCoors());
                                 ms.changeFaces(FAIL);
                                 gameOver = true;
                                 active = false;
@@ -110,18 +111,12 @@ public class Board extends Configurations {
 
                             if (flagClicks % 2 == 0) {
                                 setBoardButton(b, prepareImage(FLAG));
-                                /*if (t.getMine()) {
-                                    System.out.println("MINE CAUGHT");  // test
-                                }*/
-                                if (gameOver && t.isFlagged() && nonTargetList.contains(t)) {
-                                    setBoardButton(b, prepareImage(CROSSED));
-                                    // this would only work if we also had a solution to restard board at once...
-                                    // this is where showMines(), below, comes into place.
-                                }
+                                t.setFlag(true);
                                 mc.setCounter(flagCountFromBoard--);
                                 flagClicks = 1;
                             } else {
                                 setBoardButton(b, prepareImage(FULL));
+                                t.setFlag(false);
                                 mc.setCounter(flagCountFromBoard++);
                                 flagClicks = 0;
                             }
@@ -169,7 +164,7 @@ public class Board extends Configurations {
     protected void restart() {
         // DUPLICATE CODE FOR NOW, TEST RESTARTING GAME
 
-        int i = 0, j = 0;
+        int i = 1, j = 1;
         if (i < 0 || j < 0 || i > height-1 || j > width-1) {
             return;
         }
@@ -190,30 +185,34 @@ public class Board extends Configurations {
     }
 
     protected void clearMines(int i, int j) {
-        // if one clicks on a clear tile, clear out respective spaces
-        /*
-            for every click in-game: 
-            while (mines are not within vicinity) : keep clearing the area until there are mines incoming
-        */
+        // if one clicks on a clear tile, clear out respective spaces...
+        // for every click in-game: while (mines are not within vicinity) : keep clearing the area until there are mines incoming
     }
 
     protected void showMines(int i, int j) {
         // show mines when game is done, and show marked incorrect mines too
-        /*
-            if (game ends with PASS || user clicks on a mine) {
-                if (mines are incorrectly flagged) : show mines with cross-out on respective locations
-                show mines where placed, including the one clicked (if applicable)
-            }
-        */
 
         if (i < 0 || j < 0 || i > height-1 || j > width-1) {
-            return;
-        }
-        if (tiles[i][j].isClicked()) {
-            return;
+            return;     // if out-of-bounds
+        } else if (tiles[i][j].isClicked()) {
+            return;     // if already done before
         }
         tiles[i][j].click();
-        setBoardButton(tiles[i][j].getLabel(), prepareImage(EMPTY));
+        
+        if (tiles[i][j].isFlagged() && !(tiles[i][j].getMine())) {
+            setBoardButton(tiles[i][j].getLabel(), prepareImage(CROSSED));
+        } else if (tiles[i][j].getMine()) {
+            setBoardButton(tiles[i][j].getLabel(), prepareImage(PRESENT));
+        } else if (tiles[i][j].isNumerated() && tiles[i][j].clicked) {
+            setBoardButton(tiles[i][j].getLabel(), prepareImage(numerateCloseMines(tiles[i][j].getCloseMines())));
+        } else {
+            setBoardButton(tiles[i][j].getLabel(), prepareImage(EMPTY));
+        }
+        // AUTHOR'S NOTE: in the real game, only mines pop up, but I decided to show everything anyways
+        /*// PRINT TEST
+        if (tiles[i][j].isClicked()) {
+            System.out.println("\t" + tiles[i][j].getCoors());
+        }*/
 
         showMines(i-1, j-1);
         showMines(i-1, j);

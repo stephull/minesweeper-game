@@ -44,6 +44,10 @@ public class DataHelp extends Window implements MenuListener {
     // diff,player,username,time,wins ::: reads .csv or SQL data?
     protected ArrayList<String[]> dataLines = new ArrayList<>();
 
+    DataHelp() {
+        // default constructor, for Database.java
+    }
+
     DataHelp(int type) {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

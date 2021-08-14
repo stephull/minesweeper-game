@@ -47,14 +47,17 @@ public class MineSmiley extends ControlPanel {
                     String titleText = "Minesweeper :: Game active";
                     int input = JOptionPane.showConfirmDialog(null, dialogText, titleText, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (input == 1) {
-                        System.out.println(" :: OPT OUT OF DIALOG :: ");
+                        readStatus.setText(" :: OPT OUT OF DIALOG :: ");
                     }
                 }
-
-                // SUGGESTION: testcount counts how many games the player goes through (for data?)
                 changeFaces(DEF);
                 ++gameCount;
-                active = false;
+                active = gameOver = false;
+                readDirection.setVisible(true);
+                wantsToStartOver = true;
+
+                String temp = (gameOver) ? "You've restarted the game! Enjoy!" : "Boop! You got me!";
+                readStatus.setText("SMILEY:   " + temp);
             }
         });
     }
@@ -62,20 +65,6 @@ public class MineSmiley extends ControlPanel {
     protected void changeFaces(String resource) {
         ImageIcon image = new ImageIcon(getClass().getResource(resource));
         image = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-
-        // PSEUDO CODE
-        /* if (clicked) {
-            change face to :O
-            immediately switch back to default face
-        }
-
-        if (game end due to MINE) {
-            change face to X(
-        } else if (game end due to COMPLETION) {
-            change face to B)
-        }
-
-        */
         smiley.setIcon(image);
         export();
     }
